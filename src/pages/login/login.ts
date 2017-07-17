@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { Auth, User, UserDetails } from '@ionic/cloud-angular';
 
@@ -10,6 +10,8 @@ import { HomePage } from '../home/home';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+  // @ViewChild(Nav) nav: Nav;
+
   details: UserDetails = {
     email: '',
     password: ''
@@ -19,6 +21,7 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
+    public nav: Nav,
     public navParams: NavParams,
     public auth: Auth,
     public user: User
@@ -37,7 +40,7 @@ export class LoginPage {
       console.log('details: ', this.details);
       this.auth.login('basic', this.details).then ( () => {
         //On Success, send to home page
-        this.navCtrl.push(HomePage);
+        this.nav.setRoot('HomePage');
       }, ()=> {
         //On Error, log error
         alert('Invalid Login!');
@@ -46,8 +49,12 @@ export class LoginPage {
     }
   }
 
+  // openQuestionsPage() {
+  //   this.nav.setRoot('HomePage')
+  // }
+
   onSignup() {
-    this.navCtrl.push(SignupPage);
+    this.navCtrl.setRoot('SignupPage');
   }
   forgotPassword() {
     this.navCtrl.push(this.auth.passwordResetUrl);

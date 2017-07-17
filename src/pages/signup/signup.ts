@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Nav } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
@@ -19,6 +19,7 @@ export class SignupPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public nav: Nav,
     public auth: Auth,
     public user: User
   ) {
@@ -36,7 +37,7 @@ export class SignupPage {
       this.auth.signup(this.details).then(() => {
         // On successful Signup, Immediately log in user
         this.auth.login('basic', this.details);
-        this.navCtrl.push(HomePage);
+        this.nav.setRoot('HomePage');
       }, (err: IDetailedError<string[]>) => {
         //Handle errors here
         for (let e of err.details) {

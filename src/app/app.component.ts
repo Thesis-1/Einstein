@@ -29,14 +29,16 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   loggedOutPages: PageInterface[] = [
-    { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
+    { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'ios-log-in' },
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
-    { title: 'Home', name: 'HomePage', component: HomePage, icon: 'ios-help'}
+    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'}
   ];
 
   loggedInPages: PageInterface[] = [
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
+    { title: 'Logout', name: 'LoginPage', component: LoginPage, icon: 'ios-log-out', logsOut: true },
+    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'}
   ];
 
   rootPage:any = HomePage;
@@ -90,13 +92,20 @@ export class MyApp {
       });
     }
 
-    // if (page.logsOut === true) {
-    //   // Give the menu time to close before changing to logged out
-    //   this.userData.logout();
-    // }
+    //If logout button was clicked, we want to additionally log out user
+    if (page.logsOut === true) {
+      this.logout();
+    }
+
   }
 
   isActive(page: PageInterface) {
+    //For Logout menu icon, we don't care what the active page is
+    //We always want logout to be 'danger' color
+    if (page.logsOut) {
+      return 'danger';
+    }
+
     let childNav = this.nav.getActiveChildNavs()[0];
 
     // Tabs are a special case because they have their own navigation
