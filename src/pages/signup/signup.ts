@@ -2,12 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
-/**
- * Generated class for the SignupPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-signup',
@@ -39,8 +35,8 @@ export class SignupPage {
     if (form.valid) {
       this.auth.signup(this.details).then(() => {
         // On successful Signup, Immediately log in user
-        return this.auth.login('basic',
-        this.details);
+        this.auth.login('basic', this.details);
+        this.navCtrl.push(HomePage);
       }, (err: IDetailedError<string[]>) => {
         //Handle errors here
         for (let e of err.details) {

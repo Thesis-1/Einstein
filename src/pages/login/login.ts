@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
 import { SignupPage } from '../signup/signup';
-
+import { HomePage } from '../home/home';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -16,9 +16,10 @@ export class LoginPage {
   };
   submitted = false;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public navParams: NavParams,
-    public auth: Auth, 
+    public auth: Auth,
     public user: User
   ) {
 
@@ -28,8 +29,25 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
+  onLogin(form: NgForm) {
+    this.submitted = true;
+
+    if (form.valid) {
+      console.log('details: ', this.details);
+      this.auth.login('basic', this.details).then ( () => {
+        //On Success, send to home page
+        this.navCtrl.push(HomePage);
+      }, (err: IDetailedError<string[]>)=> {
+        //On Error, log error
+        for (let e of err.details) {
+          console.log('Error logging in: ',e);
+        }
+      });
+
+    }
+  }
+
   onSignup() {
-    console.log('signup clicked');
     this.navCtrl.push(SignupPage);
   }
 

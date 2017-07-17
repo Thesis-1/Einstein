@@ -36,19 +36,10 @@
 			</p>
 		</ion-list>
 
-		<ion-row responsive-sm>
-			<ion-col>
-				<button ion-button type="submit" block>Login</button>
-			</ion-col>
-			<ion-col>
-				<button ion-button (click)="onSignup()" color="light" block>Signup</button>
-			</ion-col>
-		</ion-row>
+    <div padding>
+  		<button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
+  		<button ion-button (click)="onSignup()" color="light" block>Signup</button>
+		</div>
 	</form>
-
-</ion-content>
-
-
-<ion-content padding>
 
 </ion-content>
