@@ -18,6 +18,10 @@
           <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
           {{p.title}}
         </button>
+        <button ion-item menuClose [hidden]="auth.isAuthenticated()">
+          <ion-icon item-start [name]="ion-log-out" [color]="danger"></ion-icon>
+          Log Out
+        </button>
       </ion-list>
 
     </ion-content>
@@ -25,7 +29,7 @@
   </ion-menu>
 
   <!-- logged in menu -->
-  <ion-menu id="loggedInMenu" [content]="content">
+  <!-- <ion-menu id="loggedInMenu" [hidden]="false" [content]="content">
 
     <ion-header>
       <ion-toolbar>
@@ -48,7 +52,7 @@
 
     </ion-content>
 
-  </ion-menu>
+  </ion-menu> -->
 
 
   <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main name="app">

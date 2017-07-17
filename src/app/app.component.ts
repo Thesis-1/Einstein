@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Events, MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Deploy } from '@ionic/cloud-angular';
+import { Auth, User, Deploy } from '@ionic/cloud-angular';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -46,7 +46,9 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public events: Events,
-    public menu: MenuController
+    public menu: MenuController,
+    public user: User,
+    public auth: Auth
   ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -55,7 +57,13 @@ export class MyApp {
       splashScreen.hide();
     });
 
-    this.enableMenu(true);
+    //Decide how to show menu based on login status
+    // if( this.auth.isAuthenticated() ) {
+    //   this.enableMenu(true);
+    // } else {
+    //   this.enableMenu(false);
+    // }
+    this.listenToLoginEvents();
 
   }
 
@@ -102,6 +110,29 @@ export class MyApp {
       return 'primary';
     }
     return;
+  }
+
+  isLoggedIn() {
+    console.log('is authenticated? ',this.auth.isAuthenticated());
+    if (this.auth.isAuthenticated()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  listenToLoginEvents() {
+    this.events.subscribe('user:login', () => {
+      this.enableMenu(true);
+    });
+
+    this.events.subscribe('user:signup', () => {
+      this.enableMenu(true);
+    });
+
+    this.events.subscribe('user:logout', () => {
+      this.enableMenu(false);
+    });
   }
 
   enableMenu(loggedIn: boolean) {
