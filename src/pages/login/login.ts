@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
+import { Auth, User, UserDetails } from '@ionic/cloud-angular';
 
 import { SignupPage } from '../signup/signup';
 import { HomePage } from '../home/home';
@@ -14,6 +14,7 @@ export class LoginPage {
     email: '',
     password: ''
   };
+
   submitted = false;
 
   constructor(
@@ -37,11 +38,9 @@ export class LoginPage {
       this.auth.login('basic', this.details).then ( () => {
         //On Success, send to home page
         this.navCtrl.push(HomePage);
-      }, (err: IDetailedError<string[]>)=> {
+      }, ()=> {
         //On Error, log error
-        for (let e of err.details) {
-          console.log('Error logging in: ',e);
-        }
+        alert('Invalid Login!');
       });
 
     }
@@ -49,6 +48,9 @@ export class LoginPage {
 
   onSignup() {
     this.navCtrl.push(SignupPage);
+  }
+  forgotPassword() {
+    this.navCtrl.push(this.auth.passwordResetUrl);
   }
 
 }
