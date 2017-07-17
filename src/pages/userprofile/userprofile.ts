@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController, NavParams } from 'ionic-angular';
+import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
+
 
 @Component({
   selector: 'page-userprofile',

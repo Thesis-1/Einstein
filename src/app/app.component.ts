@@ -37,6 +37,7 @@ export class MyApp {
   loggedInPages: PageInterface[] = [
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
+    { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
   ];
 
   rootPage:any = HomePage;
