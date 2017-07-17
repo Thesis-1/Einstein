@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="login-page">
+
+	<div class="logo">
+		<img src="assets/img/einstein-main.jpeg" alt="Ionic logo">
+	</div>
+
+	<form #loginForm="ngForm" novalidate>
+		<ion-list no-lines>
+			<ion-item>
+				<ion-label stacked color="primary">Email Address</ion-label>
+				<ion-input name="email" type="email" placeholder='Albert@email.com'
+        [(ngModel)]="details.email" #email="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text color="danger" [hidden]="email.valid || submitted == false" padding-left>
+				Username is required
+			</p>
+
+			<ion-item>
+				<ion-label stacked color="primary">Password</ion-label>
+				<ion-input name="password" type="password" placeholder='FunKyM4th!@'
+        [(ngModel)]="details.password" #password="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text color="danger" [hidden]="password.valid || submitted == false" padding-left>
+				Password is required
+			</p>
+		</ion-list>
+
+		<ion-row responsive-sm>
+			<ion-col>
+				<button ion-button type="submit" block>Login</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button (click)="onSignup()" color="light" block>Signup</button>
+			</ion-col>
+		</ion-row>
+	</form>
+
+</ion-content>
+
+
+<ion-content padding>
+
+</ion-content>

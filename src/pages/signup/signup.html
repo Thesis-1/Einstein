@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Signup</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="signup-page">
+
+	<div class="logo">
+		<img src="assets/img/einstein-main.jpeg" alt="Ionic Logo">
+	</div>
+
+	<form #signupForm="ngForm" novalidate>
+		<ion-list no-lines>
+			<ion-item>
+				<ion-label stacked color="primary">Email Address</ion-label>
+				<ion-input name="email" type="email"
+        [(ngModel)]="details.email" placeholder='Albert@email.com'
+        #email="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
+				Username is required
+			</p>
+
+			<ion-item>
+				<ion-label stacked color="primary">Password</ion-label>
+				<ion-input name="password" type="password"
+        [(ngModel)]="details.password" placeholder='FunKyM4th!@'
+        #password="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+				Password is required
+			</p>
+		</ion-list>
+
+		<div padding>
+			<button ion-button type="submit" (click)="authNewAccount(signupForm)" block>Create Account</button>
+		</div>
+	</form>
+
+</ion-content>
