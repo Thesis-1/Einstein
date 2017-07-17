@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Ask a Question! | {{ currentCategory }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content delegate-handle="mainScroll">
+  <ion-card *ngFor="let message of messages">
+    <ion-item [ngStyle]="{color: getColor(message)}"> 
+      <ion-label *ngIf="message.bestAnswer">Best Answer!</ion-label>
+        <ion-toggle [(ngModel)]="message.bestAnswer" [disabled]="bestAnswerPicked && message.bestAnswer !== true ? true : false" (ngModelChange)="toggleBestAnswerPicked()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-avatar item-start>
+        <img [src]="message.img">
+      </ion-avatar>
+      <h2>{{ message.username }}</h2>      
+    </ion-item>
+    <ion-card-content>
+      {{ message.message }}
+    </ion-card-content>
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div (click)="handleLike(message)"> {{ message.likes }} </div>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>
+
+
+<ion-footer padding>
+  <form (ngSubmit)="onSubmitMsg()">
+    <ion-item>
+      <ion-input type="text" name="msg" [(ngModel)]="msg" (click)="handleMsg()">test</ion-input>
+      <ion-select [(ngModel)]="currentCategory" name="selectCategories" [disabled]="messages.length > 0 ? true : false" item-right>
+        <ion-option *ngFor="let category of categories" [value]="category">{{ category }}</ion-option>
+      </ion-select>
+      <button ion-button type="submit" item-right round><ion-icon name="arrow-dropup"></ion-icon></button>
+    </ion-item>
+  </form>
+</ion-footer>
