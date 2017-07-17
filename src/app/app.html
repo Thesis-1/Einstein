@@ -25,7 +25,7 @@
   </ion-menu>
 
   <!-- logged in menu -->
-  <!-- <ion-menu id="loggedInMenu" [content]="content">
+  <ion-menu id="loggedInMenu" [content]="content">
 
     <ion-header>
       <ion-toolbar>
@@ -39,16 +39,16 @@
         <ion-list-header>
           Account
         </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of loggedInPages" (click)="openPage(p)">
-          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
+        <button ion-item menuClose>
+          <ion-icon item-start [name]="log-out" [color]="danger"></ion-icon>
+          Log Out
         </button>
       </ion-list>
 
 
     </ion-content>
 
-  </ion-menu> -->
+  </ion-menu>
 
 
   <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main name="app">
