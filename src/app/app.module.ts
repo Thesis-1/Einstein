@@ -7,8 +7,6 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { SignupPage } from '../pages/signup/signup';
-import { SignupComponent } from '../components/signup/signup';
 
 
 const cloudSettings: CloudSettings = {
@@ -20,8 +18,7 @@ const cloudSettings: CloudSettings = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    SignupComponent
+    HomePage
   ],
   imports: [
     BrowserModule,
@@ -31,8 +28,7 @@ const cloudSettings: CloudSettings = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    SignupPage
+    HomePage
   ],
   providers: [
     StatusBar,
