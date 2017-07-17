@@ -11,6 +11,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { UserProfilePage } from '../pages/userprofile/userprofile';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -23,7 +24,8 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    UserProfilePage
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,8 @@ const cloudSettings: CloudSettings = {
     IonicModule.forRoot(MyApp, {}, {
       links: [
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
-        { component: SignupPage, name: 'SignupPage', segment: 'signup' }
+        { component: SignupPage, name: 'SignupPage', segment: 'signup' },
+        { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' }
       ]
     }),
     CloudModule.forRoot(cloudSettings)
@@ -41,7 +44,8 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     SignupPage,
-    LoginPage
+    LoginPage,
+    UserProfilePage
   ],
   providers: [
     StatusBar,

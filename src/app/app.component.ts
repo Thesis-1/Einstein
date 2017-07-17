@@ -8,6 +8,7 @@ import { Deploy } from '@ionic/cloud-angular';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { UserProfilePage } from '../pages/userprofile/userprofile';
 
 //Use this page interface when writing new pages below in
 //loggedOutPages or LoggedInPages arrays.
