@@ -30,7 +30,8 @@ export class MyApp {
 
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
-    { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
+    { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
+    { title: 'Home', name: 'HomePage', component: HomePage, icon: 'ios-help'}
   ];
 
   loggedInPages: PageInterface[] = [
@@ -133,6 +134,12 @@ export class MyApp {
     this.events.subscribe('user:logout', () => {
       this.enableMenu(false);
     });
+  }
+
+  logout() {
+    if (this.auth.isAuthenticated()) {
+      this.auth.logout();
+    }
   }
 
   enableMenu(loggedIn: boolean) {

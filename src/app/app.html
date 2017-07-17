@@ -10,19 +10,35 @@
 
     <ion-content class="outer-content">
 
+      <!-- Account Section
+        -Login
+        -Signup
+        -Logout (button only)
+        -->
       <ion-list>
-        <ion-list-header>
+        <!-- <ion-list-header>
           Account
-        </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
+        </ion-list-header> -->
+        <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)"
+        [hidden]="auth.isAuthenticated()">
           <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
           {{p.title}}
         </button>
-        <button ion-item menuClose [hidden]="auth.isAuthenticated()">
+        <button ion-item menuClose [hidden]="!auth.isAuthenticated()" (click)="logout()">
           <ion-icon item-start [name]="ion-log-out" [color]="danger"></ion-icon>
           Log Out
         </button>
       </ion-list>
+
+      <!-- Learn section
+
+        -->
+      <!-- <ion-list>
+        <ion-list-header>
+          Learn
+        </ion-list-header>
+
+      </ion-list> -->
 
     </ion-content>
 
