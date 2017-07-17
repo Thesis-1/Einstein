@@ -11,6 +11,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { QuestionPage } from '../pages/question/question';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -23,7 +24,8 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    QuestionPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ const cloudSettings: CloudSettings = {
     MyApp,
     HomePage,
     SignupPage,
-    LoginPage
+    LoginPage,
+    QuestionPage
   ],
   providers: [
     StatusBar,
