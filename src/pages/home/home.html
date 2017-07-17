@@ -8,8 +8,30 @@
 </ion-header>
 
 <ion-content padding>
-  Welcome!
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-list radio-group [(ngModel)]="sort">
+    <ion-item>
+      <ion-label>All</ion-label>
+      <ion-radio value="all" checked></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Answered</ion-label>
+      <ion-radio value="answered"></ion-radio>
+    </ion-item>
+  </ion-list>
+  <ion-card>
+    <ion-card-header>
+      What is the value of Pi?
+    </ion-card-header>
+    <ion-card-content>
+      The number π is a mathematical constant, the ratio of a circle's circumference to its diameter, commonly approximated as 3.14159.
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      What is the Pythagorean theorem?
+    </ion-card-header>
+    <ion-card-content>
+      The Pythagorean theorem, also known as Pythagoras's theorem, is a fundamental relation in Euclidean geometry among the three sides of a right triangle. It states that the square of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the other two sides.
+    </ion-card-content>
+  </ion-card>
 </ion-content>
