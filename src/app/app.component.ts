@@ -1,4 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
+
+//Imports for Firebase backend
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
+import * as firebase from 'firebase/app';
+
 //Added imports for using ion-menu etc.
 import { Events, MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -8,6 +15,7 @@ import { Auth, User, Deploy } from '@ionic/cloud-angular';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { AboutPage } from '../pages/about/about';
 
 //Use this page interface when writing new pages below in
 //loggedOutPages or LoggedInPages arrays.
@@ -31,14 +39,16 @@ export class MyApp {
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'ios-log-in' },
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
-    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'}
+    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'}
   ];
 
   loggedInPages: PageInterface[] = [
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
     { title: 'Logout', name: 'LoginPage', component: LoginPage, icon: 'ios-log-out', logsOut: true },
-    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'}
+    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'}
   ];
 
   rootPage:any = HomePage;
@@ -51,7 +61,7 @@ export class MyApp {
     public events: Events,
     public menu: MenuController,
     public user: User,
-    public auth: Auth
+    public auth: Auth,
   ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
