@@ -10,6 +10,8 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 export class UserProfilePage {
 
   constructor(
+    public auth: Auth,
+    public user: User,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams
@@ -19,6 +21,12 @@ export class UserProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserprofilePage');
+    console.log('this.user', this.user);
+    console.log('this.user.details.email', this.user.details.email);
+    console.log('this.user.details.username', this.user.details.username);
+    console.log('this.user.details.name', this.user.details.name);
+    // console.log('this.details.password', this.details.password);
+
   }
   // ngAfterViewInit() {
   //   this.getUsername();

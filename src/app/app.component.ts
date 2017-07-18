@@ -31,13 +31,15 @@ export class MyApp {
 
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
-    { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
+    { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
+    { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
+
   ];
 
   loggedInPages: PageInterface[] = [
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
-    { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
+    // { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
   ];
 
   rootPage:any = HomePage;

@@ -1,23 +1,35 @@
 <ion-header>
-
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>User Profile</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
   <div padding-top text-center *ngIf="username">
     <img src="http://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
-    <h2>{{username}}</h2>
+    <h2>{{user.details.email}}</h2>
 
     <ion-list inset>
-      <button ion-item (click)="updatePicture()">Update Picture</button>
+      <!-- <button ion-item (click)="updatePicture()">Update Picture</button>
       <button ion-item (click)="changeUsername()">Change Username</button>
       <button ion-item (click)="changePassword()">Change Password</button>
       <button ion-item (click)="support()">Support</button>
-      <button ion-item (click)="logout()">Logout</button>
+      <button ion-item (click)="logout()">Logout</button> -->
+
+
     </ion-list>
+
+    <ion-item>
+      <ion-label stacked color="primary">Email</ion-label>
+      <ion-input name="email" type="email"
+      [(ngModel)]="user.details.email"
+      #email="ngModel" required>
+      </ion-input>
+    </ion-item>
+
   </div>
 </ion-content>
