@@ -11,6 +11,7 @@ import { HomePage } from '../home/home';
 })
 export class SignupPage {
   details: UserDetails = {
+    name: '',
     email: '',
     password: ''
   };
