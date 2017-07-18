@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { User, Auth } from '@ionic/cloud-angular';
+import { ToastController } from 'ionic-angular';
 
 //Firebase backend
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
@@ -34,7 +35,8 @@ export class AboutPage {
     public user: User,
     public auth: Auth,
     public afAuth: AngularFireAuth,
-    public af: AngularFireDatabase
+    public af: AngularFireDatabase,
+    public toastCtrl: ToastController
   ) {
     this.fullName = this.user.details.name ? this.user.details.name
     : 'Not Logged In.';
@@ -61,10 +63,17 @@ export class AboutPage {
 
   //Send feedback data to Firebase
   sendFeedback(desc: string) {
-    if (desc) {
-      this.items.push({ message: desc});
-      this.msgVal = '';
+    if (this.auth.isAuthenticated()) {
+      if (desc) {
+        this.items.push({ message: desc});
+        this.msgVal = '';
+      }
+    } else {
+      let toast = this.toastCtrl.create({
+        message: 'Please Log in to leave feedback.',
+        duration: 2500
+      });
+      toast.present();
     }
-
   }
 }
