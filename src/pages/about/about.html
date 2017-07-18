@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>About</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content padding>
+  <!-- <div class="logo">
+		<img src="assets/img/about-page-logo.jpeg" alt="Ionic Logo">
+	</div> -->
+
+  <form #feedbackForm="ngForm">
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label stacked color="primary">Leave Feedback</ion-label>
+				<ion-input name="feedback" type="text"
+        [(ngModel)]="msgVal" placeholder='Can you add time travel?'
+        #name="ngModel" required>
+				</ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div padding>
+			<button ion-button type="submit" (click)="sendFeedback(msgVal)" block>Submit</button>
+		</div>
+  </form>
+
+  <h1 text-center>Developed by Team Sudo.</h1>
+
+  <!-- Developer cards -->
+  <ion-card>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/img/devAvatars/doug.png">
+      </ion-avatar>
+      <h2>Doug Lyford</h2>
+      <p>Software Engineer</p>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/img/devAvatars/himanshu.jpeg">
+      </ion-avatar>
+      <h2>Himanshu Pant</h2>
+      <p>Software Engineer</p>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/img/devAvatars/justine.jpeg">
+      </ion-avatar>
+      <h2>Justine Wang</h2>
+      <p>Software Engineer</p>
+    </ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/img/devAvatars/peter.jpeg">
+      </ion-avatar>
+      <h2>Peter Maxcy</h2>
+      <p>Software Engineer</p>
+    </ion-item>
+  </ion-card>
+
+  <div padding>
+  </div>
+  <ion-card>
+    <ion-card-header>
+      {{'Current User: ' + fullName}}
+    </ion-card-header>
+    <ion-card-content>
+      {{'User Email Address: ' + email}}
+    </ion-card-content>
+  </ion-card>
+
+
+</ion-content>
