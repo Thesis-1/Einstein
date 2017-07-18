@@ -36,6 +36,7 @@ const cloudSettings: CloudSettings = {
       links: [
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
         { component: SignupPage, name: 'SignupPage', segment: 'signup' },
+        { component: HomePage, name: 'HomePage', segment: 'home' },
         { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' }
       ]
     }),
