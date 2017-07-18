@@ -33,7 +33,8 @@ const cloudSettings: CloudSettings = {
     IonicModule.forRoot(MyApp, {}, {
       links: [
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
-        { component: SignupPage, name: 'SignupPage', segment: 'signup' }
+        { component: SignupPage, name: 'SignupPage', segment: 'signup' },
+        { component: HomePage, name: 'HomePage', segment: 'home' }
       ]
     }),
     CloudModule.forRoot(cloudSettings)

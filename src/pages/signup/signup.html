@@ -14,8 +14,21 @@
 		<img src="assets/img/einstein-main.jpeg" alt="Ionic Logo">
 	</div>
 
-	<form #signupForm="ngForm" novalidate>
+	<form #signupForm="ngForm">
 		<ion-list no-lines>
+      <!-- Name -->
+      <ion-item>
+				<ion-label stacked color="primary">Full Name</ion-label>
+				<ion-input name="full-name" type="text"
+        [(ngModel)]="details.name" placeholder='Albert Einstein'
+        #name="ngModel" required>
+				</ion-input>
+			</ion-item>
+			<p ion-text [hidden]="name.valid || submitted == false" color="danger" padding-left>
+				Username is required
+			</p>
+
+      <!--  Email -->
 			<ion-item>
 				<ion-label stacked color="primary">Email Address</ion-label>
 				<ion-input name="email" type="email"
@@ -24,9 +37,10 @@
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
-				Username is required
+				Email is required.
 			</p>
 
+      <!-- Password -->
 			<ion-item>
 				<ion-label stacked color="primary">Password</ion-label>
 				<ion-input name="password" type="password"
