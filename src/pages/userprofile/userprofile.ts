@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, NavParams, Events } from 'ionic-angular';
+import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
 
@@ -9,9 +9,9 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 })
 export class UserProfilePage {
 
-  username = '';
-  name = this.user.details.name;
-  email = this.user.details.email;
+  username: string = '';
+  name: string = this.user.details.name;
+  email: string = this.user.details.email;
 
   constructor(
     public auth: Auth,
@@ -40,13 +40,33 @@ export class UserProfilePage {
     console.log('Clicked to update picture');
   }
 
-  changeUserInfo() {
+  onChangeName(updatedName) {
+
+  }
+
+  onChangeCountry(updatedCountry) {
+
+  }
+
+  onChangeLanguage(updatedLanguage) {
+
+  }
+
+
+  onChangeSubjects(updatedSubjects) {
+
+  }
+
+  // method for displaying prompt alert box
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
+  onChangeUserInfo() {
     let alert = this.alertCtrl.create({
-      title: 'Update Info',
+      title: 'Update Name',
       inputs: [
         {
-          name: 'title',
-          placeholder: 'title'
+          name: 'Name',
+          placeholder: 'Name'
         }
       ],
       buttons: [
@@ -60,6 +80,9 @@ export class UserProfilePage {
           text: 'Save',
           handler: data => {
             console.log('Saved clicked');
+            console.log(JSON.stringify(data));
+            console.log(data.Name);
+            this.name = data.Name;
           }
         }
       ]
