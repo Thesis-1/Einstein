@@ -5,19 +5,27 @@
     </button>
     <ion-title>Einstein</ion-title>
   </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateQuestionStream()"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list radio-group [(ngModel)]="sort">
-    <ion-item>
-      <ion-label>All</ion-label>
-      <ion-radio value="all" checked></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Answered</ion-label>
-      <ion-radio value="answered"></ion-radio>
-    </ion-item>
-  </ion-list>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-item>
+    <ion-label>Filter</ion-label>
+    <ion-select [(ngModel)]="filter">
+      <ion-option value="all">All</ion-option>
+      <ion-option value="answered">Answered</ion-option>
+      <ion-option value="unAnswered">Unanswered</ion-option>
+    </ion-select>
+  </ion-item>
   <ion-card>
     <ion-card-header>
       What is the value of Pi?
@@ -34,7 +42,9 @@
       The Pythagorean theorem, also known as Pythagoras's theorem, is a fundamental relation in Euclidean geometry among the three sides of a right triangle. It states that the square of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the other two sides.
     </ion-card-content>
   </ion-card>
+  <ion-fab bottom right #fab>
+    <button ion-fab (click)="onGoToQuestion()"><ion-icon name="create"></ion-icon></button>
+  </ion-fab>
 </ion-content>
-<ion-footer>
-  <button ion-button (click)="onGoToQuestion()">Ask a Question!</button>
-</ion-footer>
+
+
