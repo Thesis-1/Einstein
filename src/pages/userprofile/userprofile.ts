@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, NavParams } from 'ionic-angular';
+import { AlertController, NavController, NavParams, Events } from 'ionic-angular';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
 
@@ -8,6 +8,10 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
   templateUrl: 'userprofile.html',
 })
 export class UserProfilePage {
+
+  username = '';
+  name = this.user.details.name;
+  email = this.user.details.email;
 
   constructor(
     public auth: Auth,
@@ -36,6 +40,41 @@ export class UserProfilePage {
     console.log('Clicked to update picture');
   }
 
+  changeUserInfo() {
+    let alert = this.alertCtrl.create({
+      title: 'Update Info',
+      inputs: [
+        {
+          name: 'title',
+          placeholder: 'title'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  // onUpdateName(event: any) {
+  //   this.name = event.target.value;
+  // }
+  //
+  // changeName(newName) {
+  //   this.user.set('name', newName);
+  // }
+
   // Present an alert with the current username populated
   // clicking OK will update the username and display it
   // clicking Cancel will close the alert and do nothing
@@ -54,7 +93,7 @@ export class UserProfilePage {
   //   alert.addButton({
   //     text: 'Ok',
   //     handler: (data: any) => {
-  //       this.userData.setUsername(data.username);
+  //       this.user.set(data.username);
   //       this.getUsername();
   //     }
   //   });
@@ -68,16 +107,12 @@ export class UserProfilePage {
   //   });
   // }
 
-  changePassword() {
-    console.log('Clicked to change password');
-  }
-
-  // logout() {
-  //   this.userData.logout();
-  //   this.navCtrl.setRoot('LoginPage');
+  // changePassword() {
+  //   console.log('Clicked to change password');
   // }
 
-  support() {
-    this.navCtrl.push('SupportPage');
-  }
+
+  // support() {
+  //   this.navCtrl.push('SupportPage');
+  // }
 }
