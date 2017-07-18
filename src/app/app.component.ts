@@ -32,16 +32,15 @@ export class MyApp {
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
-    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
-    { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
+    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'}
   ];
 
   loggedInPages: PageInterface[] = [
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
     { title: 'Logout', name: 'LoginPage', component: LoginPage, icon: 'ios-log-out', logsOut: true },
+    { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'},
     { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'}
-    // { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
   ];
 
   rootPage:any = HomePage;
