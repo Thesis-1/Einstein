@@ -23,7 +23,7 @@ export class UserProfilePage {
     console.log('ionViewDidLoad UserprofilePage');
     console.log('this.user', this.user);
     console.log('this.user.details.email', this.user.details.email);
-    console.log('this.user.details.username', this.user.details.username);
+    // ionic 3 makes you have your email as your e
     console.log('this.user.details.name', this.user.details.name);
     // console.log('this.details.password', this.details.password);
 
