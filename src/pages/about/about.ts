@@ -68,12 +68,6 @@ export class AboutPage {
         this.items.push({ message: desc});
         this.msgVal = '';
       }
-    } else {
-      let toast = this.toastCtrl.create({
-        message: 'Please Log in to leave feedback.',
-        duration: 2500
-      });
-      toast.present();
     }
   }
 }

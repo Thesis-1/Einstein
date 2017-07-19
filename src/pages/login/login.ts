@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
+import { NgForm, EmailValidator } from '@angular/forms';
 import { Auth, User, UserDetails } from '@ionic/cloud-angular';
 
 import { SignupPage } from '../signup/signup';
