@@ -21,7 +21,7 @@
     <ion-card *ngFor="let question of questions | async">
         <ion-item [ngStyle]="{color: getColor(question)}"> 
             <ion-label>
-              <div *ngIf="question.closed;else open">Closed! : {{ question.date_closed }}</div>
+              <div *ngIf="question.closed;else open">Closed! : {{ question.date_closed | date:'medium' }}</div>
               <ng-template #open>Open</ng-template>
             </ion-label>
             <button ion-button color="secondary" (click)="sendQuestionUpdate(question, 'closed')" item-right clear><ion-icon name="beer"></ion-icon>Close</button>
@@ -35,7 +35,7 @@
           <button ion-button color="danger" (click)="sendQuestionDelete(question.$key)" item-right round>Delete</button>
         </ion-item>
         <ion-item>
-          {{ question.open_date }}
+          {{ question.open_date | date:'medium' }}
         </ion-item>
         <ion-card-content>
           {{ question.question }}
