@@ -9,9 +9,9 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 })
 export class UserProfilePage {
 
-  username: string = '';
-  name: string = this.user.details.name;
-  email: string = this.user.details.email;
+  // username: string = '';
+  // name: string = this.user.details.name;
+  // email: string = this.user.details.email;
 
   constructor(
     public auth: Auth,
@@ -40,8 +40,15 @@ export class UserProfilePage {
     console.log('Clicked to update picture');
   }
 
-  onChangeName(updatedName) {
-
+  onChangeName() {
+    var field = 'Name';
+    var property = 'name';
+    console.log('field', field);
+    console.log('property', property);
+    // this.onChangeUserInfo(field, this.name);
+    this.user.details.name = JSON.stringify(this.onChangeUserInfo(field));
+    // this.onChangeUserInfo(field);
+    this.user.save();
   }
 
   onChangeCountry(updatedCountry) {
@@ -57,16 +64,52 @@ export class UserProfilePage {
 
   }
 
+  // onChangeUserInfo() {
+  //   // console.log('field', field);
+  //   // console.log('property', property);
+  //   let alert = this.alertCtrl.create({
+  //     title: 'Update ' + 'Name',
+  //     inputs: [
+  //       {
+  //         name: 'Name',
+  //         placeholder: 'Name'
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         handler: data => {
+  //           console.log('Cancel clicked');
+  //         }
+  //       },
+  //       {
+  //         text: 'Save',
+  //         handler: data => {
+  //           console.log('Saved clicked');
+  //           console.log(JSON.stringify(data));
+  //           console.log(data.Name);
+  //           // console.log('property', property);
+  //           this.name = data.Name;
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   alert.present();
+  // }
+
+
   // method for displaying prompt alert box
   // will be called by some wrapper method to supply the
   // right data for inputs and string interpolation
-  onChangeUserInfo() {
+  onChangeUserInfo(field) {
+    // console.log('field', field);
+    // console.log('property', property);
     let alert = this.alertCtrl.create({
-      title: 'Update Name',
+      title: 'Update ' + field,
       inputs: [
         {
-          name: 'Name',
-          placeholder: 'Name'
+          name: field,
+          placeholder: field
         }
       ],
       buttons: [
@@ -81,8 +124,12 @@ export class UserProfilePage {
           handler: data => {
             console.log('Saved clicked');
             console.log(JSON.stringify(data));
-            console.log(data.Name);
-            this.name = data.Name;
+            console.log(data[field]);
+            // console.log('property', property);
+            // property = data.field;
+            // this.user.details.name = data[field];
+            console.log('type of data[field]', typeof data[field]);
+            return data[field];
           }
         }
       ]
