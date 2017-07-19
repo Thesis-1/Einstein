@@ -1,5 +1,7 @@
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicModule, Platform, NavController, NavParams } from 'ionic-angular';
+import { User, Auth } from '@ionic/cloud-angular';
 
 export class PlatformMock {
   public ready(): Promise<{String}> {
@@ -75,5 +77,27 @@ export class StatusBarMock extends StatusBar {
 export class SplashScreenMock extends SplashScreen {
   hide() {
     return;
+  }
+}
+
+export class NavControllerMock extends NavController {
+  hide() {
+    return;
+  }
+}
+
+export class UserMock extends User {
+  hide() {
+    return;
+  }
+}
+
+export class NavParamsMock {
+  data = {
+
+  };
+
+  get(param){
+    return this.data[param];
   }
 }
