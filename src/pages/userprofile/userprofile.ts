@@ -44,24 +44,15 @@ export class UserProfilePage {
   onChangeName() {
     console.log('in onChangeName');
     var field = 'Name';
-    var property = 'name';
-    console.log('field', field);
-    console.log('property', property);
-    console.log('this.user.details.name', this.user.details.name);
-    // this.onChangeUserInfo(field, this.name);
-    var newName = this.onChangeUserInfo(field);
-    console.log('newName', newName);
-    console.log('last console.log in onChangeName');
-    this.user.unset('name');
-    this.user.set('name', newName);
-    // this.user.details.name = String(newName);
-    // this.onChangeUserInfo(field);
-    // this.user.details.name = this.onChangeUserInfo(field);
 
-    // We've got an async JS problem: we need onChangeUserInfo to
+    this.onChangeUserInfo(field, (info) => {
+      this.user.details.name = info;
+      this.user.save();
+    });
 
     console.log('this.user.details object after setting newName', this.user.details);
-    this.user.save();
+    // ^ PROBLEM: this runs before the call to `onChangeUserInfo` returns the newName,
+    // we need a callback
   }
 
   onChangeCountry(updatedCountry) {
@@ -169,9 +160,8 @@ export class UserProfilePage {
   // onChangeCountry, onChangeLanguage, and onChangeSubjects methods
   // from the method that generates the radio alert box
 
-  onChangeUserInfo(field) {
-    // console.log('field', field);
-    // console.log('property', property);
+  onChangeUserInfo(field, cb) {
+
     let alert = this.alertCtrl.create({
       title: 'Update ' + field,
       inputs: [
@@ -191,15 +181,11 @@ export class UserProfilePage {
           text: 'Save',
           handler: data => {
             console.log('Saved clicked');
-            console.log(JSON.stringify(data));
-            console.log('un-stringified data', data);
-            console.log(data[field]);
-            // console.log('property', property);
-            // property = data.field;
-            // this.user.details.name = data[field];
+            console.log('data[field] on line 200', data[field]);
+
             console.log('type of data[field]', typeof data[field]);
             console.log('this.user in callback', this.user);
-            return data[field];
+            cb(data[field]);
           }
         }
       ]
