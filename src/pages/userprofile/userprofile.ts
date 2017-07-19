@@ -13,6 +13,7 @@ export class UserProfilePage {
   // name: string = this.user.details.name;
   // email: string = this.user.details.email;
   country = 'Country';
+  language = 'Language';
 
   constructor(
     public auth: Auth,
@@ -104,10 +105,15 @@ export class UserProfilePage {
     // (NOT in the details object under `this.user.details`)
   }
 
-  onChangeLanguage(field, cb) {
+  onChangeLanguage() {
+    var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
 
+    this.showRadioAlert('Language', languages, (info) => {
+      this.language = info;
+      this.user.set('language', info);
+    });
+    console.log('this.user after setting country', this.user);
   }
-
 
   onChangeSubjects(field, cb) {
 
