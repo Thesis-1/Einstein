@@ -55,6 +55,45 @@ export class UserProfilePage {
     // we need a callback
   }
 
+
+    // prompt alert function:
+    // will be called by some wrapper method to supply the
+    // right data for inputs and string interpolation
+
+  onChangeUserInfo(field, cb) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Update ' + field,
+      inputs: [
+        {
+          name: field,
+          placeholder: field
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            console.log('data[field] on line 200', data[field]);
+
+            console.log('type of data[field]', typeof data[field]);
+            console.log('this.user in callback', this.user);
+            cb(data[field]);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+
   onChangeCountry(updatedCountry) {
 
   }
@@ -67,40 +106,6 @@ export class UserProfilePage {
   onChangeSubjects(updatedSubjects) {
 
   }
-
-  // onChangeName() {
-  //   // console.log('field', field);
-  //   // console.log('property', property);
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Update ' + 'Name',
-  //     inputs: [
-  //       {
-  //         name: 'Name',
-  //         placeholder: 'Name'
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         handler: data => {
-  //           console.log('Cancel clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'Save',
-  //         handler: data => {
-  //           console.log('Saved clicked');
-  //           console.log(JSON.stringify(data));
-  //           console.log(data.Name);
-  //           // console.log('property', property);
-  //           this.user.details.name = data.Name;
-  //           this.user.save();
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
 
   // radio alert function:
 
@@ -148,86 +153,5 @@ export class UserProfilePage {
       });
       alert.present();
   }
-
-
-  // prompt alert function:
-  // will be called by some wrapper method to supply the
-  // right data for inputs and string interpolation
-
-  // PIVOT: breaking out the alert prompt method may not be necessary
-  // if none of the other options in the user profile need an alert
-  // prompt box. In any case, I will need to break out the
-  // onChangeCountry, onChangeLanguage, and onChangeSubjects methods
-  // from the method that generates the radio alert box
-
-  onChangeUserInfo(field, cb) {
-
-    let alert = this.alertCtrl.create({
-      title: 'Update ' + field,
-      inputs: [
-        {
-          name: field,
-          placeholder: field
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            console.log('Saved clicked');
-            console.log('data[field] on line 200', data[field]);
-
-            console.log('type of data[field]', typeof data[field]);
-            console.log('this.user in callback', this.user);
-            cb(data[field]);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-
-
-
-  // onUpdateName(event: any) {
-  //   this.name = event.target.value;
-  // }
-  //
-  // changeName(newName) {
-  //   this.user.set('name', newName);
-  // }
-
-  // Present an alert with the current username populated
-  // clicking OK will update the username and display it
-  // clicking Cancel will close the alert and do nothing
-  // changeUsername() {
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Change Username',
-  //     buttons: [
-  //       'Cancel'
-  //     ]
-  //   });
-  //   alert.addInput({
-  //     name: 'username',
-  //     value: this.username,
-  //     placeholder: 'username'
-  //   });
-  //   alert.addButton({
-  //     text: 'Ok',
-  //     handler: (data: any) => {
-  //       this.user.set(data.username);
-  //       this.getUsername();
-  //     }
-  //   });
-  //
-  //   alert.present();
-  // }
 
 }
