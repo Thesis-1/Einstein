@@ -26,7 +26,15 @@
       <ion-option value="unAnswered">Unanswered</ion-option>
     </ion-select>
   </ion-item>
-  <ion-card>
+  <ion-list>
+    <ion-item-sliding *ngFor="let question of questions" [attr.question]="tester">
+      <button ion-item>
+          <h3>{{question.question}}</h3>
+      </button>
+    </ion-item-sliding>
+
+  </ion-list>
+  <!-- <ion-card>
     <ion-card-header>
       What is the value of Pi?
     </ion-card-header>
@@ -41,7 +49,7 @@
     <ion-card-content>
       The Pythagorean theorem, also known as Pythagoras's theorem, is a fundamental relation in Euclidean geometry among the three sides of a right triangle. It states that the square of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the other two sides.
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
   <ion-fab bottom right #fab>
     <button ion-fab (click)="onGoToQuestion()"><ion-icon name="create"></ion-icon></button>
   </ion-fab>
