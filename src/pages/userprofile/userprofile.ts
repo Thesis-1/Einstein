@@ -12,6 +12,7 @@ export class UserProfilePage {
   // username: string = '';
   // name: string = this.user.details.name;
   // email: string = this.user.details.email;
+  country = 'Country';
 
   constructor(
     public auth: Auth,
@@ -40,16 +41,26 @@ export class UserProfilePage {
     console.log('Clicked to update picture');
   }
 
-  onChangeName() {
-    var field = 'Name';
-    var property = 'name';
-    console.log('field', field);
-    console.log('property', property);
-    // this.onChangeUserInfo(field, this.name);
-    this.user.details.name = JSON.stringify(this.onChangeUserInfo(field));
-    // this.onChangeUserInfo(field);
-    this.user.save();
-  }
+  // onChangeName() {
+  //   console.log('in onChangeName');
+  //   var field = 'Name';
+  //   var property = 'name';
+  //   console.log('field', field);
+  //   console.log('property', property);
+  //   console.log('this.user.details.name', this.user.details.name);
+  //   // this.onChangeUserInfo(field, this.name);
+  //   var newName = this.onChangeUserInfo(field);
+  //   console.log('newName', newName);
+  //   console.log('last console.log in onChangeName');
+  //   this.user.details.name = String(newName);
+  //   // this.onChangeUserInfo(field);
+  //   // this.user.details.name = this.onChangeUserInfo(field);
+  //
+  //   // We've got an async JS problem: we need onChangeUserInfo to
+  //
+  //
+  //   this.user.save();
+  // }
 
   onChangeCountry(updatedCountry) {
 
@@ -64,52 +75,15 @@ export class UserProfilePage {
 
   }
 
-  // onChangeUserInfo() {
-  //   // console.log('field', field);
-  //   // console.log('property', property);
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Update ' + 'Name',
-  //     inputs: [
-  //       {
-  //         name: 'Name',
-  //         placeholder: 'Name'
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         handler: data => {
-  //           console.log('Cancel clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'Save',
-  //         handler: data => {
-  //           console.log('Saved clicked');
-  //           console.log(JSON.stringify(data));
-  //           console.log(data.Name);
-  //           // console.log('property', property);
-  //           this.name = data.Name;
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
-
-
-  // method for displaying prompt alert box
-  // will be called by some wrapper method to supply the
-  // right data for inputs and string interpolation
-  onChangeUserInfo(field) {
+  onChangeName() {
     // console.log('field', field);
     // console.log('property', property);
     let alert = this.alertCtrl.create({
-      title: 'Update ' + field,
+      title: 'Update ' + 'Name',
       inputs: [
         {
-          name: field,
-          placeholder: field
+          name: 'Name',
+          placeholder: 'Name'
         }
       ],
       buttons: [
@@ -124,18 +98,111 @@ export class UserProfilePage {
           handler: data => {
             console.log('Saved clicked');
             console.log(JSON.stringify(data));
-            console.log(data[field]);
+            console.log(data.Name);
             // console.log('property', property);
-            // property = data.field;
-            // this.user.details.name = data[field];
-            console.log('type of data[field]', typeof data[field]);
-            return data[field];
+            this.user.details.name = data.Name;
+            this.user.save();
           }
         }
       ]
     });
     alert.present();
   }
+
+  // radio alert function:
+
+  showRadio() {
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Country');
+
+      alert.addInput({
+        type: 'radio',
+        label: 'USA',
+        value: 'USA',
+        // checked: true
+      });
+
+      alert.addInput({
+        type: 'radio',
+        label: 'Canada',
+        value: 'Canada',
+        // checked: true
+      });
+
+      alert.addInput({
+        type: 'radio',
+        label: 'India',
+        value: 'India',
+        // checked: true
+      });
+
+      alert.addInput({
+        type: 'radio',
+        label: 'Bangladesh',
+        value: 'Bangaldesh',
+        // checked: true
+      });
+
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          console.log('data', data);
+          this.country = data;
+          this.user.set('country', data);
+          this.user.save();
+        }
+      });
+      alert.present();
+  }
+
+
+  // prompt alert function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
+
+  // PIVOT: breaking out the alert prompt method may not be necessary
+  // if none of the other options in the user profile need an alert
+  // prompt box. In any case, I will need to break out the
+  // onChangeCountry, onChangeLanguage, and onChangeSubjects methods
+  // from the method that generates the radio alert box
+
+  // onChangeUserInfo(field) {
+  //   // console.log('field', field);
+  //   // console.log('property', property);
+  //   let alert = this.alertCtrl.create({
+  //     title: 'Update ' + field,
+  //     inputs: [
+  //       {
+  //         name: field,
+  //         placeholder: field
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         handler: data => {
+  //           console.log('Cancel clicked');
+  //         }
+  //       },
+  //       {
+  //         text: 'Save',
+  //         handler: data => {
+  //           console.log('Saved clicked');
+  //           console.log(JSON.stringify(data));
+  //           console.log('un-stringified data', data);
+  //           console.log(data[field]);
+  //           // console.log('property', property);
+  //           // property = data.field;
+  //           // this.user.details.name = data[field];
+  //           console.log('type of data[field]', typeof data[field]);
+  //           return String(data[field]);
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   alert.present();
+  // }
 
   // onUpdateName(event: any) {
   //   this.name = event.target.value;
@@ -171,18 +238,4 @@ export class UserProfilePage {
   //   alert.present();
   // }
 
-  // getUsername() {
-  //   this.userData.getUsername().then((username) => {
-  //     this.username = username;
-  //   });
-  // }
-
-  // changePassword() {
-  //   console.log('Clicked to change password');
-  // }
-
-
-  // support() {
-  //   this.navCtrl.push('SupportPage');
-  // }
 }

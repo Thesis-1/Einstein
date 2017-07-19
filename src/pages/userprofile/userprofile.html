@@ -18,9 +18,13 @@
       <!-- <button ion-item (click)="onChangeUserInfo()">{{name}}</button> -->
       <button ion-item (click)="onChangeName()">{{user.details.name}}</button>
       <button ion-item (click)="onChangeBio()">Bio</button>
-      <button ion-item (click)="onChangeCountry()">Country</button>
+      <!-- ^ Similar interface to Question button -->
+      <button ion-item (click)="showRadio()">{{country}}</button>
+      <!-- Radio alert -->
       <button ion-item (click)="onChangeLanguage()">Language</button>
+      <!-- Radio alert -->
       <button ion-item (click)="onChangeSubjects()">Subjects</button>
+      <!-- ^ Similar interface to Question button -->
     </ion-list>
 
   </div>
