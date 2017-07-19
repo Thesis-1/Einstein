@@ -92,7 +92,10 @@ export class UserProfilePage {
 
   onChangeCountry() {
     // console.log('first line of onChangeCountry');
-    this.showRadioAlert('Country', (info) => {
+
+    var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
+
+    this.showRadioAlert('Country', countries, (info) => {
       this.country = info;
       this.user.set('country', info);
     });
@@ -112,36 +115,17 @@ export class UserProfilePage {
 
   // radio alert function:
 
-  showRadioAlert(field, cb) {
+  showRadioAlert(field, choices, cb) {
+
       let alert = this.alertCtrl.create();
       alert.setTitle('Country');
 
-      alert.addInput({
-        type: 'radio',
-        label: 'USA',
-        value: 'USA',
-        // checked: true
-      });
-
-      alert.addInput({
-        type: 'radio',
-        label: 'Canada',
-        value: 'Canada',
-        // checked: true
-      });
-
-      alert.addInput({
-        type: 'radio',
-        label: 'India',
-        value: 'India',
-        // checked: true
-      });
-
-      alert.addInput({
-        type: 'radio',
-        label: 'Bangladesh',
-        value: 'Bangaldesh',
-        // checked: true
+      choices.forEach((choice) => {
+        alert.addInput({
+          type: 'radio',
+          label: choice,
+          value: choice
+        });
       });
 
       alert.addButton('Cancel');
@@ -149,11 +133,7 @@ export class UserProfilePage {
         text: 'OK',
         handler: data => {
           console.log('data', data);
-          // this.country = data;
-          // this.user.set('country', data);
-          // this.user.save();
           cb(data);
-          console.log('updated country', this.user.data.data);
         }
       });
       alert.present();
