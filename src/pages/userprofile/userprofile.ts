@@ -42,25 +42,21 @@ export class UserProfilePage {
   }
 
   onChangeName() {
-    console.log('in onChangeName');
-    var field = 'Name';
+    // console.log('in onChangeName');
 
-    this.onChangeUserInfo(field, (info) => {
+    this.showPromptAlert('Name', (info) => {
       this.user.details.name = info;
       this.user.save();
     });
 
-    console.log('this.user.details object after setting newName', this.user.details);
-    // ^ PROBLEM: this runs before the call to `onChangeUserInfo` returns the newName,
-    // we need a callback
   }
 
 
-    // prompt alert function:
-    // will be called by some wrapper method to supply the
-    // right data for inputs and string interpolation
+  // Prompt Alert Function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
 
-  onChangeUserInfo(field, cb) {
+  showPromptAlert(field, cb) {
 
     let alert = this.alertCtrl.create({
       title: 'Update ' + field,
@@ -94,22 +90,29 @@ export class UserProfilePage {
   }
 
 
-  onChangeCountry(updatedCountry) {
+  onChangeCountry() {
+    // console.log('first line of onChangeCountry');
+    this.showRadioAlert('Country', (info) => {
+      this.country = info;
+      this.user.set('country', info);
+    });
+    console.log('this.user after setting country', this.user);
+    // country attribute is accessible under this.user.data.data.country
+    // (NOT in the details object under `this.user.details`)
+  }
+
+  onChangeLanguage(field, cb) {
 
   }
 
-  onChangeLanguage(updatedLanguage) {
 
-  }
-
-
-  onChangeSubjects(updatedSubjects) {
+  onChangeSubjects(field, cb) {
 
   }
 
   // radio alert function:
 
-  showRadio() {
+  showRadioAlert(field, cb) {
       let alert = this.alertCtrl.create();
       alert.setTitle('Country');
 
@@ -146,9 +149,11 @@ export class UserProfilePage {
         text: 'OK',
         handler: data => {
           console.log('data', data);
-          this.country = data;
-          this.user.set('country', data);
-          this.user.save();
+          // this.country = data;
+          // this.user.set('country', data);
+          // this.user.save();
+          cb(data);
+          console.log('updated country', this.user.data.data);
         }
       });
       alert.present();
