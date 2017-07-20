@@ -26,7 +26,7 @@
     </ion-list>
 
     <div padding>
-      <p ion-text text-center color="danger">Please Log In to leave feedback</p>
+      <p ion-text text-center color="danger" [hidden]="auth.isAuthenticated()">Please Log In to leave feedback</p>
 			<button ion-button type="submit" (click)="sendFeedback(msgVal)" [disabled]="!msgVal || !auth.isAuthenticated()" block>Submit</button>
 		</div>
   </form>
