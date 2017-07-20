@@ -1,3 +1,16 @@
-page-home {
+$filters: (
+ unanswered: #8E8D93,
+);
+@function auxiliary-filters() {
+  @return map-remove($filters);
+}
 
+page-home {
+  @each $question, $value in auxiliary-filters() {
+   ion-item-sliding[question=#{$question}] ion-label {
+     border-left: 2px solid $value;
+     padding-left: 10px;
+     color: #4c8dfc;
+   }
+  }
 }

@@ -7,6 +7,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
+import { StreamData } from '../providers/questions-stream';
+
 //Imports for firebase DB
 import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
@@ -71,6 +73,7 @@ const cloudSettings: CloudSettings = {
     AboutPage
   ],
   providers: [
+    StreamData,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
