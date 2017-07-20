@@ -17,7 +17,7 @@
   <form #feedbackForm="ngForm">
     <ion-list no-lines>
       <ion-item>
-        <ion-label stacked color="primary">Leave Feedback</ion-label>
+        <ion-label stacked color="primary"><h4 ion-text text-center>Leave Feedback</h4></ion-label>
 				<ion-input name="feedback" type="text"
         [(ngModel)]="msgVal" placeholder='Can you add time travel?'
         #name="ngModel" required>
@@ -26,7 +26,8 @@
     </ion-list>
 
     <div padding>
-			<button ion-button type="submit" (click)="sendFeedback(msgVal)" block>Submit</button>
+      <p ion-text text-center color="danger" [hidden]="auth.isAuthenticated()">Please Log In to leave feedback</p>
+			<button ion-button type="submit" (click)="sendFeedback(msgVal)" [disabled]="!msgVal || !auth.isAuthenticated()" block>Submit</button>
 		</div>
   </form>
 

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Nav } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
+import { NgForm, EmailValidator } from '@angular/forms';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
+import { ToastController } from 'ionic-angular';
 
 import { HomePage } from '../home/home';
 
@@ -22,7 +23,8 @@ export class SignupPage {
     public navParams: NavParams,
     public nav: Nav,
     public auth: Auth,
-    public user: User
+    public user: User,
+    public toastCtrl: ToastController
   ) {
 
   }
@@ -43,10 +45,18 @@ export class SignupPage {
         //Handle errors here
         for (let e of err.details) {
           if (e === 'conflict_email') {
-            alert('Email already exists.');
+            let toast = this.toastCtrl.create({
+              message: 'Email already exists.',
+              duration: 2500
+            });
+            toast.present();
           } else {
             // handle other errors
-            alert('Error: ' + e);
+            let toast = this.toastCtrl.create({
+              message: 'Signup error, please try again.',
+              duration: 2500
+            });
+            toast.present();
           }
         }
       });
