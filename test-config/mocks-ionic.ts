@@ -3,6 +3,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicModule, Platform, NavController, NavParams } from 'ionic-angular';
 import { User, Auth } from '@ionic/cloud-angular';
 
+//Firebase backend
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
+
 export class PlatformMock {
   public ready(): Promise<{String}> {
     return new Promise((resolve) => {
@@ -86,9 +91,16 @@ export class NavControllerMock extends NavController {
   }
 }
 
-export class UserMock extends User {
-  hide() {
-    return;
+// export class UserMock extends User {
+//   hide() {
+//     return;
+//   }
+// }
+
+export class AuthMock {
+  auth = false;
+  isAuthenticated() {
+    return auth;
   }
 }
 
@@ -100,4 +112,30 @@ export class NavParamsMock {
   get(param){
     return this.data[param];
   }
+}
+
+export class UserMock {
+  details = {
+
+  };
+
+  get(param){
+    return this.details[param];
+  }
+}
+
+export class AngularFireAuthMock extends AngularFireAuth {
+
+}
+
+export class FirebaseAppMock {
+
+}
+
+export class AngularFireDatabaseMock {
+
+}
+
+export class FirebaseListObservableMock {
+
 }
