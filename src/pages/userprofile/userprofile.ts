@@ -9,9 +9,6 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 })
 export class UserProfilePage {
 
-  // username: string = '';
-  // name: string = this.user.details.name;
-  // email: string = this.user.details.email;
   country = 'Country';
   language = 'Language';
 
@@ -99,6 +96,7 @@ export class UserProfilePage {
     this.showRadioAlert('Country', countries, (info) => {
       this.country = info;
       this.user.set('country', info);
+      this.user.save();
     });
     console.log('this.user after setting country', this.user);
     // country attribute is accessible under this.user.data.data.country
@@ -111,11 +109,12 @@ export class UserProfilePage {
     this.showRadioAlert('Language', languages, (info) => {
       this.language = info;
       this.user.set('language', info);
+      this.user.save();
     });
     console.log('this.user after setting country', this.user);
   }
 
-  onChangeSubjects(field, cb) {
+  onChangeSubjects() {
 
   }
 
