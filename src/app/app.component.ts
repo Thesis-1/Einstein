@@ -16,6 +16,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
+import { UserProfilePage } from '../pages/userprofile/userprofile';
 
 //Use this page interface when writing new pages below in
 //loggedOutPages or LoggedInPages arrays.
@@ -37,7 +38,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   loggedOutPages: PageInterface[] = [
-    { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'ios-log-in' },
+    { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
     { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
     { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'}
@@ -48,7 +49,8 @@ export class MyApp {
     //to work in our app nav.
     { title: 'Logout', name: 'LoginPage', component: LoginPage, icon: 'ios-log-out', logsOut: true },
     { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
-    { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'}
+    { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'},
+    { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
   ];
 
   rootPage:any = HomePage;

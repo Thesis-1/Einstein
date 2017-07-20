@@ -29,6 +29,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { UserProfilePage } from '../pages/userprofile/userprofile';
 import { QuestionPage } from '../pages/question/question';
 import { AboutPage } from '../pages/about/about';
 
@@ -45,7 +46,8 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     SignupPage,
     QuestionPage,
-    AboutPage
+    AboutPage,
+    UserProfilePage
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ const cloudSettings: CloudSettings = {
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
         { component: SignupPage, name: 'SignupPage', segment: 'signup' },
         { component: HomePage, name: 'HomePage', segment: 'home' },
-        { component: AboutPage, name: 'AboutPage', segment: 'about' }
+        { component: AboutPage, name: 'AboutPage', segment: 'about' },
+        { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' }
       ]
     }),
     CloudModule.forRoot(cloudSettings)
@@ -70,7 +73,8 @@ const cloudSettings: CloudSettings = {
     SignupPage,
     LoginPage,
     QuestionPage,
-    AboutPage
+    AboutPage,
+    UserProfilePage
   ],
   providers: [
     StreamData,
