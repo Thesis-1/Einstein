@@ -13,6 +13,7 @@ export class StreamData {
     
     load(): any {
         if (this.data) {
+            console.log('i got fired')
             return this.data;
         } else {
             this.data = this.afDB.list('/userQuestions');
