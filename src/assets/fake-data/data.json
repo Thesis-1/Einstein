@@ -1,0 +1,60 @@
+{
+
+  "questions": [{
+        "date": "2047-05-17",
+        "time": "20 sec ago",
+        "question":"What is the value of Pi?",
+        "answer":"The number π is a mathematical constant, the ratio of a circle's circumference to its diameter, commonly approximated as 3.14159.",
+        "id": "1"
+    }, 
+    {
+        "date": "2047-05-17",
+        "time": "40 sec ago",
+        "question":"What is the Pythagorean theorem?",
+        "answer":"The Pythagorean theorem, also known as Pythagoras's theorem, is a fundamental relation in Euclidean geometry among the three sides of a right triangle. It states that the square of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the other two sides.",
+        "id": "2"
+    },
+    {
+        "date": "2047-05-17",
+        "time": "an hour ago",
+        "question":"What is a Prime number",
+        "answer":"A prime number is a whole number greater than 1, whose only two whole-number factors are 1 and itself. The first few prime numbers are 2, 3, 5, 7, 11, 13, 17, 19, 23, and 29.",
+        "id": "3"
+    }, 
+    {
+        "date": "2047-05-17",
+        "time": "yesterday",
+        "question":"What is the formula for circle perimeter?",
+        "answer":"To get circle's perimeter you can use C=2πr. where r is the radius of the circle.",
+        "id": "4"
+    },
+    {
+        "date": "2047-05-17",
+        "time": "20 sec ago",
+        "question":"What is the value of Pi?",
+        "answer":"The number π is a mathematical constant, the ratio of a circle's circumference to its diameter, commonly approximated as 3.14159.",
+        "id": "5"
+    }, 
+    {
+        "date": "2047-05-17",
+        "time": "40 sec ago",
+        "question":"What is the Pythagorean theorem?",
+        "answer":"The Pythagorean theorem, also known as Pythagoras's theorem, is a fundamental relation in Euclidean geometry among the three sides of a right triangle. It states that the square of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the other two sides.",
+        "id": "6"
+    },
+    {
+        "date": "2047-05-17",
+        "time": "an hour ago",
+        "question":"What is a Prime number",
+        "answer":"A prime number is a whole number greater than 1, whose only two whole-number factors are 1 and itself. The first few prime numbers are 2, 3, 5, 7, 11, 13, 17, 19, 23, and 29.",
+        "id": "7"
+    }, 
+    {
+        "date": "2047-05-17",
+        "time": "yesterday",
+        "question":"What is the formula for circle perimeter?",
+        "answer":"To get circle's perimeter you can use C=2πr. where r is the radius of the circle.",
+        "id": "8"
+    }
+  ]
+}
