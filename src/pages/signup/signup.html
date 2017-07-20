@@ -33,7 +33,7 @@
 				<ion-label stacked color="primary">Email Address</ion-label>
 				<ion-input name="email" type="email"
         [(ngModel)]="details.email" placeholder='Albert@email.com'
-        #email="ngModel" required>
+        #email="ngModel" required email>
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
@@ -44,7 +44,7 @@
 			<ion-item>
 				<ion-label stacked color="primary">Password</ion-label>
 				<ion-input name="password" type="password"
-        [(ngModel)]="details.password" placeholder='FunKyM4th!@'
+        [(ngModel)]="details.password" placeholder='Must be at least 6 characters'
         #password="ngModel" required>
 				</ion-input>
 			</ion-item>
@@ -54,7 +54,10 @@
 		</ion-list>
 
 		<div padding>
-			<button ion-button type="submit" (click)="authNewAccount(signupForm)" block>Create Account</button>
+			<button ion-button type="submit" (click)="authNewAccount(signupForm)"
+      [disabled]="!signupForm.valid || ! (details.password.length >= 6) || !details.name" block>
+        Create Account
+      </button>
 		</div>
 	</form>
 

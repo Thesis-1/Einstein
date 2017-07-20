@@ -13,12 +13,12 @@
 		<img src="assets/img/einstein-main.jpeg" alt="Ionic logo">
 	</div>
 
-	<form #loginForm="ngForm" novalidate>
+	<form #loginForm="ngForm">
 		<ion-list no-lines>
 			<ion-item>
 				<ion-label stacked color="primary">Email Address</ion-label>
 				<ion-input name="email" type="email" placeholder='Albert@email.com'
-        [(ngModel)]="details.email" #email="ngModel" required>
+        [(ngModel)]="details.email" #email="ngModel" required email>
 				</ion-input>
 			</ion-item>
 			<p ion-text color="danger" [hidden]="email.valid || submitted == false" padding-left>
@@ -27,14 +27,16 @@
 
 			<ion-item>
 				<ion-label stacked color="primary">Password</ion-label>
-				<ion-input name="password" type="password" placeholder='FunKyM4th!@'
+				<ion-input name="password" type="password"
+        placeholder='Must be at least 6 characters.'
         [(ngModel)]="details.password" #password="ngModel" required>
 				</ion-input>
 			</ion-item>
 		</ion-list>
 
     <div padding>
-  		<button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
+  		<button ion-button (click)="onLogin(loginForm)" type="submit"
+      [disabled]="!loginForm.valid || ! (details.password.length >= 6)" block>Login</button>
   		<button ion-button (click)="onSignup()" color="light" block>Signup</button>
 		</div>
 	</form>

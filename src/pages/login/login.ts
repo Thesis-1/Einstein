@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
-import { NgForm } from '@angular/forms';
+import { NgForm, EmailValidator } from '@angular/forms';
 import { Auth, User, UserDetails } from '@ionic/cloud-angular';
+import { ToastController } from 'ionic-angular';
 
 import { SignupPage } from '../signup/signup';
 import { HomePage } from '../home/home';
@@ -24,7 +25,8 @@ export class LoginPage {
     public nav: Nav,
     public navParams: NavParams,
     public auth: Auth,
-    public user: User
+    public user: User,
+    public toastCtrl: ToastController
   ) {
 
   }
@@ -43,7 +45,11 @@ export class LoginPage {
         this.nav.setRoot('HomePage');
       }, ()=> {
         //On Error, log error
-        alert('Invalid Login!');
+        let toast = this.toastCtrl.create({
+          message: 'Invalid Login, please try again.',
+          duration: 2500
+        });
+        toast.present();
       });
 
     }
