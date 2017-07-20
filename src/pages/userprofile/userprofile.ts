@@ -9,7 +9,12 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 })
 export class UserProfilePage {
 
+  country = 'Country';
+  language = 'Language';
+
   constructor(
+    public auth: Auth,
+    public user: User,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams
@@ -19,6 +24,12 @@ export class UserProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserprofilePage');
+    console.log('this.user', this.user);
+    console.log('this.user.details.email', this.user.details.email);
+    // ionic 3 makes you have your email as your e
+    console.log('this.user.details.name', this.user.details.name);
+    // console.log('this.details.password', this.details.password);
+
   }
   // ngAfterViewInit() {
   //   this.getUsername();
@@ -28,48 +39,109 @@ export class UserProfilePage {
     console.log('Clicked to update picture');
   }
 
-  // Present an alert with the current username populated
-  // clicking OK will update the username and display it
-  // clicking Cancel will close the alert and do nothing
-  // changeUsername() {
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Change Username',
-  //     buttons: [
-  //       'Cancel'
-  //     ]
-  //   });
-  //   alert.addInput({
-  //     name: 'username',
-  //     value: this.username,
-  //     placeholder: 'username'
-  //   });
-  //   alert.addButton({
-  //     text: 'Ok',
-  //     handler: (data: any) => {
-  //       this.userData.setUsername(data.username);
-  //       this.getUsername();
-  //     }
-  //   });
-  //
-  //   alert.present();
-  // }
+  onChangeName() {
+    // console.log('in onChangeName');
 
-  // getUsername() {
-  //   this.userData.getUsername().then((username) => {
-  //     this.username = username;
-  //   });
-  // }
+    this.showPromptAlert('Name', (info) => {
+      this.user.details.name = info;
+      this.user.save();
+    });
 
-  changePassword() {
-    console.log('Clicked to change password');
   }
 
-  // logout() {
-  //   this.userData.logout();
-  //   this.navCtrl.setRoot('LoginPage');
-  // }
 
-  support() {
-    this.navCtrl.push('SupportPage');
+  // Prompt Alert Function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
+
+  showPromptAlert(field, cb) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Update ' + field,
+      inputs: [
+        {
+          name: field,
+          placeholder: field
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            console.log('data[field] on line 200', data[field]);
+
+            console.log('type of data[field]', typeof data[field]);
+            console.log('this.user in callback', this.user);
+            cb(data[field]);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
+
+
+  onChangeCountry() {
+    // console.log('first line of onChangeCountry');
+
+    var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
+
+    this.showRadioAlert('Country', countries, (info) => {
+      this.country = info;
+      this.user.set('country', info);
+      this.user.save();
+    });
+    console.log('this.user after setting country', this.user);
+    // country attribute is accessible under this.user.data.data.country
+    // (NOT in the details object under `this.user.details`)
+  }
+
+  onChangeLanguage() {
+    var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
+
+    this.showRadioAlert('Language', languages, (info) => {
+      this.language = info;
+      this.user.set('language', info);
+      this.user.save();
+    });
+    console.log('this.user after setting country', this.user);
+  }
+
+  onChangeSubjects() {
+
+  }
+
+  // radio alert function:
+
+  showRadioAlert(field, choices, cb) {
+
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Country');
+
+      choices.forEach((choice) => {
+        alert.addInput({
+          type: 'radio',
+          label: choice,
+          value: choice
+        });
+      });
+
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          console.log('data', data);
+          cb(data);
+        }
+      });
+      alert.present();
+  }
+
 }

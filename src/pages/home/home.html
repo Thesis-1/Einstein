@@ -3,16 +3,56 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Einstein</ion-title>
+     <ion-title>Question Feed</ion-title> 
   </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateQuestionStream()"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  Welcome!
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-item>
+    <ion-label>Filter</ion-label>
+    <ion-select [(ngModel)]="filter">
+      <ion-option value="all">All</ion-option>
+      <ion-option value="answered">Answered</ion-option>
+      <ion-option value="unAnswered">Unanswered</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-list>
+    <ion-item-sliding *ngFor="let question of questions" [attr.question]="tester">
+      <button ion-item>
+          <h3>{{question.question}}</h3>
+      </button>
+    </ion-item-sliding>
+
+  </ion-list>
+  <!-- <ion-card>
+    <ion-card-header>
+      What is the value of Pi?
+    </ion-card-header>
+    <ion-card-content>
+      The number π is a mathematical constant, the ratio of a circle's circumference to its diameter, commonly approximated as 3.14159.
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      What is the Pythagorean theorem?
+    </ion-card-header>
+    <ion-card-content>
+      The Pythagorean theorem, also known as Pythagoras's theorem, is a fundamental relation in Euclidean geometry among the three sides of a right triangle. It states that the square of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the other two sides.
+    </ion-card-content>
+  </ion-card> -->
+  <ion-fab bottom right #fab>
+    <button ion-fab (click)="onGoToQuestion()"><ion-icon name="create"></ion-icon></button>
+  </ion-fab>
 </ion-content>
-<ion-footer>
-  <button ion-button (click)="onGoToQuestion()">Ask a Question!</button>
-</ion-footer>
+
+

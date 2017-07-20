@@ -1,13 +1,21 @@
 import { Component, ViewChild } from '@angular/core';
+
+//Imports for Firebase backend
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
+import * as firebase from 'firebase/app';
+
 //Added imports for using ion-menu etc.
 import { Events, MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Deploy } from '@ionic/cloud-angular';
+import { Auth, User, Deploy } from '@ionic/cloud-angular';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
+import { AboutPage } from '../pages/about/about';
 import { UserProfilePage } from '../pages/userprofile/userprofile';
 
 //Use this page interface when writing new pages below in
@@ -31,12 +39,17 @@ export class MyApp {
 
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
-    { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
+    { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
+    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'}
   ];
 
   loggedInPages: PageInterface[] = [
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
+    { title: 'Logout', name: 'LoginPage', component: LoginPage, icon: 'ios-log-out', logsOut: true },
+    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'},
     { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
   ];
 
@@ -48,7 +61,9 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public events: Events,
-    public menu: MenuController
+    public menu: MenuController,
+    public user: User,
+    public auth: Auth,
   ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -57,7 +72,13 @@ export class MyApp {
       splashScreen.hide();
     });
 
-    this.enableMenu(true);
+    //Decide how to show menu based on login status
+    // if( this.auth.isAuthenticated() ) {
+    //   this.enableMenu(true);
+    // } else {
+    //   this.enableMenu(false);
+    // }
+    this.listenToLoginEvents();
 
   }
 
@@ -83,13 +104,20 @@ export class MyApp {
       });
     }
 
-    // if (page.logsOut === true) {
-    //   // Give the menu time to close before changing to logged out
-    //   this.userData.logout();
-    // }
+    //If logout button was clicked, we want to additionally log out user
+    if (page.logsOut === true) {
+      this.logout();
+    }
+
   }
 
   isActive(page: PageInterface) {
+    //For Logout menu icon, we don't care what the active page is
+    //We always want logout to be 'danger' color
+    if (page.logsOut) {
+      return 'danger';
+    }
+
     let childNav = this.nav.getActiveChildNavs()[0];
 
     // Tabs are a special case because they have their own navigation
@@ -104,6 +132,35 @@ export class MyApp {
       return 'primary';
     }
     return;
+  }
+
+  isLoggedIn() {
+    console.log('is authenticated? ',this.auth.isAuthenticated());
+    if (this.auth.isAuthenticated()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  listenToLoginEvents() {
+    this.events.subscribe('user:login', () => {
+      this.enableMenu(true);
+    });
+
+    this.events.subscribe('user:signup', () => {
+      this.enableMenu(true);
+    });
+
+    this.events.subscribe('user:logout', () => {
+      this.enableMenu(false);
+    });
+  }
+
+  logout() {
+    if (this.auth.isAuthenticated()) {
+      this.auth.logout();
+    }
   }
 
   enableMenu(loggedIn: boolean) {
