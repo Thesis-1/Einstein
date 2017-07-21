@@ -9,6 +9,7 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 })
 export class UserProfilePage {
 
+  gravatar = 'http://www.gravatar.com/avatar?d=mm&s=140';
   bio = 'Bio';
   country = 'Country';
   language = 'Language';
@@ -27,17 +28,12 @@ export class UserProfilePage {
     console.log('ionViewDidLoad UserprofilePage');
     console.log('this.user', this.user);
   }
-  // ngAfterViewInit() {
-  //   this.getUsername();
-  // }
 
   updatePicture() {
     console.log('Clicked to update picture');
   }
 
   onChangeName() {
-    // console.log('in onChangeName');
-
     this.showPromptAlert('Name', (info) => {
       this.user.details.name = info;
       this.user.save();
@@ -79,7 +75,6 @@ export class UserProfilePage {
 
 
   onChangeCountry() {
-
     var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
     this.showRadioAlert('Country', countries, (info) => {
