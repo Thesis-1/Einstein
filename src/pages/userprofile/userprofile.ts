@@ -9,6 +9,7 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 })
 export class UserProfilePage {
 
+  bio = 'Bio';
   country = 'Country';
   language = 'Language';
 
@@ -25,8 +26,6 @@ export class UserProfilePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserprofilePage');
     console.log('this.user', this.user);
-    // ionic 3 makes you use email as the username
-
   }
   // ngAfterViewInit() {
   //   this.getUsername();
@@ -45,7 +44,6 @@ export class UserProfilePage {
     });
 
   }
-
 
   // Prompt Alert Function:
   // will be called by some wrapper method to supply the
@@ -71,11 +69,6 @@ export class UserProfilePage {
         {
           text: 'Save',
           handler: data => {
-            console.log('Saved clicked');
-            console.log('data[field] on line 200', data[field]);
-
-            console.log('type of data[field]', typeof data[field]);
-            console.log('this.user in callback', this.user);
             cb(data[field]);
           }
         }
@@ -86,29 +79,20 @@ export class UserProfilePage {
 
 
   onChangeCountry() {
-    // console.log('first line of onChangeCountry');
 
     var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
     this.showRadioAlert('Country', countries, (info) => {
-
-      console.log('this.user before setting and saving country', this.user);
       this.user.set('country', info);
       this.user.save();
-      console.log('this.user after saving country', this.user);
     });
 
-    // this.user.get('country');
-    // console.log('this.user after setting country', this.user);
-    // country attribute is should be under this.user.data.data.country
-    // (NOT in the details object under `this.user.details`)
   }
 
   onChangeLanguage() {
     var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
 
     this.showRadioAlert('Language', languages, (info) => {
-
       this.user.set('language', info);
       this.user.save();
     });
@@ -119,7 +103,7 @@ export class UserProfilePage {
 
   }
 
-  // radio alert function:
+  // Radio Alert Function:
 
   showRadioAlert(field, choices, cb) {
 
@@ -138,7 +122,6 @@ export class UserProfilePage {
       alert.addButton({
         text: 'OK',
         handler: data => {
-          console.log('data', data);
           cb(data);
         }
       });
@@ -146,7 +129,11 @@ export class UserProfilePage {
   }
 
   onChangeBio() {
-
+    console.log('onChangeBio fired');
+    this.showPromptAlert('Bio', (info) => {
+      this.user.set('bio', info);
+      this.user.save();
+    });
   }
 
 
