@@ -12,11 +12,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Auth, User, Deploy } from '@ionic/cloud-angular';
 
-import { HomePage } from '../pages/home/home';
+// import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
 import { UserProfilePage } from '../pages/userprofile/userprofile';
+import { TabsPage } from '../pages/tabs/tabs';
 
 //Use this page interface when writing new pages below in
 //loggedOutPages or LoggedInPages arrays.
@@ -40,7 +41,7 @@ export class MyApp {
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
-    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    // { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
     { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'}
   ];
 
@@ -48,12 +49,13 @@ export class MyApp {
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
     { title: 'Logout', name: 'LoginPage', component: LoginPage, icon: 'ios-log-out', logsOut: true },
-    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    // { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
     { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'},
     { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
   ];
 
-  rootPage:any = HomePage;
+  // rootPage:any = HomePage;
+  rootPage:any = TabsPage;
 
   constructor(
     public deploy: Deploy,

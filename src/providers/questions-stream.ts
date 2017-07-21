@@ -12,12 +12,13 @@ export class StreamData {
     constructor(public http: Http, public afDB: AngularFireDatabase) { }
     
     load(): any {
-        if (this.data) {
-            return this.data;
-        } else {
+        // if (this.data) {
+        //     console.log('i got fired')
+        //     return this.data;
+        // } else {
             this.data = this.afDB.list('/userQuestions');
             return this.data;
-        }
+        // }
     }
 
 }

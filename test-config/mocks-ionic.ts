@@ -1,10 +1,13 @@
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Auth, User } from '@ionic/cloud-angular';
+import { Http } from '@angular/http';
+// import { App, Refresher, ToastController } from 'ionic-angular';
 
 export class PlatformMock {
   public ready(): Promise<{String}> {
     return new Promise((resolve) => {
-      resolve('READY');
+      resolve();
     });
   }
 
@@ -76,4 +79,20 @@ export class SplashScreenMock extends SplashScreen {
   hide() {
     return;
   }
+}
+
+export class UserMock {
+  get() {
+    return;
+  }
+}
+
+export class AuthMock {
+  isAuthenticated () {
+    return true;
+  }
+}
+
+export class HttpMock extends Http {
+
 }
