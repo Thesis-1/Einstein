@@ -57,6 +57,7 @@ export class HomePage {
     }
   }
 
+<<<<<<< HEAD
   // doRefresh(refresher: Refresher) {
   //   this.streamData.load()
   //     .subscribe ((data: any) => {
@@ -71,4 +72,20 @@ export class HomePage {
   //   });
 
   // }
+=======
+  doRefresh(refresher: Refresher) { // to avoid refresh errors for now
+    this.streamData.load()
+      .subscribe ((data: any) => {
+        this.questions = data;
+        refresher.complete ();
+        // const toast = this.toastCtrl.create({
+        //   message: 'Questions have been updated.',
+        //   duration: 3000
+        // });
+        // toast.present();
+        console.log('content updated');
+    });
+    
+  }
+>>>>>>> 19f7b1fa0a584fae92c08aa17a8323bf9fca549a
 }

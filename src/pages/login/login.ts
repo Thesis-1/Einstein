@@ -44,7 +44,7 @@ export class LoginPage {
       console.log('details: ', this.details);
       this.auth.login('basic', this.details).then ( () => {
         //On Success, send to home page
-        this.nav.setRoot('HomePage');
+        this.nav.setRoot('TabsPage');
       }, ()=> {
         //On Error, log error
         let toast = this.toastCtrl.create({

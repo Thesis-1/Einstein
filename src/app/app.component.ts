@@ -18,6 +18,8 @@ import { SignupPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
 import { UserProfilePage } from '../pages/userprofile/userprofile';
 import { AnswerPage } from '../pages/answer/answer';
+import { TabsPage } from '../pages/tabs/tabs';
+
 
 //Use this page interface when writing new pages below in
 //loggedOutPages or LoggedInPages arrays.
@@ -49,12 +51,13 @@ export class MyApp {
     //Place pages either here or in the loggedOutPages above
     //to work in our app nav.
     { title: 'Logout', name: 'LoginPage', component: LoginPage, icon: 'ios-log-out', logsOut: true },
-    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    { title: 'Questions', name: 'TabsPage', component: TabsPage, icon: 'ios-help'},
     { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'},
     { title: 'User Profile', name: 'UserProfilePage', component: UserProfilePage, icon: 'person'}
   ];
 
-  rootPage:any = HomePage;
+  // rootPage:any = HomePage;
+  rootPage:any = TabsPage;
 
   constructor(
     public deploy: Deploy,

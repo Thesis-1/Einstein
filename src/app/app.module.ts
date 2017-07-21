@@ -14,6 +14,20 @@ import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { MyApp } from './app.component';
+import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
+import { UserProfilePage } from '../pages/userprofile/userprofile';
+import { QuestionPage } from '../pages/question/question';
+import { AboutPage } from '../pages/about/about';
+import { TabsPage } from '../pages/tabs/tabs';
+import { AskQuestionPage } from '../pages/home/ask-question/ask-question';
+import { DraftsPage } from '../pages/home/drafts/drafts';
+import { QuestionArchivePage } from '../pages/home/questionarchive/questionarchive';
+import { AboutPage } from '../pages/about/about';
+import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
+import { AnswerPage } from '../pages/answer/answer';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD-p5kimWSiFWZorVKEUNfuscpbC_bW4oc",
@@ -25,16 +39,6 @@ export const firebaseConfig = {
 };
 
 
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login';
-import { SignupPage } from '../pages/signup/signup';
-import { UserProfilePage } from '../pages/userprofile/userprofile';
-import { QuestionPage } from '../pages/question/question';
-import { AboutPage } from '../pages/about/about';
-import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
-import { AnswerPage } from '../pages/answer/answer';
-
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'a3b9d8c7'
@@ -45,13 +49,18 @@ const cloudSettings: CloudSettings = {
   declarations: [
     MyApp,
     HomePage,
+    TabsPage,
     LoginPage,
     SignupPage,
     QuestionPage,
     AboutPage,
     UserProfilePage,
     ForgotPasswordPage,
-    AnswerPage
+    AnswerPage,
+    AskQuestionPage,
+    DraftsPage,
+    QuestionArchivePage
+
   ],
   imports: [
     BrowserModule,
@@ -64,6 +73,7 @@ const cloudSettings: CloudSettings = {
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
         { component: SignupPage, name: 'SignupPage', segment: 'signup' },
         { component: HomePage, name: 'HomePage', segment: 'home' },
+        { component: TabsPage, name: 'TabsPage', segment: 'home' },
         { component: AboutPage, name: 'AboutPage', segment: 'about' },
         { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' },
         { component: AnswerPage, name: 'AnswerPage', segment: 'answer' }
@@ -76,13 +86,20 @@ const cloudSettings: CloudSettings = {
   entryComponents: [
     MyApp,
     HomePage,
+    TabsPage,
     SignupPage,
     LoginPage,
     QuestionPage,
     AboutPage,
     UserProfilePage,
+<<<<<<< HEAD
     ForgotPasswordPage,
     AnswerPage
+=======
+    AskQuestionPage,
+    DraftsPage,
+    QuestionArchivePage
+>>>>>>> 19f7b1fa0a584fae92c08aa17a8323bf9fca549a
   ],
   providers: [
     StreamData,
