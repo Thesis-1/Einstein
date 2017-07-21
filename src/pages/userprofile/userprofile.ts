@@ -25,10 +25,7 @@ export class UserProfilePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserprofilePage');
     console.log('this.user', this.user);
-    console.log('this.user.details.email', this.user.details.email);
-    // ionic 3 makes you have your email as your e
-    console.log('this.user.details.name', this.user.details.name);
-    // console.log('this.details.password', this.details.password);
+    // ionic 3 makes you use email as the username
 
   }
   // ngAfterViewInit() {
@@ -94,12 +91,16 @@ export class UserProfilePage {
     var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
     this.showRadioAlert('Country', countries, (info) => {
-      this.country = info;
+
+      console.log('this.user before setting and saving country', this.user);
       this.user.set('country', info);
       this.user.save();
+      console.log('this.user after saving country', this.user);
     });
-    console.log('this.user after setting country', this.user);
-    // country attribute is accessible under this.user.data.data.country
+
+    // this.user.get('country');
+    // console.log('this.user after setting country', this.user);
+    // country attribute is should be under this.user.data.data.country
     // (NOT in the details object under `this.user.details`)
   }
 
@@ -107,11 +108,11 @@ export class UserProfilePage {
     var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
 
     this.showRadioAlert('Language', languages, (info) => {
-      this.language = info;
+
       this.user.set('language', info);
       this.user.save();
     });
-    console.log('this.user after setting country', this.user);
+
   }
 
   onChangeSubjects() {
@@ -143,5 +144,10 @@ export class UserProfilePage {
       });
       alert.present();
   }
+
+  onChangeBio() {
+
+  }
+
 
 }
