@@ -67,7 +67,7 @@ export class QuestionPage {
     this.msg = '';
 
   }
-  
+
   sendQuestion(question) {
     this.questions.push( question );
   }
@@ -83,7 +83,7 @@ export class QuestionPage {
         this.questions.update(question.$key, {userid_closed: this.id + !question.closed});
         this.questions.update(question.$key, {date_closed: Date.now()});
     }
-      
+
   }
 
   sendQuestionDelete(id) {
@@ -91,7 +91,7 @@ export class QuestionPage {
     this.questions.remove(id);
 
   }
-  
+
   fetchQuestions(messageType) {
     if(messageType === 'all') {
       this.questions = this.af.list('/userQuestions',  {
@@ -119,4 +119,5 @@ export class QuestionPage {
       });
     }
   }
+
 }

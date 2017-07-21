@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-     <ion-title>Question Feed</ion-title> 
+     <ion-title>Question Feed</ion-title>
   </ion-navbar>
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
@@ -27,7 +27,8 @@
     </ion-select>
   </ion-item>
   <ion-list>
-    <ion-item-sliding *ngFor="let question of questions" [attr.question]="tester">
+    <ion-item-sliding *ngFor="let question of questions"
+    [attr.question]="tester" (click)="onQuestionClick(question)">
       <button ion-item>
           <h3>{{question.question}}</h3>
       </button>
@@ -54,5 +55,3 @@
     <button ion-fab (click)="onGoToQuestion()"><ion-icon name="create"></ion-icon></button>
   </ion-fab>
 </ion-content>
-
-

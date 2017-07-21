@@ -33,6 +33,7 @@ import { UserProfilePage } from '../pages/userprofile/userprofile';
 import { QuestionPage } from '../pages/question/question';
 import { AboutPage } from '../pages/about/about';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
+import { AnswerPage } from '../pages/answer/answer';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -49,7 +50,8 @@ const cloudSettings: CloudSettings = {
     QuestionPage,
     AboutPage,
     UserProfilePage,
-    ForgotPasswordPage
+    ForgotPasswordPage,
+    AnswerPage
   ],
   imports: [
     BrowserModule,
@@ -63,10 +65,12 @@ const cloudSettings: CloudSettings = {
         { component: SignupPage, name: 'SignupPage', segment: 'signup' },
         { component: HomePage, name: 'HomePage', segment: 'home' },
         { component: AboutPage, name: 'AboutPage', segment: 'about' },
-        { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' }
+        { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' },
+        { component: AnswerPage, name: 'AnswerPage', segment: 'answer' }
       ]
     }),
-    CloudModule.forRoot(cloudSettings)
+    CloudModule.forRoot(cloudSettings),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -77,7 +81,8 @@ const cloudSettings: CloudSettings = {
     QuestionPage,
     AboutPage,
     UserProfilePage,
-    ForgotPasswordPage
+    ForgotPasswordPage,
+    AnswerPage
   ],
   providers: [
     StreamData,

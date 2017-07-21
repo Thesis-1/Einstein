@@ -55,8 +55,7 @@ export class SignupPage {
             let toast = this.toastCtrl.create({
               message: 'Signup error, please try again.',
               duration: 2500
-            });
-            toast.present();
+            }); toast.present();
           }
         }
       });

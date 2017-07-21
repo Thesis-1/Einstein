@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Answer feed</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="answer-page" delegate-handle="mainScroll">
+  <h2 ion-text text-center>Question:</h2>
+  <!-- Question Card -->
+  <ion-card color="secondary">
+
+    <ion-item color="secondary">
+    <ion-avatar item-start>
+      <img src="{{question.image}}">
+    </ion-avatar>
+    <h2>{{question.category}}</h2>
+    <p>{{question.open_date | date:'medium'}}</p>
+  </ion-item>
+
+    <ion-card-content>
+      <!-- Add card content here! -->
+      {{question.question}}
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

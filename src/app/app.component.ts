@@ -17,6 +17,7 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
 import { UserProfilePage } from '../pages/userprofile/userprofile';
+import { AnswerPage } from '../pages/answer/answer';
 
 //Use this page interface when writing new pages below in
 //loggedOutPages or LoggedInPages arrays.
