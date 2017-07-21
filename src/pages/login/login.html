@@ -38,6 +38,7 @@
   		<button ion-button (click)="onLogin(loginForm)" type="submit"
       [disabled]="!loginForm.valid || ! (details.password.length >= 6)" block>Login</button>
   		<button ion-button (click)="onSignup()" color="light" block>Signup</button>
+      <button ion-button (click)="onForgotPassword()" color="danger" block>Forgot Password ?</button>
 		</div>
 	</form>
 

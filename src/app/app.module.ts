@@ -32,6 +32,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/userprofile/userprofile';
 import { QuestionPage } from '../pages/question/question';
 import { AboutPage } from '../pages/about/about';
+import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -47,7 +48,8 @@ const cloudSettings: CloudSettings = {
     SignupPage,
     QuestionPage,
     AboutPage,
-    UserProfilePage
+    UserProfilePage,
+    ForgotPasswordPage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +76,8 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     QuestionPage,
     AboutPage,
-    UserProfilePage
+    UserProfilePage,
+    ForgotPasswordPage
   ],
   providers: [
     StreamData,

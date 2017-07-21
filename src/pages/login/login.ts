@@ -4,7 +4,9 @@ import { NgForm, EmailValidator } from '@angular/forms';
 import { Auth, User, UserDetails } from '@ionic/cloud-angular';
 import { ToastController } from 'ionic-angular';
 
+
 import { SignupPage } from '../signup/signup';
+import { ForgotPasswordPage } from '../forgot-password/forgot-password';
 import { HomePage } from '../home/home';
 @Component({
   selector: 'page-login',
@@ -62,8 +64,8 @@ export class LoginPage {
   onSignup() {
     this.navCtrl.setRoot('SignupPage');
   }
-  forgotPassword() {
-    this.navCtrl.push(this.auth.passwordResetUrl);
+  onForgotPassword() {
+    this.navCtrl.push(ForgotPasswordPage);
   }
 
 }
