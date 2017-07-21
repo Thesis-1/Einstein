@@ -24,6 +24,7 @@ import { AboutPage } from '../pages/about/about';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AskQuestionPage } from '../pages/home/ask-question/ask-question';
 import { DraftsPage } from '../pages/home/drafts/drafts';
+import { QuestionArchivePage } from '../pages/home/questionarchive/questionarchive';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD-p5kimWSiFWZorVKEUNfuscpbC_bW4oc",
@@ -51,7 +52,8 @@ const cloudSettings: CloudSettings = {
     AboutPage,
     UserProfilePage,
     AskQuestionPage,
-    DraftsPage
+    DraftsPage,
+    QuestionArchivePage
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,8 @@ const cloudSettings: CloudSettings = {
     AboutPage,
     UserProfilePage,
     AskQuestionPage,
-    DraftsPage
+    DraftsPage,
+    QuestionArchivePage
   ],
   providers: [
     StreamData,
