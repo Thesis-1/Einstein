@@ -49,7 +49,7 @@ export class HomePage {
     }
   }
 
-  doRefresh(refresher: Refresher) {
+  doRefresh(refresher: Refresher) { // to avoid refresh errors for now
     this.streamData.load()
       .subscribe ((data: any) => {
         this.questions = data;
