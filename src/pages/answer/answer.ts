@@ -41,7 +41,7 @@ export class AnswerPage {
   };
 
   //firebase
-  answers: any = [];
+  answers: FirebaseListObservable<any[]>;
   //answers: FirebaseListObservable<any[]>;
 
   constructor(
@@ -56,13 +56,6 @@ export class AnswerPage {
     public answerStreamData: AnswerStreamData
   ) {
 
-    // this.answers = this.af.list('/userAnswers',  {
-    //   query: {
-    //     limitToLast: 50,
-    //     orderByChild: 'question_id',
-    //     equalTo: this.question.key
-    //   }
-    // });
   }
 
   ionViewDidLoad() {
@@ -84,11 +77,19 @@ export class AnswerPage {
   }
 
   updateAnswerStream () {
-    this.answerStreamData.load(this.question.key)
-      .subscribe ((data: any
-      ) => {
-        this.answers = data;
+    this.answers = this.af.list('/userAnswers', {
+      query: {
+        limitToLast: 50,
+        orderByChild: 'question_id',
+        equalTo: this.question.key
+      }
     });
+
+    // this.answerStreamData.load(this.question.key)
+    //   .subscribe ((data: any
+    //   ) => {
+    //     this.answers = data;
+    // });
 
   }
 

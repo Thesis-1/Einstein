@@ -30,7 +30,7 @@
 
   <h3 ion-text text-center>Answers:</h3>
 
-  <ion-card *ngFor="let a of answers">
+  <ion-card *ngFor="let a of answers | async">
     <ion-item>
       <ion-avatar item-start>
         <img src="{{a.image}}">
