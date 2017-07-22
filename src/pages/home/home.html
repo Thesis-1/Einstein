@@ -8,7 +8,7 @@
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
-                   (ionInput)="updateQuestionStream()"
+                   (ionInput)="search()"
                    placeholder="Search">
     </ion-searchbar>
   </ion-toolbar>
@@ -20,10 +20,10 @@
   </ion-refresher>
   <ion-item>
     <ion-label>Filter</ion-label>
-    <ion-select [(ngModel)]="filter">
+    <ion-select [(ngModel)]="filter" (ngModelChange)="filterQuestions()">
       <ion-option value="all">All</ion-option>
-      <ion-option value="answered">Answered</ion-option>
-      <ion-option value="unAnswered">Unanswered</ion-option>
+      <ion-option value="true">Answered</ion-option>
+      <ion-option value="false">Unanswered</ion-option>
     </ion-select>
   </ion-item>
   <ion-list>
