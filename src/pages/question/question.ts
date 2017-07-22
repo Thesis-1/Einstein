@@ -53,6 +53,7 @@ export class QuestionPage {
 
     this.sendQuestion({
       user_id: this.id,
+      user: this.user.details.name,
       likes: 0,
       dislikes: 0,
       image: this.img,

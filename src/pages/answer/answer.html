@@ -17,7 +17,7 @@
       <ion-avatar item-start>
         <img src="{{question.image}}">
       </ion-avatar>
-      <h2>{{question.category}}</h2>
+      <h2>{{question.user || 'Anonymous'}}</h2>
       <p>{{question.open_date | date:'medium'}}</p>
     </ion-item>
 

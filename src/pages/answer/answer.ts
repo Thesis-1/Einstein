@@ -26,7 +26,8 @@ export class AnswerPage {
     question: 'Where does the constant pi come from?',
     likes: 0,
     dislikes: 0,
-    user_id: 'unknown'
+    user_id: 'unknown',
+    user: 'Unknown'
   };
 
 
