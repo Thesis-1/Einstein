@@ -45,7 +45,16 @@ export class HomePage {
   }
 
   onGoToQuestion() {
-    this.navCtrl.push(QuestionPage);
+    if(this.auth.isAuthenticated()) {
+      this.navCtrl.push(QuestionPage);
+    } else {
+      let toast = this.toastCtrl.create({
+        message: 'Please Log In to Post Questions.',
+        duration: 2500
+      });
+      toast.present();
+    }
+
   }
 
   onQuestionClick(question) {
