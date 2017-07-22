@@ -8,6 +8,7 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { StreamData } from '../providers/questions-stream';
+import { AnswerStreamData } from '../providers/answers-stream';
 
 //Imports for firebase DB
 import { AngularFireModule } from 'angularfire2';
@@ -25,6 +26,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { AskQuestionPage } from '../pages/home/ask-question/ask-question';
 import { DraftsPage } from '../pages/home/drafts/drafts';
 import { QuestionArchivePage } from '../pages/home/questionarchive/questionarchive';
+import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
+import { AnswerPage } from '../pages/answer/answer';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD-p5kimWSiFWZorVKEUNfuscpbC_bW4oc",
@@ -34,6 +37,7 @@ export const firebaseConfig = {
   storageBucket: "einstein-981c4.appspot.com",
   messagingSenderId: "780646176835"
 };
+
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -51,9 +55,12 @@ const cloudSettings: CloudSettings = {
     QuestionPage,
     AboutPage,
     UserProfilePage,
+    ForgotPasswordPage,
+    AnswerPage,
     AskQuestionPage,
     DraftsPage,
     QuestionArchivePage
+
   ],
   imports: [
     BrowserModule,
@@ -67,10 +74,12 @@ const cloudSettings: CloudSettings = {
         { component: SignupPage, name: 'SignupPage', segment: 'signup' },
         { component: TabsPage, name: 'TabsPage', segment: 'home' },
         { component: AboutPage, name: 'AboutPage', segment: 'about' },
-        { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' }
+        { component: UserProfilePage, name: 'UserProfilePage', segment: 'userprofile' },
+        { component: AnswerPage, name: 'AnswerPage', segment: 'answer' }
       ]
     }),
-    CloudModule.forRoot(cloudSettings)
+    CloudModule.forRoot(cloudSettings),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -82,12 +91,15 @@ const cloudSettings: CloudSettings = {
     QuestionPage,
     AboutPage,
     UserProfilePage,
+    ForgotPasswordPage,
+    AnswerPage,
     AskQuestionPage,
     DraftsPage,
     QuestionArchivePage
   ],
   providers: [
     StreamData,
+    AnswerStreamData,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

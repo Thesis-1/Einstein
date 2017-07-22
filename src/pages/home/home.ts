@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
 import { User, Auth } from '@ionic/cloud-angular';
 import { App, Refresher, ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { QuestionPage } from '../question/question';
+import { AnswerPage } from '../answer/answer';
 import { StreamData } from '../../providers/questions-stream';
 
 @Component({
@@ -23,7 +25,8 @@ export class HomePage {
     public auth: Auth,
     public app: App,
     public streamData: StreamData,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public storage: Storage
   ) {
 
   }
@@ -38,10 +41,27 @@ export class HomePage {
         this.questions = data;
         console.log(this.questions)
     });
+
   }
 
   onGoToQuestion() {
-    this.navCtrl.push(QuestionPage);
+    if(this.auth.isAuthenticated()) {
+      this.navCtrl.push(QuestionPage);
+    } else {
+      let toast = this.toastCtrl.create({
+        message: 'Please Log In to Post Questions.',
+        duration: 2500
+      });
+      toast.present();
+    }
+
+  }
+
+  onQuestionClick(question) {
+    let storeObj = question;
+    storeObj.key = question.$key;
+    this.storage.set('answerPageCurrQuestion', storeObj);
+    this.navCtrl.push(AnswerPage);
   }
 
   getUserFullName() {
@@ -64,7 +84,7 @@ export class HomePage {
         // toast.present();
         console.log('content updated');
     });
-    
+
   }
 
   search() {
@@ -85,5 +105,5 @@ export class HomePage {
           console.log(this.questions)
       });
     }
-  } 
+  }
 }
