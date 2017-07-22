@@ -11,8 +11,12 @@ import { StreamData } from '../../providers/questions-stream';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
   questions: any = [];
+  queryText = '';
   tester = 'unanswered';
+  filter = 'all';
+
   constructor(
     public navCtrl: NavController,
     public user: User,
@@ -34,7 +38,6 @@ export class HomePage {
         this.questions = data;
         console.log(this.questions)
     });
-    
   }
 
   onGoToQuestion() {
@@ -63,4 +66,24 @@ export class HomePage {
     });
     
   }
+
+  search() {
+    this.streamData.filterItems(this.queryText)
+      .subscribe ((data: any) => {
+        this.questions = data;
+        console.log(this.questions)
+    });
+  }
+
+   filterQuestions() {
+    if(this.filter === 'all'){
+      this.updateQuestionStream();
+    } else {
+      this.streamData.filterAnswerUnanswer(this.filter)
+        .subscribe ((data: any) => {
+          this.questions = data;
+          console.log(this.questions)
+      });
+    }
+  } 
 }
