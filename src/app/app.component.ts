@@ -12,7 +12,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Auth, User, Deploy } from '@ionic/cloud-angular';
 
-import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
@@ -43,7 +42,7 @@ export class MyApp {
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' },
-    { title: 'Questions', name: 'HomePage', component: HomePage, icon: 'ios-help'},
+    { title: 'Questions', name: 'TabsPage', component: TabsPage, icon: 'ios-help'},
     { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'ios-hammer'}
   ];
 
