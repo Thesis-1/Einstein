@@ -72,11 +72,12 @@ export class AnswerPage {
       //   this.question[key] = q[key];
       // }
       this.question = q;
-      console.log('this.question ',this.question);
+
+      //Get the answers for current question from DB via provider
+      this.updateAnswerStream();
     });
 
-    //Get the answers for current question from DB via provider
-    this.updateAnswerStream();
+
 
 
   }
@@ -108,8 +109,6 @@ export class AnswerPage {
       toast.present();
     }
 
-
-    //ToDo: integrate firebase to save new answer into the DB
   }
 
 
