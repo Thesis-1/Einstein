@@ -19,7 +19,7 @@ export class AnswerPage {
   //Mock data for a question
   question = {
     key: 'unknown',
-    image: 'https://assets.merriam-webster.com/mw/images/article/art-wap-article-main/pi-mathematical-value-135@1x.jpg',
+    image: '',
     closed: false,
     category: 'algebra',
     open_date: Date.now(),
@@ -93,13 +93,21 @@ export class AnswerPage {
 
   onSubmitAnswer() {
     if (this.auth.isAuthenticated()) {
-      this.answer.created_at = Date.now();
-      this.answer.user = this.user.details.name;
-      this.answer.image = 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png';
-      this.answer.question_id = this.question.key;
-      this.answer.isBest = false;
-      this.answers.push( this.answer );
-      this.answer.answer = '';
+      this.answers.push({
+        answer: this.answer.answer,
+        created_at: Date.now(),
+        user: this.user.details.name,
+        image: 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png',
+        question_id: this.question.key,
+        isBest: false,
+      })
+      // this.answer.created_at = Date.now();
+      // this.answer.user = this.user.details.name;
+      // this.answer.image = 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png';
+      // this.answer.question_id = this.question.key;
+      // this.answer.isBest = false;
+      // this.answers.push( this.answer );
+      // this.answer.answer = '';
     } else {
       //Show a toast notification if not logged in
       let toast = this.toastCtrl.create({
@@ -108,6 +116,8 @@ export class AnswerPage {
       });
       toast.present();
     }
+    //clear input field
+    this.answer.answer = '';
 
   }
 
