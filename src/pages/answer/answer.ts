@@ -37,7 +37,9 @@ export class AnswerPage {
     user: 'Unknown',
     image:'',
     question_id:'',
-    isBest: false
+    isBest: false,
+    likes: 0,
+    likedFromUsers: ['users:']
   };
 
   //firebase
@@ -102,6 +104,8 @@ export class AnswerPage {
         image: 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png',
         question_id: this.question.key,
         isBest: false,
+        likes: 0,
+        likedFromUsers: {isJoin: 'yes'}
       })
       // this.answer.created_at = Date.now();
       // this.answer.user = this.user.details.name;
@@ -121,6 +125,37 @@ export class AnswerPage {
     //clear input field
     this.answer.answer = '';
 
+  }
+
+  onLikeClick(a) {
+    if (this.auth.isAuthenticated()) {
+      let uid = this.user.id;
+      let tempObj = {...a};
+
+      if (!a.likedFromUsers.hasOwnProperty(uid)){
+        this.answers.update(a.$key, {likes: a.likes + 1});
+        tempObj.likedFromUsers[uid] = true;
+        this.answers.update(a.$key, {likedFromUsers: {...tempObj.likedFromUsers} });
+        a.likes++;
+      } else {
+        //we already liked the thing, take it back now
+        this.answers.update(a.$key, {likes: a.likes - 1});
+        delete tempObj.likedFromUsers[uid];
+        this.answers.update(a.$key, {likedFromUsers: {...tempObj.likedFromUsers} });
+      }
+    } else {
+      //Show a toast notification if not logged in
+      this.presentToast('Please Log In to Like Answers.')
+    }
+
+  }
+
+  presentToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 2500
+    });
+    toast.present()
   }
 
 
