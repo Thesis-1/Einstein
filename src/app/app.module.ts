@@ -25,7 +25,6 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { AskQuestionPage } from '../pages/home/ask-question/ask-question';
 import { DraftsPage } from '../pages/home/drafts/drafts';
 import { QuestionArchivePage } from '../pages/home/questionarchive/questionarchive';
-import { AboutPage } from '../pages/about/about';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { AnswerPage } from '../pages/answer/answer';
 
@@ -92,14 +91,11 @@ const cloudSettings: CloudSettings = {
     QuestionPage,
     AboutPage,
     UserProfilePage,
-<<<<<<< HEAD
     ForgotPasswordPage,
-    AnswerPage
-=======
+    AnswerPage,
     AskQuestionPage,
     DraftsPage,
     QuestionArchivePage
->>>>>>> 19f7b1fa0a584fae92c08aa17a8323bf9fca549a
   ],
   providers: [
     StreamData,

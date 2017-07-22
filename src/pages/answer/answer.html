@@ -14,12 +14,12 @@
   <ion-card color="secondary">
 
     <ion-item color="secondary">
-    <ion-avatar item-start>
-      <img src="{{question.image}}">
-    </ion-avatar>
-    <h2>{{question.category}}</h2>
-    <p>{{question.open_date | date:'medium'}}</p>
-  </ion-item>
+      <ion-avatar item-start>
+        <img src="{{question.image}}">
+      </ion-avatar>
+      <h2>{{question.category}}</h2>
+      <p>{{question.open_date | date:'medium'}}</p>
+    </ion-item>
 
     <ion-card-content>
       <!-- Add card content here! -->
@@ -28,4 +28,25 @@
 
   </ion-card>
 
+  <h2 ion-text text-center>Answers:</h2>
+
+  <ion-card *ngFor="let a of answers">
+    <ion-item color="secondary">
+      <ion-avatar item-start>
+        <img src="{{a.image}}">
+      </ion-avatar>
+      <h2>{{a.user}}</h2>
+      <p>{{a.created_at | date:'medium'}}</p>
+    </ion-item>
+  </ion-card>
+
+
 </ion-content>
+
+<ion-footer>
+  <form (ngSubmit)="onSubmitAnswer()">
+    <ion-item>
+      <ion-input name="answer"[(ngModel)]="answer.answer" type="text" placeholder="Post your answer"></ion-input>
+    </ion-item>
+  </form>
+</ion-footer>

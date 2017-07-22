@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
-import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
+import { Nav, NavController, NavParams, MenuController,
+  Platform, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { User, Auth } from '@ionic/cloud-angular';
 import { Storage } from '@ionic/storage';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-/**
- * Generated class for the AnswerPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
+//Stream data for answers
+import { AnswerStreamData } from '../../providers/answers-stream';
 
 @Component({
   selector: 'page-answer',
@@ -20,6 +18,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class AnswerPage {
   //Mock data for a question
   question = {
+    key: 'unknown',
     image: 'https://assets.merriam-webster.com/mw/images/article/art-wap-article-main/pi-mathematical-value-135@1x.jpg',
     closed: false,
     category: 'algebra',
@@ -30,42 +29,90 @@ export class AnswerPage {
     user_id: 'unknown'
   };
 
+
+  answer = {
+    answer: '',
+    created_at: 0,
+    user: 'Unknown',
+    image:'',
+    question_id:'',
+    isBest: false
+  };
+
+  //firebase
+  answers: any = [];
+  //answers: FirebaseListObservable<any[]>;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public storage: Storage
+    public storage: Storage,
+    public user: User,
+    public auth: Auth,
+    public afAuth: AngularFireAuth,
+    public af: AngularFireDatabase,
+    public toastCtrl: ToastController,
+    public answerStreamData: AnswerStreamData
   ) {
 
+    // this.answers = this.af.list('/userAnswers',  {
+    //   query: {
+    //     limitToLast: 50,
+    //     orderByChild: 'question_id',
+    //     equalTo: this.question.key
+    //   }
+    // });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AnswerPage');
+    //Get the question from local storage
     this.storage.get('answerPageCurrQuestion').then( (q)=> {
-      for (let key in q) {
-        this.question[key] = q[key];
-      }
+      // for (let key in q) {
+      //   this.question[key] = q[key];
+      // }
+      this.question = q;
+      console.log('this.question ',this.question);
     });
 
-    console.log('this.question ',this.question);
+    //Get the answers for current question from DB via provider
+    this.updateAnswerStream();
+
+
   }
 
-  getColor(question) {
-    return question.closed ? 'green' : 'black';
+  updateAnswerStream () {
+    this.answerStreamData.load(this.question.key)
+      .subscribe ((data: any
+      ) => {
+        this.answers = data;
+    });
+
   }
 
-  sendQuestionUpdate(question, status){
-
-    if(status === 'likes') {
-      // this.questions.update(question.$key, {likes: question.likes+1});
-      //update mock data
-      this.question.likes++;
-    } else if (status === 'dislikes') {
-      //this.questions.update(question.$key, {dislikes: question.dislikes+1});
-      //update mock data
-      this.question.dislikes++;
+  onSubmitAnswer() {
+    if (this.auth.isAuthenticated()) {
+      this.answer.created_at = Date.now();
+      this.answer.user = this.user.details.name;
+      this.answer.image = 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png';
+      this.answer.question_id = this.question.key;
+      this.answer.isBest = false;
+      this.answers.push( this.answer );
+      this.answer.answer = '';
+    } else {
+      //Show a toast notification if not logged in
+      let toast = this.toastCtrl.create({
+        message: 'Please Log In to Post Answers.',
+        duration: 2500
+      });
+      toast.present();
     }
 
+
+    //ToDo: integrate firebase to save new answer into the DB
   }
+
+
 
 
 
