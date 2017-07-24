@@ -96,3 +96,9 @@ export class AuthMock {
 export class HttpMock extends Http {
 
 }
+
+export class StorageMock {
+  set () {
+    return;
+  }
+}

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Nav, NavController, NavParams, MenuController,
-  Platform, ToastController } from 'ionic-angular';
+import { Platform, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 import { User, Auth } from '@ionic/cloud-angular';
 import { Storage } from '@ionic/storage';
@@ -45,8 +44,6 @@ export class AnswerPage {
   //answers: FirebaseListObservable<any[]>;
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
     public storage: Storage,
     public user: User,
     public auth: Auth,
