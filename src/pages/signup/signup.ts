@@ -3,8 +3,12 @@ import { NavController, NavParams, Nav } from 'ionic-angular';
 import { NgForm, EmailValidator } from '@angular/forms';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 import { ToastController } from 'ionic-angular';
+//Refactoring Auth to Firebase
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { HomePage } from '../home/home';
+
+
 
 @Component({
   selector: 'page-signup',
@@ -16,7 +20,9 @@ export class SignupPage {
     email: '',
     password: ''
   };
+
   submitted = false;
+  validSignup = false;
 
   constructor(
     public navCtrl: NavController,
@@ -24,7 +30,8 @@ export class SignupPage {
     public nav: Nav,
     public auth: Auth,
     public user: User,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public afAuth: AngularFireAuth
   ) {
 
   }
@@ -33,32 +40,84 @@ export class SignupPage {
     console.log('ionViewDidLoad SignupPage');
   }
 
+
   //Authentication code for new user sign up
   authNewAccount(form: NgForm) {
-
     if (form.valid) {
-      this.auth.signup(this.details).then(() => {
-        // On successful Signup, Immediately log in user
-        this.auth.login('basic', this.details);
-        this.nav.setRoot('HomePage');
-      }, (err: IDetailedError<string[]>) => {
-        //Handle errors here
-        for (let e of err.details) {
-          if (e === 'conflict_email') {
-            let toast = this.toastCtrl.create({
-              message: 'Email already exists.',
-              duration: 2500
-            });
-            toast.present();
-          } else {
-            // handle other errors
-            let toast = this.toastCtrl.create({
-              message: 'Signup error, please try again.',
-              duration: 2500
-            }); toast.present();
+      //Call firebase auth create user method
+      this.afAuth.auth.createUserWithEmailAndPassword(this.details.email, this.details.password)
+        .then ( ()=> {
+          //on success, set up user profile object
+          let user = this.afAuth.auth.currentUser;
+
+          if (user != null) {
+            user.updateProfile({
+              displayName: this.details.name,
+              photoURL: '../../assets/img/einstein-main.jpeg'
+              // bio: 'I like to count with my fingers.',
+              // learningSubjects: '',
+              // teachingSubjects: '',
+              // language: 'English',
+              // country: 'United States'
+            }).then( ()=> {
+              // Update successful.
+              // redirect to questions feed
+              //Note: User is auto logged in on account creation in Firebase
+              this.validSignup = true;
+              //TODO: send acct. verification email.
+              this.nav.setRoot(HomePage);
+              console.log('valid signup set to: ', this.validSignup);
+            }, (err)=> {
+              // An error happened.  present toast.
+              let toast = this.toastCtrl.create({
+                message: 'Error Initializing user profile.',
+                duration: 2500
+              });
+              toast.present();
+              return false;
+            });;
           }
-        }
-      });
+
+        }, (err)=> {
+          //on error, present toast
+          let toast = this.toastCtrl.create({
+            message: 'Error creating user, please try again.',
+            duration: 2500
+          });
+          toast.present();
+          return false;
+        });
+
+
+
+
+
+
+
+
+      //Old Auth
+      // this.auth.signup(this.details).then(() => {
+      //   // On successful Signup, Immediately log in user
+      //   this.auth.login('basic', this.details);
+      //   this.nav.setRoot('HomePage');
+      // }, (err: IDetailedError<string[]>) => {
+      //   //Handle errors here
+      //   for (let e of err.details) {
+      //     if (e === 'conflict_email') {
+      //       let toast = this.toastCtrl.create({
+      //         message: 'Email already exists.',
+      //         duration: 2500
+      //       });
+      //       toast.present();
+      //     } else {
+      //       // handle other errors
+      //       let toast = this.toastCtrl.create({
+      //         message: 'Signup error, please try again.',
+      //         duration: 2500
+      //       }); toast.present();
+      //     }
+      //   }
+      // });
     }
   }
 
