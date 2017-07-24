@@ -61,12 +61,25 @@ export class SignupPage {
               // country: 'United States'
             }).then( ()=> {
               // Update successful.
-              // redirect to questions feed
               //Note: User is auto logged in on account creation in Firebase
               this.validSignup = true;
               //TODO: send acct. verification email.
-              this.nav.setRoot(HomePage);
-              console.log('valid signup set to: ', this.validSignup);
+              user.sendEmailVerification().then( ()=> {
+                let toast = this.toastCtrl.create({
+                  message: 'Account verification email sent.  Check your inbox!',
+                  duration: 2500
+                });
+                toast.present();
+                
+                //Redirect to home Page
+                this.nav.setRoot(HomePage);
+              }, (err)=> {
+                let toast = this.toastCtrl.create({
+                  message: 'Error sending Account Verification Email.',
+                  duration: 2500
+                });
+                toast.present();
+              });
             }, (err)=> {
               // An error happened.  present toast.
               let toast = this.toastCtrl.create({
