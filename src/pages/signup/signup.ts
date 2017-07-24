@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Nav } from 'ionic-angular';
 import { NgForm, EmailValidator } from '@angular/forms';
-import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 import { ToastController } from 'ionic-angular';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -15,7 +14,7 @@ import { HomePage } from '../home/home';
   templateUrl: 'signup.html',
 })
 export class SignupPage {
-  details: UserDetails = {
+  details = {
     name: '',
     email: '',
     password: ''
@@ -28,8 +27,6 @@ export class SignupPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public nav: Nav,
-    public auth: Auth,
-    public user: User,
     public toastCtrl: ToastController,
     public afAuth: AngularFireAuth
   ) {
@@ -70,7 +67,7 @@ export class SignupPage {
                   duration: 2500
                 });
                 toast.present();
-                
+
                 //Redirect to home Page
                 this.nav.setRoot(HomePage);
               }, (err)=> {
@@ -100,37 +97,6 @@ export class SignupPage {
           toast.present();
           return false;
         });
-
-
-
-
-
-
-
-
-      //Old Auth
-      // this.auth.signup(this.details).then(() => {
-      //   // On successful Signup, Immediately log in user
-      //   this.auth.login('basic', this.details);
-      //   this.nav.setRoot('HomePage');
-      // }, (err: IDetailedError<string[]>) => {
-      //   //Handle errors here
-      //   for (let e of err.details) {
-      //     if (e === 'conflict_email') {
-      //       let toast = this.toastCtrl.create({
-      //         message: 'Email already exists.',
-      //         duration: 2500
-      //       });
-      //       toast.present();
-      //     } else {
-      //       // handle other errors
-      //       let toast = this.toastCtrl.create({
-      //         message: 'Signup error, please try again.',
-      //         duration: 2500
-      //       }); toast.present();
-      //     }
-      //   }
-      // });
     }
   }
 
