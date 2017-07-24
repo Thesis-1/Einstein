@@ -87,6 +87,8 @@ export class AnswerPage {
       }
     });
 
+
+
     // this.answerStreamData.load(this.question.key)
     //   .subscribe ((data: any
     //   ) => {
@@ -107,13 +109,6 @@ export class AnswerPage {
         likes: 0,
         likedFromUsers: {isJoin: 'yes'}
       })
-      // this.answer.created_at = Date.now();
-      // this.answer.user = this.user.details.name;
-      // this.answer.image = 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png';
-      // this.answer.question_id = this.question.key;
-      // this.answer.isBest = false;
-      // this.answers.push( this.answer );
-      // this.answer.answer = '';
     } else {
       //Show a toast notification if not logged in
       let toast = this.toastCtrl.create({
