@@ -5,6 +5,12 @@ import { Component } from '@angular/core';
     templateUrl: "ask-question.html"
 })
 
-export class AskQuestionPage {
+export class AskQuestionPage  {
+    hideTip = false;
+    selectedSubject = "Maths";
+    subjects = ["Maths", "Biology"];
 
+    onClickDismiss () {
+        this.hideTip = true;
+    }
 }
