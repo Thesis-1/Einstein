@@ -4,6 +4,7 @@ import { NgForm, EmailValidator } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import { HomePage } from '../home/home';
 
@@ -21,20 +22,25 @@ export class SignupPage {
   };
 
   submitted = false;
-  validSignup = false;
+
+  //firebase
+  usersList: FirebaseListObservable<any[]>;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public nav: Nav,
     public toastCtrl: ToastController,
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public af: AngularFireDatabase
   ) {
 
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
+    this.usersList = this.af.list('/users');
+
   }
 
 
@@ -59,8 +65,20 @@ export class SignupPage {
             }).then( ()=> {
               // Update successful.
               //Note: User is auto logged in on account creation in Firebase
-              this.validSignup = true;
-              //TODO: send acct. verification email.
+
+              //Create entry in realtime database for user data
+              this.usersList.push( {
+                displayName: this.details.name,
+                user_id: user.uid,
+                photoURL: '../../assets/img/einstein-main.jpeg',
+                bio: 'I like to add with my fingers',
+                learningSubjects: '',
+                teachingSubjects: '',
+                language: 'English',
+                country: 'United States'
+              });
+
+              //send email for account verification
               user.sendEmailVerification().then( ()=> {
                 let toast = this.toastCtrl.create({
                   message: 'Account verification email sent.  Check your inbox!',
