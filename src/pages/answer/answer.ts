@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { User, Auth } from '@ionic/cloud-angular';
 import { Storage } from '@ionic/storage';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
@@ -43,12 +42,9 @@ export class AnswerPage {
 
   //firebase
   answers: FirebaseListObservable<any[]>;
-  //answers: FirebaseListObservable<any[]>;
 
   constructor(
     public storage: Storage,
-    public user: User,
-    public auth: Auth,
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
@@ -95,11 +91,12 @@ export class AnswerPage {
   }
 
   onSubmitAnswer() {
-    if (this.auth.isAuthenticated()) {
+    let user = this.afAuth.auth.currentUser;
+    if (user != null) {
       this.answers.push({
         answer: this.answer.answer,
         created_at: Date.now(),
-        user: this.user.details.name,
+        user: user.displayName,
         image: 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png',
         question_id: this.question.key,
         isBest: false,
@@ -108,11 +105,7 @@ export class AnswerPage {
       })
     } else {
       //Show a toast notification if not logged in
-      let toast = this.toastCtrl.create({
-        message: 'Please Log In to Post Answers.',
-        duration: 2500
-      });
-      toast.present();
+      this.presentToast('Please Log In to Post Answers.')
     }
     //clear input field
     this.answer.answer = '';
@@ -120,8 +113,9 @@ export class AnswerPage {
   }
 
   onLikeClick(a) {
-    if (this.auth.isAuthenticated()) {
-      let uid = this.user.id;
+    let user = this.afAuth.auth.currentUser;
+    if (user != null) {
+      let uid = user.uid;
       let tempObj = {...a};
 
       if (!a.likedFromUsers.hasOwnProperty(uid)){
