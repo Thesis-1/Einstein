@@ -12,5 +12,4 @@ export class TabsPage {
     homePage = HomePage;
     questionArchivePage = QuestionArchivePage;
     draftsPage = DraftsPage;
-
 }

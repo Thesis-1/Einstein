@@ -4,7 +4,7 @@ import { User, Auth } from '@ionic/cloud-angular';
 import { App, Refresher, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { QuestionPage } from '../question/question';
+import { AskQuestionPage } from './ask-question/ask-question';
 import { AnswerPage } from '../answer/answer';
 import { StreamData } from '../../providers/questions-stream';
 
@@ -44,9 +44,11 @@ export class HomePage {
 
   }
 
-  onGoToQuestion() {
+  onAskQuestion() {
     if(this.auth.isAuthenticated()) {
-      this.navCtrl.push(QuestionPage);
+      // don't show tabs on the Ask Question Page (works but animation is lost)
+      // this.app.getRootNavs()[0].setRoot(AskQuestionPage) 
+      this.navCtrl.push(AskQuestionPage);
     } else {
       let toast = this.toastCtrl.create({
         message: 'Please Log In to Post Questions.',
