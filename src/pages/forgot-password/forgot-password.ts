@@ -43,55 +43,8 @@ export class ForgotPasswordPage {
       toast.present();
     });
 
-    //OLD method:
-    // this.auth.requestPasswordReset(this.emailAddress).then( (res)=> {
-    //   //On success
-    //   this.resetInProgress = true;
-    //
-    //   //Pop some toast
-    //   let toast = this.toastCtrl.create({
-    //     message: 'A password reset email has been sent.  Check your inbox!',
-    //     duration: 3000
-    //   });
-    //   toast.present();
-    // }, (rej)=> {
-    //   //Pop some toast
-    //   let toast = this.toastCtrl.create({
-    //     message: 'There was a problem resetting your password.  Please try again!',
-    //     duration: 3000
-    //   });
-    //   toast.present();
-    //
-    //   console.log('Error resetting password: ', rej);
-    // });
-
   }
 
-  setNewPassword() {
-    //May no longer need
 
-    // this.auth.confirmPasswordReset(this.pwResetCode, this.password).then( (res)=> {
-    //   //On success
-    //
-    //   //Pop some toast
-    //   let toast = this.toastCtrl.create({
-    //     message: 'Thank You, your password has been reset!',
-    //     duration: 3000
-    //   });
-    //   toast.present();
-    //
-    //   this.resetInProgress = false;
-    // }, (rej)=> {
-    //   //Pop some toast
-    //   let toast = this.toastCtrl.create({
-    //     message: 'There was a problem resetting your password.  Please try again!',
-    //     duration: 3000
-    //   });
-    //   toast.present();
-    //
-    //   console.log('Error resetting password: ', rej);
-    // });
-
-  }
 
 }
