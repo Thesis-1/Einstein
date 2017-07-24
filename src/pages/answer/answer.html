@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Answer feed</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding class="answer-page" delegate-handle="mainScroll">
+  <h3 ion-text text-center>Question:</h3>
+  <!-- Question Card -->
+  <ion-card color="secondary">
+
+    <ion-item color="secondary">
+      <ion-avatar item-start>
+        <img src="{{question.image}}">
+      </ion-avatar>
+      <h2>{{question.user || 'Anonymous'}}</h2>
+      <p>{{question.open_date | date:'medium'}}</p>
+    </ion-item>
+
+    <ion-card-content>
+      <!-- Add card content here! -->
+      {{question.question}}
+    </ion-card-content>
+
+  </ion-card>
+
+  <h3 ion-text text-center>Answers:</h3>
+
+  <ion-card *ngFor="let a of answers | async">
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{a.image}}">
+      </ion-avatar>
+      <h2>{{a.user}}</h2>
+      <p>{{a.created_at | date:'medium'}}</p>
+    </ion-item>
+
+    <ion-card-content>
+      <p>{{a.answer}}</p>
+    </ion-card-content>
+
+    <!-- Bottom row - for like button, post time, etc. -->
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small (click)="onLikeClick(a)">
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>{{a.likes}} Likes</div>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+
+</ion-content>
+
+<ion-footer>
+  <form (ngSubmit)="onSubmitAnswer()">
+    <ion-item>
+      <ion-input name="answer"[(ngModel)]="answer.answer" type="text" placeholder="Post your answer"></ion-input>
+    </ion-item>
+  </form>
+</ion-footer>

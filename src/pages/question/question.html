@@ -19,7 +19,7 @@
 <ion-content delegate-handle="mainScroll">
   <div [ngSwitch]="messageType">
     <ion-card *ngFor="let question of questions | async">
-        <ion-item [ngStyle]="{color: getColor(question)}"> 
+        <ion-item [ngStyle]="{color: getColor(question)}">
             <ion-label>
               <div *ngIf="question.closed;else open">Closed! : {{ question.date_closed | date:'medium' }}</div>
               <ng-template #open>Open</ng-template>
@@ -31,7 +31,7 @@
             <img [src]="question.image">
           </ion-avatar>
           <h2>{{ user.details.name }}</h2>
-          <h3>Category: {{ question.category }}</h3>       
+          <h3>Category: {{ question.category }}</h3>
           <button ion-button color="danger" (click)="sendQuestionDelete(question.$key)" item-right round>Delete</button>
         </ion-item>
         <ion-item>

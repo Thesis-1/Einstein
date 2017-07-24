@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, NavParams } from 'ionic-angular';
+import { AlertController, NavController } from 'ionic-angular';
 import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 
 
@@ -18,8 +18,7 @@ export class UserProfilePage {
     public auth: Auth,
     public user: User,
     public alertCtrl: AlertController,
-    public navCtrl: NavController,
-    public navParams: NavParams
+    public navCtrl: NavController
   ) {
 
   }

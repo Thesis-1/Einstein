@@ -19,7 +19,7 @@
 <ion-content delegate-handle="mainScroll">
   <div [ngSwitch]="messageType">
     <ion-card *ngFor="let question of questions | async">
-        <ion-item [ngStyle]="{color: getColor(question)}"> 
+        <ion-item [ngStyle]="{color: getColor(question)}">
             <ion-label>
               <div *ngIf="question.closed;else open"><ion-icon name="beer"></ion-icon>Closed! : {{ question.date_closed | date:'medium' }}</div>
               <ng-template #open>Open</ng-template>

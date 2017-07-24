@@ -3,12 +3,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-     <ion-title>Question Feed</ion-title> 
+     <ion-title>Question Feed</ion-title>
   </ion-navbar>
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
-                   (ionInput)="updateQuestionStream()"
+                   (ionInput)="search()"
                    placeholder="Search">
     </ion-searchbar>
   </ion-toolbar>
@@ -20,14 +20,15 @@
   </ion-refresher>
   <ion-item>
     <ion-label>Filter</ion-label>
-    <ion-select [(ngModel)]="filter">
+    <ion-select [(ngModel)]="filter" (ngModelChange)="filterQuestions()">
       <ion-option value="all">All</ion-option>
-      <ion-option value="answered">Answered</ion-option>
-      <ion-option value="unAnswered">Unanswered</ion-option>
+      <ion-option value="true">Answered</ion-option>
+      <ion-option value="false">Unanswered</ion-option>
     </ion-select>
   </ion-item>
   <ion-list>
-    <ion-item-sliding *ngFor="let question of questions" [attr.question]="tester">
+    <ion-item-sliding *ngFor="let question of questions"
+    [attr.question]="tester" (click)="onQuestionClick(question)">
       <button ion-item>
           <h3>{{question.question}}</h3>
       </button>
@@ -51,8 +52,6 @@
     </ion-card-content>
   </ion-card> -->
   <ion-fab bottom right #fab>
-    <button ion-fab (click)="onGoToQuestion()"><ion-icon name="create"></ion-icon></button>
+    <button ion-fab (click)="onAskQuestion()"><ion-icon name="create"></ion-icon></button>
   </ion-fab>
 </ion-content>
-
-

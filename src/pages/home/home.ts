@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
 import { User, Auth } from '@ionic/cloud-angular';
 import { App, Refresher, ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
-import { QuestionPage } from '../question/question';
+import { AskQuestionPage } from './ask-question/ask-question';
+import { AnswerPage } from '../answer/answer';
 import { StreamData } from '../../providers/questions-stream';
 
 @Component({
@@ -11,15 +13,20 @@ import { StreamData } from '../../providers/questions-stream';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
   questions: any = [];
+  queryText = '';
   tester = 'unanswered';
+  filter = 'all';
+
   constructor(
     public navCtrl: NavController,
     public user: User,
     public auth: Auth,
     public app: App,
     public streamData: StreamData,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public storage: Storage
   ) {
 
   }
@@ -34,11 +41,29 @@ export class HomePage {
         this.questions = data;
         console.log(this.questions)
     });
-    
+
   }
 
-  onGoToQuestion() {
-    this.navCtrl.push(QuestionPage);
+  onAskQuestion() {
+    if(this.auth.isAuthenticated()) {
+      // don't show tabs on the Ask Question Page (works but animation is lost)
+      // this.app.getRootNavs()[0].setRoot(AskQuestionPage) 
+      this.navCtrl.push(AskQuestionPage);
+    } else {
+      let toast = this.toastCtrl.create({
+        message: 'Please Log In to Post Questions.',
+        duration: 2500
+      });
+      toast.present();
+    }
+
+  }
+
+  onQuestionClick(question) {
+    let storeObj = question;
+    storeObj.key = question.$key;
+    this.storage.set('answerPageCurrQuestion', storeObj);
+    this.navCtrl.push(AnswerPage);
   }
 
   getUserFullName() {
@@ -61,6 +86,26 @@ export class HomePage {
         // toast.present();
         console.log('content updated');
     });
-    
+
+  }
+
+  search() {
+    this.streamData.filterItems(this.queryText)
+      .subscribe ((data: any) => {
+        this.questions = data;
+        console.log(this.questions)
+    });
+  }
+
+   filterQuestions() {
+    if(this.filter === 'all'){
+      this.updateQuestionStream();
+    } else {
+      this.streamData.filterAnswerUnanswer(this.filter)
+        .subscribe ((data: any) => {
+          this.questions = data;
+          console.log(this.questions)
+      });
+    }
   }
 }

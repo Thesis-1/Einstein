@@ -1,24 +1,33 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }           from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { HomePage } from './home';
+import { Http } from '@angular/http';
 import { IonicModule, Platform, NavController} from 'ionic-angular/index';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { PlatformMock, StatusBarMock, SplashScreenMock, UserMock, AuthMock } from '../../../test-config/mocks-ionic';
+import { Storage } from '@ionic/storage';
+
+import { PlatformMock, StorageMock, StatusBarMock, SplashScreenMock, UserMock, AuthMock, HttpMock } from '../../../test-config/mocks-ionic';
 
 import { Auth, User} from '@ionic/cloud-angular';
 import { App, Refresher, ToastController } from 'ionic-angular';
+import { HomePage } from './home';
 import { QuestionPage } from '../question/question';
 import { StreamData } from '../../providers/questions-stream';
 
-class QuestionPageMock extends QuestionPage {
 
+class StreamDataMock {
+  load () {
+    return;
+  }
+  filterItems () {
+    return;
+  }
+  filterAnswerUnanswer () {
+    return;
+  }
 }
 
-class StreamDataMock extends StreamData {
-
-}
 describe('HomePage', () => {
   let de: DebugElement;
   let comp: HomePage;
@@ -26,16 +35,15 @@ describe('HomePage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomePage],
+      declarations: [HomePage, QuestionPage],
       imports: [
         IonicModule.forRoot(HomePage)
       ],
       providers: [
         NavController,
-        // QuestionPage,
-        // StreamData,
         { provide: StreamData, useClass: StreamDataMock },
-        { provide: QuestionPage, useClass: QuestionPageMock },
+        { provide: Storage, useClass: StorageMock },
+        { provide: Http, useClass: HttpMock },
         { provide: User, useClass: UserMock },
         { provide: Auth, useClass: AuthMock },
         { provide: Platform, useClass: PlatformMock},
