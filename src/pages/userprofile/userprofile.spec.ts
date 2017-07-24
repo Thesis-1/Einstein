@@ -7,7 +7,7 @@ import { Auth, User, UserDetails, IDetailedError } from '@ionic/cloud-angular';
 import { PlatformMock, UserMock, AuthMock } from '../../../test-config/mocks-ionic';
 import { UserProfilePage } from "./userprofile"
 
-describe('AskQuestionPage', () => {
+describe('UserProfilePage', () => {
     let comp: UserProfilePage
     let fixture: ComponentFixture<UserProfilePage>
     let de: DebugElement
