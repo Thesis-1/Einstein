@@ -44,7 +44,7 @@ export const firebaseConfig = {
 class CameraMock extends Camera {
   getPicture(options) {
     return new Promise((resolve, reject) => {
-      resolve("BASE_64_ENCODED_DATA_GOES_HERE");
+      resolve("../assets/img/potato-test.jpeg");
     })
   }
 }

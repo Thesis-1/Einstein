@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController, ToastController } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -15,11 +16,23 @@ export class UserProfilePage {
   country = 'Country';
   language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
+
+  //Camera Options
+  options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+
+  }
+
   constructor(
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public toastCtrl: ToastController,
+    private camera: Camera
   ) {
     /* user object will look like this:
     bio: "I like to add with my fingers"
@@ -59,8 +72,21 @@ export class UserProfilePage {
 
   }
 
-  updatePicture() {
-    console.log('Clicked to update picture');
+  updatePicture(u) {
+    //Trying to mock ionic native camera functionality in browser
+    this.camera.getPicture(this.options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // For URI:
+     u.photoURL = imageData;
+     let base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+     // Handle error
+     let toast = this.toastCtrl.create({
+       message: 'Error retrieving photo through native camera.',
+       duration: 2500
+     });
+     toast.present()
+    });
   }
 
 
