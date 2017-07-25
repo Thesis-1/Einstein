@@ -175,6 +175,10 @@ export class UserProfilePage {
     // rewrite to push a new learning subjects page instead of using
     // a prompt alert
     this.navCtrl.push(LearningSubjectsPage);
+
+    // LearningSubjectsPage should populate with user's learningSubjects
+    // in firebase, and add or remove from that property as the user
+    // clicks around
   }
 
   onChangeTeaching(u) {
