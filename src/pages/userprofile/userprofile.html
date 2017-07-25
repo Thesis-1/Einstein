@@ -22,9 +22,9 @@
       <button ion-item (click)="onChangeName(u)">{{u.displayName}}</button>
       <button ion-item (click)="onChangeBio()">Update Bio</button>
       <!-- ^ Similar interface to Question button -->
-      <button ion-item (click)="onChangeCountry()">Update Country: {{u.country}}</button>
+      <button ion-item (click)="onChangeCountry(u)">Update Country: {{u.country}}</button>
       <!-- Radio alert -->
-      <button ion-item (click)="onChangeLanguage()">Update Language: {{u.language}}</button>
+      <button ion-item (click)="onChangeLanguage(u)">Update Language: {{u.language}}</button>
       <!-- Radio alert -->
       <!-- <button ion-item (click)="onChangeSubjects()">Subjects</button> -->
     </ion-list>

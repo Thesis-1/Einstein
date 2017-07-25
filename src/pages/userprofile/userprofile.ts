@@ -42,6 +42,10 @@ export class UserProfilePage {
     }
     */
     this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeBio = this.onChangeBio.bind(this);
+    this.onChangeCountry = this.onChangeCountry.bind(this);
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
+
   }
 
   ionViewDidLoad() {
@@ -66,19 +70,12 @@ export class UserProfilePage {
   }
 
   onChangeName(u) {
-
     this.showPromptAlert('Name', (info) => {
+      console.log('u in onChangeName before updating in firebase', u);
+
       this.loggedInUser.update(u.$key, { displayName: info });
-
     });
-
   }
-
-  // updateDisplayName(info, u) {
-  //   console.log('u', u);
-  //   console.log('info', info);
-  //   console.log('this', this);
-  // }
 
   // Prompt Alert Function:
   // will be called by some wrapper method to supply the
@@ -116,10 +113,21 @@ export class UserProfilePage {
     alert.present();
   }
 
+  onChangeBio() {
 
+  }
 
-  onChangeCountry() {
+  onChangeCountry(u) {
+    var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
+    console.log('u in onChangeCountry before alert', u);
+    this.showRadioAlert('Country', countries, (info) => {
+      this.loggedInUser.update(u.$key, { country: info });
+    });
+    // this.showPromptAlert('Country', (info) => {
+    //   console.log('u in onChangeCountry before updating in firebase', u);
+    //   this.loggedInUser.update(u.$key, { country: info });
+    // });
   }
 
 
@@ -139,8 +147,11 @@ export class UserProfilePage {
   // }
   //
 
-  onChangeLanguage() {
-
+  onChangeLanguage(u) {
+    var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
+    this.showRadioAlert('Language', languages, (info) => {
+      this.loggedInUser.update(u.$key, { language: info });
+    });
   }
 
   // onChangeLanguage() {
@@ -159,34 +170,30 @@ export class UserProfilePage {
 
   }
 
-  // onChangeSubjects() {
-  //
-  // }
-  //
-  // // radio alert function:
-  //
-  // showRadioAlert(field, choices, cb) {
-  //
-  //     let alert = this.alertCtrl.create();
-  //     alert.setTitle('Country');
-  //
-  //     choices.forEach((choice) => {
-  //       alert.addInput({
-  //         type: 'radio',
-  //         label: choice,
-  //         value: choice
-  //       });
-  //     });
-  //
-  //     alert.addButton('Cancel');
-  //     alert.addButton({
-  //       text: 'OK',
-  //       handler: data => {
-  //         console.log('data', data);
-  //         cb(data);
-  //       }
-  //     });
-  //     alert.present();
-  // }
+  // Radio Alert Function:
+
+  showRadioAlert(field, choices, cb) {
+
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Country');
+
+      choices.forEach((choice) => {
+        alert.addInput({
+          type: 'radio',
+          label: choice,
+          value: choice
+        });
+      });
+
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          console.log('data', data);
+          cb(data);
+        }
+      });
+      alert.present();
+  }
 
 }
