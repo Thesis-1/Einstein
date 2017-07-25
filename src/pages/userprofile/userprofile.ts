@@ -113,8 +113,10 @@ export class UserProfilePage {
     alert.present();
   }
 
-  onChangeBio() {
-
+  onChangeBio(u) {
+    this.showPromptAlert('Bio', (info) => {
+      this.loggedInUser.update(u.$key, { bio: info });
+    });
   }
 
   onChangeCountry(u) {
