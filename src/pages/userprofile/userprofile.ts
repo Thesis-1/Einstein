@@ -17,6 +17,7 @@ export class UserProfilePage {
   country = 'Country';
   language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
+  userTest = {};
   constructor(
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
@@ -41,7 +42,7 @@ export class UserProfilePage {
       etc
     }
     */
-
+    this.onChangeName = this.onChangeName.bind(this);
   }
 
   ionViewDidLoad() {
@@ -65,59 +66,66 @@ export class UserProfilePage {
     console.log('Clicked to update picture');
   }
 
+  onChangeName(u) {
+    // console.log('in onChangeName');
+    this.userTest = u;
 
-  onChangeName () {
+    this.showPromptAlert('Name', (info) => {
+      this.loggedInUser.update(u.$key, { displayName: info });
+
+    });
+
+    // this.showPromptAlert('Name', (info) => {
+    //   console.log('u', u);
+    //   console.log('info', info);
+    //   this.loggedInUser.update(u.$key, { displayName: info });
+    // });
 
   }
 
-  // onChangeName() {
-  //   // console.log('in onChangeName');
-  //
-  //   this.showPromptAlert('Name', (info) => {
-  //
-  //   });
-  //
+  // updateDisplayName(info, u) {
+  //   console.log('u', u);
+  //   console.log('info', info);
+  //   console.log('this', this);
   // }
-  //
-  //
-  // // Prompt Alert Function:
-  // // will be called by some wrapper method to supply the
-  // // right data for inputs and string interpolation
-  //
-  // showPromptAlert(field, cb) {
-  //
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Update ' + field,
-  //     inputs: [
-  //       {
-  //         name: field,
-  //         placeholder: field
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         handler: data => {
-  //           console.log('Cancel clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'Save',
-  //         handler: data => {
-  //           console.log('Saved clicked');
-  //           console.log('data[field] on line 200', data[field]);
-  //
-  //           console.log('type of data[field]', typeof data[field]);
-  //           console.log('this.user in callback', this.user);
-  //           cb(data[field]);
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
-  //
-  //
+
+  // Prompt Alert Function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
+
+  showPromptAlert(field, cb) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Update ' + field,
+      inputs: [
+        {
+          name: field,
+          placeholder: field
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            console.log('data[field] on line 200', data[field]);
+
+            console.log('type of data[field]', typeof data[field]);
+            cb(data[field]);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+
 
   onChangeCountry() {
 
