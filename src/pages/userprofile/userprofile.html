@@ -9,9 +9,9 @@
 
 
 <ion-content padding class="userprofile-page">
-  <div padding-top text-center>
-    <img [src]="gravatar" alt="avatar">
-    <h2>{{user.details.name}}</h2>
+  <div padding-top text-center *ngFor="let u of loggedInUser | async">
+    <img src="{{u.photoURL}}" alt="avatar">
+    <h2>{{u.displayName}}</h2>
 
     <div padding-left padding-right>
       <p ion-content (click)="onChangeBio()">{{user.data.data.bio || bio}}</p>
@@ -19,9 +19,13 @@
 
     <ion-list inset>
       <button ion-item (click)="updatePicture()">Update Picture</button>
-      <button ion-item (click)="onChangeName()">{{user.details.name}}</button>
-      <button ion-item (click)="onChangeCountry()">{{user.data.data.country || country}}</button>
-      <button ion-item (click)="onChangeLanguage()">{{user.data.data.language || language}}</button>
+      <button ion-item (click)="onChangeName()">Update Name</button>
+      <button ion-item (click)="onChangeBio()">Update Bio</button>
+      <!-- ^ Similar interface to Question button -->
+      <button ion-item (click)="onChangeCountry()">Update Country: {{u.country}}</button>
+      <!-- Radio alert -->
+      <button ion-item (click)="onChangeLanguage()">Update Language: {{u.language}}</button>
+      <!-- Radio alert -->
       <!-- <button ion-item (click)="onChangeSubjects()">Subjects</button> -->
     </ion-list>
 

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
-import { User, Auth } from '@ionic/cloud-angular';
 import { App, Refresher, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+//Refactoring Auth to Firebase
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { AskQuestionPage } from './ask-question/ask-question';
 import { AnswerPage } from '../answer/answer';
@@ -21,8 +22,7 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    public user: User,
-    public auth: Auth,
+    public afAuth: AngularFireAuth,
     public app: App,
     public streamData: StreamData,
     public toastCtrl: ToastController,
@@ -45,9 +45,10 @@ export class HomePage {
   }
 
   onAskQuestion() {
-    if(this.auth.isAuthenticated()) {
+    let user = this.afAuth.auth.currentUser;
+    if(user != null) {
       // don't show tabs on the Ask Question Page (works but animation is lost)
-      // this.app.getRootNavs()[0].setRoot(AskQuestionPage) 
+      // this.app.getRootNavs()[0].setRoot(AskQuestionPage)
       this.navCtrl.push(AskQuestionPage);
     } else {
       let toast = this.toastCtrl.create({
@@ -64,14 +65,6 @@ export class HomePage {
     storeObj.key = question.$key;
     this.storage.set('answerPageCurrQuestion', storeObj);
     this.navCtrl.push(AnswerPage);
-  }
-
-  getUserFullName() {
-    if(this.auth.isAuthenticated()) {
-      return this.user.get('name', 'young Einstein');
-    } else {
-      return 'young Einstein';
-    }
   }
 
   doRefresh(refresher: Refresher) { // to avoid refresh errors for now

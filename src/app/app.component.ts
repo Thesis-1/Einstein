@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 
 //Added imports for using ion-menu etc.
-import { Events, MenuController, Nav, Platform } from 'ionic-angular';
+import { Events, MenuController, Nav, Platform, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Auth, User, Deploy } from '@ionic/cloud-angular';
@@ -67,6 +67,8 @@ export class MyApp {
     public menu: MenuController,
     public user: User,
     public auth: Auth,
+    public afAuth: AngularFireAuth,
+    public toastCtrl: ToastController
   ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -161,9 +163,28 @@ export class MyApp {
   }
 
   logout() {
-    if (this.auth.isAuthenticated()) {
-      this.auth.logout();
+    let user = this.afAuth.auth.currentUser;
+
+    if (user) {
+      this.afAuth.auth.signOut().then( ()=> {
+        let toast = this.toastCtrl.create({
+          message: 'You have successfully signed out.',
+          duration: 2500
+        });
+        toast.present();
+      }).catch( (err)=> {
+        let toast = this.toastCtrl.create({
+          message: 'Sign out error!',
+          duration: 2500
+        });
+        toast.present();
+      });
     }
+
+    //Old Logout- moving to Firebase
+    // if (this.auth.isAuthenticated()) {
+    //   this.auth.logout();
+    // }
   }
 
   enableMenu(loggedIn: boolean) {
