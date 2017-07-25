@@ -17,7 +17,6 @@ export class UserProfilePage {
   country = 'Country';
   language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
-  userTest = {};
   constructor(
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
@@ -67,19 +66,11 @@ export class UserProfilePage {
   }
 
   onChangeName(u) {
-    // console.log('in onChangeName');
-    this.userTest = u;
 
     this.showPromptAlert('Name', (info) => {
       this.loggedInUser.update(u.$key, { displayName: info });
 
     });
-
-    // this.showPromptAlert('Name', (info) => {
-    //   console.log('u', u);
-    //   console.log('info', info);
-    //   this.loggedInUser.update(u.$key, { displayName: info });
-    // });
 
   }
 
