@@ -35,7 +35,7 @@ export class UserProfilePage {
     Use this in HTML to access the propertiels like this:
     let u of loggedInUser {
       u.bio = " "
-      u.country; 
+      u.country;
       etc
     }
     */
