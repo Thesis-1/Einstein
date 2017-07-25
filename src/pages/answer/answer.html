@@ -42,6 +42,16 @@
     <ion-card-content>
       <p>{{a.answer}}</p>
     </ion-card-content>
+
+    <!-- Bottom row - for like button, post time, etc. -->
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small (click)="onLikeClick(a)">
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>{{a.likes}} Likes</div>
+        </button>
+      </ion-col>
+    </ion-row>
   </ion-card>
 
 
