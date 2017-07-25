@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { Camera } from '@ionic-native/camera';
 
 import { StreamData } from '../providers/questions-stream';
 import { AnswerStreamData } from '../providers/answers-stream';
@@ -15,6 +16,7 @@ import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -37,6 +39,15 @@ export const firebaseConfig = {
   storageBucket: "einstein-981c4.appspot.com",
   messagingSenderId: "780646176835"
 };
+
+//Camera mock for in browser testing of the native camera feature
+class CameraMock extends Camera {
+  getPicture(options) {
+    return new Promise((resolve, reject) => {
+      resolve("BASE_64_ENCODED_DATA_GOES_HERE");
+    })
+  }
+}
 
 
 const cloudSettings: CloudSettings = {
@@ -102,7 +113,8 @@ const cloudSettings: CloudSettings = {
     AnswerStreamData,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: Camera, useClass: CameraMock }
   ]
 })
 export class AppModule {}

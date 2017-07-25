@@ -50,7 +50,7 @@ export class UserProfilePage {
       this.loggedInUser = this.af.list('/users',  {
         query: {
           orderByChild: 'user_id',
-          equalTo: user.uid
+          equalTo: user.uid //Currently logged in user
         }
       });
       console.log('user id is: ', user.uid, user.uid == "Uniaj6st9eNPlrt4HuUwDxGETeb2");
@@ -78,9 +78,9 @@ export class UserProfilePage {
   // }
   //
   //
-  // // Prompt Alert Function:
-  // // will be called by some wrapper method to supply the
-  // // right data for inputs and string interpolation
+  // Prompt Alert Function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
   //
   // showPromptAlert(field, cb) {
   //
@@ -116,12 +116,12 @@ export class UserProfilePage {
   // }
   //
   //
-
-  onChangeCountry() {
-
-  }
-
-
+  //
+  // onChangeCountry() {
+  //
+  // }
+  //
+  //
   // onChangeCountry() {
   //   // console.log('first line of onChangeCountry');
   //
