@@ -13,9 +13,9 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 export class UserProfilePage {
 
   gravatar = 'http://www.gravatar.com/avatar?d=mm&s=140';
-  bio = 'Bio';
-  country = 'Country';
-  language = 'Language';
+  // bio = 'Bio';
+  // country = 'Country';
+  // language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
   constructor(
     public afAuth: AngularFireAuth,
@@ -45,7 +45,8 @@ export class UserProfilePage {
     this.onChangeBio = this.onChangeBio.bind(this);
     this.onChangeCountry = this.onChangeCountry.bind(this);
     this.onChangeLanguage = this.onChangeLanguage.bind(this);
-
+    this.onChangeLearning = this.onChangeLearning.bind(this);
+    this.onChangeTeaching = this.onChangeTeaching.bind(this);
   }
 
   ionViewDidLoad() {
@@ -103,8 +104,6 @@ export class UserProfilePage {
           handler: data => {
             console.log('Saved clicked');
             console.log('data[field] on line 200', data[field]);
-
-            console.log('type of data[field]', typeof data[field]);
             cb(data[field]);
           }
         }
@@ -120,9 +119,8 @@ export class UserProfilePage {
   }
 
   onChangeCountry(u) {
-    var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
+    let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
-    console.log('u in onChangeCountry before alert', u);
     this.showRadioAlert('Country', countries, (info) => {
       this.loggedInUser.update(u.$key, { country: info });
     });
@@ -136,7 +134,7 @@ export class UserProfilePage {
   // onChangeCountry() {
   //   // console.log('first line of onChangeCountry');
   //
-  //   var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
+  //   let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
   //
   //   this.showRadioAlert('Country', countries, (info) => {
   //     this.country = info;
@@ -150,14 +148,14 @@ export class UserProfilePage {
   //
 
   onChangeLanguage(u) {
-    var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
+    let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
     this.showRadioAlert('Language', languages, (info) => {
       this.loggedInUser.update(u.$key, { language: info });
     });
   }
 
   // onChangeLanguage() {
-  //   var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
+  //   let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
   //
   //   this.showRadioAlert('Language', languages, (info) => {
   //     this.language = info;
@@ -168,8 +166,16 @@ export class UserProfilePage {
   // }
   //
 
-  onChangeSubjects() {
+  onChangeLearning(u) {
+    this.showPromptAlert('Learning Subjects', (info) => {
+      this.loggedInUser.update(u.$key, { learningSubjects: info });
+    });
+  }
 
+  onChangeTeaching(u) {
+    this.showPromptAlert('Teaching Subjects', (info) => {
+      this.loggedInUser.update(u.$key, { teachingSubjects: info });
+    });
   }
 
   // Radio Alert Function:
