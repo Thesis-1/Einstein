@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { User, Auth } from '@ionic/cloud-angular';
 import { ToastController } from 'ionic-angular';
+//Refactoring Auth to Firebase
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'page-forgot-password',
@@ -18,8 +19,7 @@ export class ForgotPasswordPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public user: User,
-    public auth: Auth,
+    public afAuth: AngularFireAuth,
     public toastCtrl: ToastController
   ) { }
 
@@ -28,52 +28,23 @@ export class ForgotPasswordPage {
   }
 
   sendReset() {
-    this.auth.requestPasswordReset(this.emailAddress).then( (res)=> {
-      //On success
-      this.resetInProgress = true;
-
-      //Pop some toast
+    this.afAuth.auth.sendPasswordResetEmail(this.emailAddress)
+    .then( ()=> {
       let toast = this.toastCtrl.create({
         message: 'A password reset email has been sent.  Check your inbox!',
         duration: 3000
       });
       toast.present();
-    }, (rej)=> {
-      //Pop some toast
+    }, (err) => {
       let toast = this.toastCtrl.create({
-        message: 'There was a problem resetting your password.  Please try again!',
+        message: 'There was an error.  Is your email address correct?',
         duration: 3000
       });
       toast.present();
-
-      console.log('Error resetting password: ', rej);
     });
 
   }
 
-  setNewPassword() {
-    this.auth.confirmPasswordReset(this.pwResetCode, this.password).then( (res)=> {
-      //On success
 
-      //Pop some toast
-      let toast = this.toastCtrl.create({
-        message: 'Thank You, your password has been reset!',
-        duration: 3000
-      });
-      toast.present();
-
-      this.resetInProgress = false;
-    }, (rej)=> {
-      //Pop some toast
-      let toast = this.toastCtrl.create({
-        message: 'There was a problem resetting your password.  Please try again!',
-        duration: 3000
-      });
-      toast.present();
-
-      console.log('Error resetting password: ', rej);
-    });
-
-  }
 
 }
