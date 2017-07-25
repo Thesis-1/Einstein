@@ -21,6 +21,24 @@ export class UserProfilePage {
     public alertCtrl: AlertController,
     public navCtrl: NavController
   ) {
+    /* user object will look like this:
+    bio: "I like to add with my fingers"
+    country: "United States"
+    displayName: "Doug Lyford"
+    language: "English"
+    learningSubjects: ""
+    photoURL: "../../assets/img/einstein-main.jpeg"
+    teachingSubjects: ""
+    user_id: "Uniaj6st9eNPlrt4HuUwDxGETeb2"
+
+
+    Use this in HTML to access the propertiels like this:
+    let u of loggedInUser {
+      u.bio = " "
+      u.country; 
+      etc
+    }
+    */
 
   }
 

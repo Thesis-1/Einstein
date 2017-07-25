@@ -26,8 +26,8 @@
     </ion-list>
 
     <div padding>
-      <p ion-text text-center color="danger" [hidden]="auth.isAuthenticated()">Please Log In to leave feedback</p>
-			<button ion-button type="submit" (click)="sendFeedback(msgVal)" [disabled]="!msgVal || !auth.isAuthenticated()" block>Submit</button>
+      <p ion-text text-center color="danger" [hidden]="afAuth.auth.currentUser != null">Please Log In to leave feedback</p>
+			<button ion-button type="submit" (click)="sendFeedback(msgVal)" [disabled]="!msgVal || afAuth.auth.currentUser == null" block>Submit</button>
 		</div>
   </form>
 
@@ -72,17 +72,6 @@
       <h2>Peter Maxcy</h2>
       <p>Software Engineer</p>
     </ion-item>
-  </ion-card>
-
-  <div padding>
-  </div>
-  <ion-card>
-    <ion-card-header>
-      {{'Current User: ' + fullName}}
-    </ion-card-header>
-    <ion-card-content>
-      {{'User Email Address: ' + email}}
-    </ion-card-content>
   </ion-card>
 
 
