@@ -9,6 +9,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { StreamData } from '../providers/questions-stream';
 import { AnswerStreamData } from '../providers/answers-stream';
+import { TranslateService } from '../providers/translate';
 
 //Imports for firebase DB
 import { AngularFireModule } from 'angularfire2';
@@ -100,6 +101,7 @@ const cloudSettings: CloudSettings = {
   providers: [
     StreamData,
     AnswerStreamData,
+    TranslateService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

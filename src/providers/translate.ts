@@ -5,14 +5,15 @@ import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/data
 @Injectable()
 export class TranslateService {
   constructor(
-    public db: AngularFireDatabase
+    public afDB: AngularFireDatabase
   ) {
 
   }
-
+  // push user text to firebase and return an object observable to
+  // update the view asynchronously
   createTranslation(text: string): FirebaseObjectObservable<any> {
     const data = {'english': text}
-    const key = this.db.list('/translations').push(data).key
-    return this.db.object(`translations/${key}`)
+    const key = this.afDB.list('/translations').push(data).key
+    return this.afDB.object(`translations/${key}`)
   }
 }

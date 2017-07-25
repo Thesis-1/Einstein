@@ -13,6 +13,10 @@
     <img src="{{u.photoURL}}" alt="avatar">
     <h2>{{u.displayName}}</h2>
 
+    <textarea rows="8" cols="40" class="input" [(ngModel)]="translationTest"></textarea>
+    <button (click)="handleTranslation()" class="button is-primary">Translate</button>
+    <p>{{ (currentTranslation | async)?.fr }}</p>
+
     <ion-list inset>
       <button ion-item (click)="updatePicture()">Update Picture</button>
       <button ion-item (click)="onChangeName()">Update Name</button>

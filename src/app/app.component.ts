@@ -19,6 +19,7 @@ import { UserProfilePage } from '../pages/userprofile/userprofile';
 import { AnswerPage } from '../pages/answer/answer';
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { TranslateService } from '../providers/translate';
 
 //Use this page interface when writing new pages below in
 //loggedOutPages or LoggedInPages arrays.

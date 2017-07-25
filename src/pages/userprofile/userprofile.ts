@@ -5,13 +5,15 @@ import { AlertController, NavController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
+import { TranslateService } from '../../providers/translate';
 
 @Component({
   selector: 'page-userprofile',
   templateUrl: 'userprofile.html',
 })
 export class UserProfilePage {
-
+  translationTest = 'Hello world';
+  currentTranslation;
   country = 'Country';
   language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
@@ -19,7 +21,8 @@ export class UserProfilePage {
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public translateSvc: TranslateService
   ) {
     /* user object will look like this:
     bio: "I like to add with my fingers"
@@ -35,7 +38,7 @@ export class UserProfilePage {
     Use this in HTML to access the propertiels like this:
     let u of loggedInUser {
       u.bio = " "
-      u.country; 
+      u.country;
       etc
     }
     */
@@ -57,6 +60,10 @@ export class UserProfilePage {
       console.log('loggedInUser set to: ', this.loggedInUser);
     }
 
+  }
+
+  handleTranslation() {
+    this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
   }
 
   updatePicture() {
