@@ -25,7 +25,6 @@ export class AboutPage {
   email = '';
 
   //Firebase backend variables
-  afUser: Observable<firebase.User>;
   items: FirebaseListObservable<any[]>;
   msgVal: string = '';
 
@@ -38,10 +37,6 @@ export class AboutPage {
     public af: AngularFireDatabase,
     public toastCtrl: ToastController
   ) {
-    this.fullName = this.user.details.name ? this.user.details.name
-    : 'Not Logged In.';
-    this.email = this.user.details.email ? this.user.details.email
-    : 'Not Logged In.';
 
     //Get data from Firebase
     this.items = af.list('/userFeedback', {
@@ -49,12 +44,6 @@ export class AboutPage {
         limitToLast: 50
       }
     });
-
-    //Firebase backend currently uses anonymous login
-    //Auth is done through ionic service
-    //check user auth before allowing db access
-    this.afAuth.auth.signInAnonymously();
-    this.afUser = this.afAuth.authState;
   }
 
   ionViewDidLoad() {
@@ -63,11 +52,9 @@ export class AboutPage {
 
   //Send feedback data to Firebase
   sendFeedback(desc: string) {
-    if (this.auth.isAuthenticated()) {
-      if (desc) {
-        this.items.push({ message: desc});
-        this.msgVal = '';
-      }
+    if (desc) {
+      this.items.push({ message: desc});
+      this.msgVal = '';
     }
   }
 }
