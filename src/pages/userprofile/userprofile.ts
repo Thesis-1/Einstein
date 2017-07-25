@@ -5,6 +5,7 @@ import { AlertController, NavController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
+import { LearningSubjectsPage } from '../learning-subjects/learning-subjects';
 
 @Component({
   selector: 'page-userprofile',
@@ -167,15 +168,23 @@ export class UserProfilePage {
   //
 
   onChangeLearning(u) {
-    this.showPromptAlert('Learning Subjects', (info) => {
-      this.loggedInUser.update(u.$key, { learningSubjects: info });
-    });
+    // this.showPromptAlert('Learning Subjects', (info) => {
+    //   this.loggedInUser.update(u.$key, { learningSubjects: info });
+    // });
+
+    // rewrite to push a new learning subjects page instead of using
+    // a prompt alert
+    this.navCtrl.push(LearningSubjectsPage);
   }
 
   onChangeTeaching(u) {
     this.showPromptAlert('Teaching Subjects', (info) => {
       this.loggedInUser.update(u.$key, { teachingSubjects: info });
     });
+
+    // rewrite to push a new teaching subjects page instead of using
+    // a prompt alert
+    // this.navCtrl.push(TeachingSubjectsPage);
   }
 
   // Radio Alert Function:

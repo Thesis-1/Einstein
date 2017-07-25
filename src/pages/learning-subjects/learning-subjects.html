@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Learning Subjects</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list >
+    <ion-item *ngFor="let subject of subjects">
+      <ion-label>{{ subject }}</ion-label>
+      <ion-radio value="subject" checked></ion-radio>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-label>Family</ion-label>
+      <ion-radio value="family"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Enemies</ion-label>
+      <ion-radio value="enemies" [disabled]="isDisabled"></ion-radio>
+    </ion-item> -->
+  </ion-list>
+</ion-content>
