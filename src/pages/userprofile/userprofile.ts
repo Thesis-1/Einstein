@@ -77,8 +77,11 @@ export class UserProfilePage {
     this.camera.getPicture(this.options).then((imageData) => {
      // imageData is either a base64 encoded string or a file URI
      // For URI:
-     u.photoURL = imageData;
-     let base64Image = 'data:image/jpeg;base64,' + imageData;
+     //u.photoURL = imageData; --- this works to update image in ionic web
+
+
+     let base64Image = `data:image/jpeg;base64,${imageData}`;
+     u.photoURL = base64Image;
     }, (err) => {
      // Handle error
      let toast = this.toastCtrl.create({
