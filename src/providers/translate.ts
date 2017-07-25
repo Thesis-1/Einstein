@@ -5,7 +5,7 @@ import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/data
 @Injectable()
 export class TranslateService {
   constructor(
-    private db: AngularFireDatabase
+    public db: AngularFireDatabase
   ) {
 
   }
