@@ -72,6 +72,7 @@ export class UserProfilePage {
   }
 
   onChangeName(u) {
+    console.log('u in onChangeName', u);
     this.showPromptAlert('Name', (info) => {
       console.log('u in onChangeName before updating in firebase', u);
 
@@ -172,9 +173,11 @@ export class UserProfilePage {
     //   this.loggedInUser.update(u.$key, { learningSubjects: info });
     // });
 
+    console.log('u in onChangeLearning', u);
+
     // rewrite to push a new learning subjects page instead of using
     // a prompt alert
-    this.navCtrl.push(LearningSubjectsPage);
+    this.navCtrl.push(LearningSubjectsPage, { u });
 
     // LearningSubjectsPage should populate with user's learningSubjects
     // in firebase, and add or remove from that property as the user
