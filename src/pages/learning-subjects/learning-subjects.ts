@@ -19,7 +19,6 @@ export class LearningSubjectsPage {
     'Topography',
     'Statistics'
   ];
-  select = false;
   u = this.navParams.get('u');
 
   constructor(
@@ -49,14 +48,15 @@ export class LearningSubjectsPage {
 
   }
 
-  toggleSubjects(u) {
+  toggleSubjects(subject) {
     console.log('ion item clicked!')
-    console.log('u in toggleSubjects', u);
+    // console.log('u in toggleSubjects', u);
     // console.log('u.learningSubjects in toggleSubjects', u.learningSubjects);
 
+    this.u.learningSubjects[subject] = !this.u.learningSubjects[subject];
     // update learningSubjects[subject] in firebase
-    // this.loggedInUser.update(u.$key, { })
-    // this.select = !this.select;
+    this.loggedInUser.update(this.u.$key, { learningSubjects: this.u.learningSubjects });
+
   }
 
 }
