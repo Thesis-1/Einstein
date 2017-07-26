@@ -25,7 +25,7 @@ class AnswerStreamDataMock {
 
 class AngularFireAuthMock {
     list () {
-        return;
+      return;
     }
 }
 class AngularFireDatabaseMock {
@@ -74,4 +74,3 @@ describe('AnswerPage', () => {
     })
 
 })
-
