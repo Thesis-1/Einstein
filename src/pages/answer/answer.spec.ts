@@ -7,15 +7,15 @@ import { Storage } from '@ionic/storage'
 import { PlatformMock, StorageMock, UserMock, AuthMock, HttpMock } from '../../../test-config/mocks-ionic'
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Auth, User} from '@ionic/cloud-angular'
-import { App, ToastController } from 'ionic-angular'
+import { Auth, User} from '@ionic/cloud-angular';
+import { App, ToastController } from 'ionic-angular';
 
 
-import { AnswerPage } from './answer'
-import { AnswerStreamData } from '../../providers/answers-stream'
+import { AnswerPage } from './answer';
+import { UtilityHelpers } from '../../providers/utility-helpers';
 
 // Mocking AnswerStreamData, it's unused in comp and should be tested seperately
-class AnswerStreamDataMock {
+class UtilityHelpersMock {
   load () {
     return;
   }
@@ -52,7 +52,7 @@ describe('AnswerPage', () => {
                 { provide: AngularFireDatabase, useClass: AngularFireDatabaseMock },
                 { provide: FirebaseListObservable, useClass: FirebaseListObservableMock },
                 { provide: AngularFireAuth, useClass: AngularFireAuthMock },
-                { provide: AnswerStreamData, useClass: AnswerStreamDataMock },
+                { provide: UtilityHelpers, useClass: UtilityHelpersMock },
                 { provide: Storage, useClass: StorageMock },
                 { provide: Http, useClass: HttpMock },
                 { provide: User, useClass: UserMock },

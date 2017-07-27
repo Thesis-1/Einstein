@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
+//Utility helpers contains useful helpers for common tasks to keep code DRY
+import { UtilityHelpers } from '../../providers/utility-helpers';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -15,7 +16,7 @@ export class ForgotPasswordPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public afAuth: AngularFireAuth,
-    public toastCtrl: ToastController
+    public utils: UtilityHelpers
   ) { }
 
   ionViewDidLoad() {
@@ -25,17 +26,9 @@ export class ForgotPasswordPage {
   sendReset() {
     this.afAuth.auth.sendPasswordResetEmail(this.emailAddress)
     .then( ()=> {
-      let toast = this.toastCtrl.create({
-        message: 'A password reset email has been sent.  Check your inbox!',
-        duration: 3000
-      });
-      toast.present();
+      this.utils.popToast('A password reset email has been sent.  Check your inbox!')
     }, (err) => {
-      let toast = this.toastCtrl.create({
-        message: 'There was an error.  Is your email address correct?',
-        duration: 3000
-      });
-      toast.present();
+        this.utils.popToast('There was an error.  Is your email address correct?');
     });
 
   }
