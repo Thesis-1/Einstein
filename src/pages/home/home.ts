@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
-import { App, Refresher, ToastController } from 'ionic-angular';
+import { App, Refresher, ToastController, ModalController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -26,7 +26,8 @@ export class HomePage {
     public app: App,
     public streamData: StreamData,
     public toastCtrl: ToastController,
-    public storage: Storage
+    public storage: Storage,
+    public modalCtrl: ModalController
   ) {
 
   }
@@ -39,7 +40,7 @@ export class HomePage {
     this.streamData.load()
       .subscribe ((data: any) => {
         this.questions = data;
-        console.log(this.questions)
+        // console.log(this.questions)
     });
 
   }
@@ -49,7 +50,9 @@ export class HomePage {
     if(user != null) {
       // don't show tabs on the Ask Question Page (works but animation is lost)
       // this.app.getRootNavs()[0].setRoot(AskQuestionPage)
-      this.navCtrl.push(AskQuestionPage);
+      let askQuestionModal = this.modalCtrl.create(AskQuestionPage);
+        askQuestionModal.present();
+      // this.navCtrl.push(AskQuestionPage);
     } else {
       let toast = this.toastCtrl.create({
         message: 'Please Log In to Post Questions.',

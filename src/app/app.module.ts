@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { Camera } from '@ionic-native/camera';
+import {IonTagsInputModule} from "ionic-tags-input";
 
 import { StreamData } from '../providers/questions-stream';
 import { AnswerStreamData } from '../providers/answers-stream';
@@ -26,6 +26,8 @@ import { QuestionPage } from '../pages/question/question';
 import { AboutPage } from '../pages/about/about';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AskQuestionPage } from '../pages/home/ask-question/ask-question';
+import { PreviewQuestionPage } from '../pages/home/ask-question/preview-question/preview-question';
+import { AskedQuestionPage } from '../pages/home/ask-question/asked-question/asked-question';
 import { DraftsPage } from '../pages/home/drafts/drafts';
 import { QuestionArchivePage } from '../pages/home/questionarchive/questionarchive';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
@@ -63,12 +65,15 @@ const cloudSettings: CloudSettings = {
     ForgotPasswordPage,
     AnswerPage,
     AskQuestionPage,
+    PreviewQuestionPage,
+    AskedQuestionPage,
     DraftsPage,
     QuestionArchivePage,
     LearningSubjectsPage,
     TeachingSubjectsPage
   ],
   imports: [
+    IonTagsInputModule,
     BrowserModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig),
@@ -100,6 +105,8 @@ const cloudSettings: CloudSettings = {
     ForgotPasswordPage,
     AnswerPage,
     AskQuestionPage,
+    PreviewQuestionPage,
+    AskedQuestionPage,
     DraftsPage,
     QuestionArchivePage,
     LearningSubjectsPage,
