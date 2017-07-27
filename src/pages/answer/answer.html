@@ -18,12 +18,36 @@
         <img src="{{question.userPhotoURL}}">
       </ion-avatar>
       <h2>{{question.userName || 'Anonymous'}}</h2>
-      <p>{{question.createdOn | date:'medium'}}</p>
+      <p>{{question.topic}}</p>
+      <!-- <p>{{question.createdOn | date:'medium'}}</p> -->
     </ion-item>
 
     <ion-card-content>
       <!-- Add card content here! -->
-      {{question.questionBody}}
+      <ion-row>
+        <ion-col>
+          <b>{{question.questionBody}}</b>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          {{question.questionDetails}}
+        </ion-col>
+      </ion-row>
+
+      <!-- Timestamp section -->
+      <ion-row>
+    <ion-col>
+      <!-- can add future content here -->
+    </ion-col>
+    <ion-col>
+      <!-- can add future content here -->
+    </ion-col>
+    <ion-col center text-center>
+      {{utils.humanReadableTime(question.createdOn)}}
+    </ion-col>
+  </ion-row>
+
     </ion-card-content>
 
   </ion-card>
@@ -51,6 +75,15 @@
           <div>{{a.likes}} Likes</div>
         </button>
       </ion-col>
+
+      <!-- Future button can be added here e.g. "Report" for troll answer etc -->
+      <ion-col>
+      </ion-col>
+
+      <!-- Human readable time stamp -->
+      <ion-col>
+        {{utils.humanReadableTime(a.created_at)}}
+      </ion-col>
     </ion-row>
   </ion-card>
 
@@ -60,7 +93,8 @@
 <ion-footer>
   <form (ngSubmit)="onSubmitAnswer()">
     <ion-item>
-      <ion-input name="answer"[(ngModel)]="answer.answer" type="text" placeholder="Post your answer"></ion-input>
+      <ion-textarea rows="4" name="answer"[(ngModel)]="answer.answer" type="text" placeholder="Post your answer">
+      </ion-textarea>
     </ion-item>
   </form>
 </ion-footer>
