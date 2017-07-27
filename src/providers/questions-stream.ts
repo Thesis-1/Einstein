@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 // import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Http } from '@angular/http';
@@ -51,7 +50,11 @@ export class StreamData {
     filterItems(queryText){
         return this.data.map((items)=>{
             return items.filter((item) => {
-                return item.question.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
+                if(item.questionBody) {
+                    return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
+                } else {
+                    return item.question.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
+                }
             });     
         });
     }
@@ -59,7 +62,11 @@ export class StreamData {
     filterAnswerUnanswer(text){
         return this.data.map((items)=>{
             return items.filter((item) => {
-                return item.closed.toString() === text;
+                if(item.is_closed) {
+                    return item.is_closed.toString() === text;
+                } else {
+                    return item.closed.toString() === text;
+                }
             });     
         });
     } 

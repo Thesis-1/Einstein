@@ -27,6 +27,7 @@ export class QuestionArchivePage {
   displayName: any;
   photoUrl: any;
   user: any;
+  viewCountRunning: any;
 
   constructor(
     public navCtrl: NavController,
@@ -40,6 +41,7 @@ export class QuestionArchivePage {
     this.answers = this.streamData.fetchAnswers();
     this.displayName = '';
     this.photoUrl = '';
+    this.viewCountRunning = false;
   }
 
   ionViewDidLoad() {
@@ -117,23 +119,27 @@ export class QuestionArchivePage {
 
   getViewCount() {
     //TODO Refactor
-    this.questions.forEach( ( questions ) => {
-      questions.forEach( (question) => {
-        this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
-          let objAnswers = answers.json();
-          this.count[question.$key] = 0;
-          Object.keys(objAnswers).forEach( (answer) => {
-            this.http.get('https://einstein-981c4.firebaseio.com/answerViews.json?orderBy="user_answer_id"&equalTo="' + this.user.uid + answer + '"').subscribe( (view) => {
-              if(Object.keys(view.json()).length === 0) {
-                this.count[question.$key]++;
-              }
+    if(!this.viewCountRunning) {
+      this.viewCountRunning = true;
+      this.questions.forEach( ( questions ) => {
+        questions.forEach( (question) => {
+          this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
+            let objAnswers = answers.json();
+            this.count[question.$key] = 0;
+            Object.keys(objAnswers).forEach( (answer) => {
+              this.http.get('https://einstein-981c4.firebaseio.com/answerViews.json?orderBy="user_answer_id"&equalTo="' + this.user.uid + answer + '"').subscribe( (view) => {
+                if(Object.keys(view.json()).length === 0) {
+                  this.count[question.$key]++;
+                }
+              });
             });
+            this.viewCountRunning = false;
+          }, (err) => {
+            console.log("Error: ", err);
           });
-        }, (err) => {
-          console.log("Error: ", err);
         });
       });
-    });
+    }
   }
 
   onQuestionClick(question) {
