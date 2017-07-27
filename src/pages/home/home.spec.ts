@@ -12,7 +12,6 @@ import { PlatformMock, StorageMock, StatusBarMock, SplashScreenMock, UserMock, A
 import { Auth, User} from '@ionic/cloud-angular';
 import { App, Refresher, ToastController } from 'ionic-angular';
 import { HomePage } from './home';
-import { QuestionPage } from '../question/question';
 import { StreamData } from '../../providers/questions-stream';
 
 
@@ -35,7 +34,7 @@ describe('HomePage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomePage, QuestionPage],
+      declarations: [HomePage],
       imports: [
         IonicModule.forRoot(HomePage)
       ],
