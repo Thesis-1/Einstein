@@ -13,22 +13,12 @@ export class AskedQuestionPage implements OnInit{
         private viewCtrl: ViewController,
         private params: NavParams) { }
 
-    pageData: any
+    questionData: any
     
     ngOnInit () {
-        this.pageData = this.params.data.question
+        this.questionData = this.params.data.question
     }
-
-    // ionViewWillEnter () {
-    //     console.log(this.params.data.question.questionBody)
-    //     this.pageData = this.params.data.question
-        
-    // }
-    ionViewDidEnter () {
-        console.log(this.pageData)
-        // console.log(this.params.data)
-        
-    }
+    
     onClickClose () {
         this.navCtrl.remove(0)
         this.viewCtrl.dismiss()

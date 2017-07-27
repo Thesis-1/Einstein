@@ -7,7 +7,32 @@
     </ion-navbar> 
 </ion-header>
 <ion-content padding>
-    <ion-card color="secondary">
+     <ion-item no-lines> 
+            <ion-avatar item-start> 
+                <img src="{{ questionData.userPhotoURL }}">
+            </ion-avatar>
+            <h2>{{ questionData.userName + " asked"|| 'Anonymous' }}</h2>
+            <p>{{ "On " + (questionData.createdOn | date:'medium') }}</p>
+         </ion-item> 
+
+         <ion-grid>
+            <ion-row>
+                <ion-col col-12>
+                    <h3>{{ questionData.questionBody }}</h3>
+                </ion-col>
+                <ion-chip class="question-tag" *ngFor="let tag of questionData.tags">
+                    <ion-label color="secondary">{{ tag }}</ion-label>
+                </ion-chip>
+            </ion-row>
+            <ion-row>
+                <ion-col col-12>
+                    <p>{{ questionData.questionDetails }}</p>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+
+    <!-- <ion-card color="secondary">
         <ion-item>
             <ion-avatar item-start> 
                 <img src="{{ questionData.userPhotoURL }}">
@@ -18,10 +43,11 @@
         <ion-card-header>
             {{ questionData.questionBody }}
         </ion-card-header>
+        <h3>{{ questionData.questionBody }}</h3>
         <ion-card-content *ngIf="questionData.optionalDetails">
             {{ questionData.optionalDetails }}
         </ion-card-content>
-    </ion-card>
+    </ion-card> -->
 </ion-content>
 
 <!-- <ion-card color="secondary">

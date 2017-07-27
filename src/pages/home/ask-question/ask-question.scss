@@ -2,8 +2,21 @@
     background: #fffde8;
 }
 
+.question-dettail-divider {
+    max-height: 4px;
+    min-height: 4px
+}
 #dismiss-notification {
     color: red;
     font-size: 1.3rem;
     background: none;
 }
+
+#ask-question-input {
+    font-size: 2.2rem
+}
+
+.add-more-details {
+    font-size: 1.6rem
+}
+

@@ -50,23 +50,23 @@ export class StreamData {
     filterItems(queryText){
         return this.data.map((items)=>{
             return items.filter((item) => {
-                if(item.questionBody) {
-                    return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
-                } else {
-                    return item.question.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
-                }
+                return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
             });     
         });
+    }
+
+    closeOrOpenQuestion(question){
+        this.user = this.afAuth.auth.currentUser;
+        
+        this.data.update(question.$key, {isClosed: !question.isClosed});
+        this.data.update(question.$key, {userClosed: this.user.uid + !question.isClosed});
+        this.data.update(question.$key, {closedOn: Date.now()});    
     }
 
     filterAnswerUnanswer(text){
         return this.data.map((items)=>{
             return items.filter((item) => {
-                if(item.is_closed) {
-                    return item.is_closed.toString() === text;
-                } else {
-                    return item.closed.toString() === text;
-                }
+                return item.isClosed.toString() === text;
             });     
         });
     } 
@@ -85,20 +85,23 @@ export class StreamData {
         this.views = this.fetchViewed();
         this.user = this.afAuth.auth.currentUser;
 
-        if(question.user_id === this.user.uid) {
-            this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
-            let objAnswers = answers.json();
-            Object.keys(objAnswers).forEach( (answer) => {
-                this.http.get('https://einstein-981c4.firebaseio.com/answerViews.json?orderBy="user_answer_id"&equalTo="' + this.user.uid + answer + '"').subscribe( (view) => {
-                if(Object.keys(view.json()).length === 0) {
-                    console.log('Message Viewed!')
-                    this.views.push({ user_answer_id: this.user.uid + answer, value: true });
-                }
+        console.log('inside UpdatedViewedAnswers')
+        if(this.user !== null) {
+            if(question.userId === this.user.uid) {
+                this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
+                let objAnswers = answers.json();
+                Object.keys(objAnswers).forEach( (answer) => {
+                    this.http.get('https://einstein-981c4.firebaseio.com/answerViews.json?orderBy="user_answer_id"&equalTo="' + this.user.uid + answer + '"').subscribe( (view) => {
+                    if(Object.keys(view.json()).length === 0) {
+                        console.log('Message Viewed!')
+                        this.views.push({ user_answer_id: this.user.uid + answer, value: true });
+                    }
+                    });
                 });
-            });
-            }, (err) => {
-            console.log("Error: ", err);
-            });
+                }, (err) => {
+                console.log("Error: ", err);
+                });
+            }
         }
 
     }

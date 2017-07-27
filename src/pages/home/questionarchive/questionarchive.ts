@@ -82,7 +82,7 @@ export class QuestionArchivePage {
   }
 
   getColor(question) {
-    return question.closed ? 'green' : 'black';
+    return question.isClosed ? 'green' : 'black';
   }
   
   fetchQuestions(messageType) {
@@ -91,7 +91,7 @@ export class QuestionArchivePage {
       this.questions = this.af.list('/userQuestions',  {
         query: {
           limitToLast: 50,
-          orderByChild: 'user_id',
+          orderByChild: 'userId',
           equalTo: this.user.uid
         }
       });
@@ -100,8 +100,8 @@ export class QuestionArchivePage {
       this.questions = this.af.list('/userQuestions',  {
         query: {
           limitToLast: 50,
-          orderByChild: 'userid_closed',
-          equalTo: this.user.uid + false
+          orderByChild: 'userClosed',
+          equalTo: this.user.uid+false
         }
       });
 
@@ -109,8 +109,8 @@ export class QuestionArchivePage {
       this.questions = this.af.list('/userQuestions',  {
         query: {
           limitToLast: 50,
-          orderByChild: 'userid_closed',
-          equalTo: this.user.uid + true
+          orderByChild: 'userClosed',
+          equalTo: this.user.uid+true
         }
       });
 
@@ -140,6 +140,10 @@ export class QuestionArchivePage {
         });
       });
     }
+  }
+
+  sendQuestionDelete(id) {
+    this.questions.remove(id);
   }
 
   onQuestionClick(question) {

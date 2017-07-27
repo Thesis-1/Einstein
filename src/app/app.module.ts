@@ -22,7 +22,6 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/userprofile/userprofile';
-import { QuestionPage } from '../pages/question/question';
 import { AboutPage } from '../pages/about/about';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AskQuestionPage } from '../pages/home/ask-question/ask-question';
@@ -59,7 +58,6 @@ const cloudSettings: CloudSettings = {
     TabsPage,
     LoginPage,
     SignupPage,
-    QuestionPage,
     AboutPage,
     UserProfilePage,
     ForgotPasswordPage,
@@ -99,7 +97,6 @@ const cloudSettings: CloudSettings = {
     TabsPage,
     SignupPage,
     LoginPage,
-    QuestionPage,
     AboutPage,
     UserProfilePage,
     ForgotPasswordPage,

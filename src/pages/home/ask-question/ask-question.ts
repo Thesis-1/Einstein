@@ -24,7 +24,9 @@ export class AskQuestionPage  {
         'Topography',
         'Statistics'
     ]
-    questionBody = ''
+    hideAddMoreDetails: boolean = true
+    questionBody: string = ''
+    questionDetails: string = ''
     tags = []
     user_name = ''
     user_id= ''
@@ -32,6 +34,11 @@ export class AskQuestionPage  {
     
     onClickDismiss () {
         this.hideTip = true
+    }
+
+    onClickAddDetails () {
+        this.hideAddMoreDetails = false
+        console.log(this.hideAddMoreDetails)
     }
 
     onClickPreview () {
@@ -54,12 +61,14 @@ export class AskQuestionPage  {
             topic: this.selectedTopic,
             tags: this.tags,
             questionBody: this.questionBody,
+            questionDetails: this.questionDetails,
             isClosed: false,
             closedOn: '',
             createdOn: Date.now(),
             userName: user.displayName,
             userPhotoURL: user.photoURL,
-            userId: user.uid
+            userId: user.uid,
+            userClosed: user.uid+false
         }
         if (this.preview === false) { // save in db
             this.service.postQuestion(question)
