@@ -70,8 +70,9 @@ export class SignupPage {
               this.usersList.push( {
                 displayName: this.details.name,
                 user_id: user.uid,
+                hasSeenAskInstructions: false,
                 photoURL: '../../assets/img/einstein-main.jpeg',
-                bio: 'I like to add with my fingers',
+                bio: 'I am a master of the abacus.',
                 learningSubjects: {
                   'Algebra': false,
                   'Calculus': false,
