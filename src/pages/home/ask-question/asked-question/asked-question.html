@@ -3,16 +3,34 @@
            <button ion-button clear (click)="onClickClose()">
                Close
             </button>   
-        <ion-title>{{ pageData.questionBody }}</ion-title>
+        <ion-title>{{ questionData.questionBody }}</ion-title>
     </ion-navbar> 
 </ion-header>
-<ion-content>
-    <ion-card>
-        <!-- <ion-card-header>
-            {{ pageData.questionBody }}
-        </ion-card-header> -->
-        <ion-card-content>
-            {{ pageData.questionBody }}
-        </ion-card-content>
-    </ion-card>
+<ion-content padding>
+     <ion-item no-lines> 
+            <ion-avatar item-start> 
+                <img src="{{ questionData.userPhotoURL }}">
+            </ion-avatar>
+            <h2>{{ questionData.userName + " asked"|| 'Anonymous' }}</h2>
+            <p>{{ "On " + (questionData.createdOn | date:'medium') }}</p>
+         </ion-item> 
+
+         <ion-grid>
+            <ion-row>
+                <ion-col col-12>
+                    <h3>{{ questionData.questionBody }}</h3>
+                </ion-col>
+                <ion-chip class="question-tag" *ngFor="let tag of questionData.tags">
+                    <ion-label color="secondary">{{ tag }}</ion-label>
+                </ion-chip>
+            </ion-row>
+            <ion-row>
+                <ion-col col-12>
+                    <p class="add-more-details">{{ questionData.questionDetails }}</p>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <button ion-button outline class="asked-question-edit-button"><ion-icon ios="ios-create-outline"></ion-icon>Edit</button>
+            </ion-row>
+        </ion-grid>
 </ion-content>
