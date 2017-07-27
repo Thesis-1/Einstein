@@ -19,7 +19,7 @@ export class StreamData {
         private afAuth: AngularFireAuth, 
         private http: Http) 
         { 
-            
+            //
         }
 
     load(): any {
