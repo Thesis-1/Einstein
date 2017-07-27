@@ -7,7 +7,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuth } from 'angularfire2/auth';
 
 //Stream data for answers
-import { AnswerStreamData } from '../../providers/answers-stream';
+import { StreamData } from '../../providers/questions-stream'
 
 @Component({
   selector: 'page-answer',
@@ -48,7 +48,7 @@ export class AnswerPage {
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
-    public answerStreamData: AnswerStreamData
+    public service: StreamData
   ) {
 
   }
@@ -97,7 +97,7 @@ export class AnswerPage {
         answer: this.answer.answer,
         created_at: Date.now(),
         user: user.displayName,
-        image: 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png',
+        image: user.photoURL,
         question_id: this.question.key,
         isBest: false,
         likes: 0,

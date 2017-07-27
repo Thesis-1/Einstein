@@ -22,7 +22,7 @@
         <ion-item>
             <ion-label>
               <ion-item style='color:red' *ngIf="count[question.$key]>0"><ion-icon name="ios-alert-outline" item-left></ion-icon>{{ count[question.$key] }} New Answers</ion-item>
-              <ion-item [ngStyle]="{color: getColor(question)}" *ngIf="question.closed;else open">Closed! : {{ question.date_closed | date:'medium' }}<ion-icon name="beer" item-right></ion-icon></ion-item>
+              <ion-item [ngStyle]="{color: getColor(question)}" *ngIf="question.isClosed;else open">Closed! : {{ question.closedOn | date:'medium' }}<ion-icon name="beer" item-right></ion-icon></ion-item>
               <ng-template #open>Open</ng-template>
             </ion-label>
         </ion-item>
@@ -31,14 +31,18 @@
             <img [src]="photoUrl || 'http://i.onionstatic.com/avclub/5495/73/16x9/960.jpg'">
           </ion-avatar>
           <h2>{{ displayName }}</h2>
-          <h3>Category: {{ question.category }}</h3>       
+          <h3>Topic: {{question.subject}}: {{ question.topic }}</h3>       
         </ion-item>
         <ion-item>
-          {{ question.open_date | date:'medium' }}
+          {{ question.createdOn | date:'medium' }}
         </ion-item>
         <ion-card-content>
-          {{ question.question }}
+          {{ question.questionBody }}
         </ion-card-content>
+        <ion-item>
+          <button ion-button color="danger" (click)="streamData.closeOrOpenQuestion(question)" item-right round>Close Question</button>
+          <button ion-button color="danger" (click)="sendQuestionDelete(question.$key)" item-right round>Delete</button>
+        </ion-item>
       </ion-card>
   </div>
 </ion-content>

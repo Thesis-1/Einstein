@@ -67,7 +67,8 @@ export class AskQuestionPage  {
             createdOn: Date.now(),
             userName: user.displayName,
             userPhotoURL: user.photoURL,
-            userId: user.uid
+            userId: user.uid,
+            userClosed: user.uid+false
         }
         if (this.preview === false) { // save in db
             this.service.postQuestion(question)
