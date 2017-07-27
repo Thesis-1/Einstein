@@ -53,7 +53,7 @@ export class StreamData {
                 if(item.questionBody) {
                     return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
                 } else {
-                    return item.question.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
+                    return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
                 }
             });     
         });
