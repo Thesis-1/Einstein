@@ -17,13 +17,13 @@
       <ion-avatar item-start>
         <img src="{{question.image}}">
       </ion-avatar>
-      <h2>{{question.user || 'Anonymous'}}</h2>
-      <p>{{question.open_date | date:'medium'}}</p>
+      <h2>{{question.userName || 'Anonymous'}}</h2>
+      <p>{{question.createdOn | date:'medium'}}</p>
     </ion-item>
 
     <ion-card-content>
       <!-- Add card content here! -->
-      {{question.question}}
+      {{question.questionBody}}
     </ion-card-content>
 
   </ion-card>
