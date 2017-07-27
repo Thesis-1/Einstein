@@ -10,11 +10,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class ForgotPasswordPage {
   emailAddress = '';
-  resetInProgress = false;
-  pwResetCode = 0;
-  password = '';
-  passwordTwo = '';
-
 
   constructor(
     public navCtrl: NavController,

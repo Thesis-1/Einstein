@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { User, Auth } from '@ionic/cloud-angular';
 import { ToastController } from 'ionic-angular';
 
 //Firebase backend
@@ -31,8 +30,6 @@ export class AboutPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public user: User,
-    public auth: Auth,
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController
@@ -52,9 +49,11 @@ export class AboutPage {
 
   //Send feedback data to Firebase
   sendFeedback(desc: string) {
+
     if (desc) {
       this.items.push({ message: desc});
       this.msgVal = '';
     }
+
   }
 }

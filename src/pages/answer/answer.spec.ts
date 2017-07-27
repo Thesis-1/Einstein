@@ -24,10 +24,11 @@ class AnswerStreamDataMock {
 // Moving FireBase Auth stuff in component to the provider(recomended) should make the tests pass -or- create mocks for firebase services here to make the tests pass
 
 class AngularFireAuthMock {
-    list () {
-        return;
+    auth = {
+      currentUser: () => { return 'Albert Einstein'; }
     }
 }
+
 class AngularFireDatabaseMock {
 
 }
@@ -68,10 +69,67 @@ describe('AnswerPage', () => {
 
     it('should create component', () => {
         expect(comp).toBeDefined()
-    })
+    });
+
     it('should have updateAnswerStream defined', () => {
         expect(comp.updateAnswerStream).toBeDefined()
-    })
+    });
+
+    it('should have a mock question object', () => {
+        expect(comp.question).toBeDefined();
+
+        let cnt = 0;
+        for (let k in comp.question) {
+          cnt++;
+        }
+
+        expect(cnt).toEqual(10);
+    });
+
+    it('should have a mock answer object', () => {
+        expect(comp.answer).toBeDefined();
+
+        let cnt = 0;
+        for (let k in comp.answer) {
+          cnt++;
+        }
+
+        expect(cnt).toEqual(8);
+    });
+
+    it('onSubmitAnswer should be defined', () => {
+        expect(comp.onSubmitAnswer).toBeDefined()
+    });
+
+    it('onSubmitAnswer should be a function', () => {
+        expect(comp.onSubmitAnswer).toEqual(jasmine.any(Function))
+    });
+
+    it(`onSubmitAnswer should set the answer model .answer property
+    to an empty string`, () => {
+        let answerMock = {
+          answer: { answer: '32 quadzillion' },
+          question: { key: 'a13rtgD'},
+          answers: ['just a mock'],
+          afAuth: {
+            auth: {
+              currentUser: () => {
+                return 'Albert Einstein';
+              }
+            }
+          }
+        };
+
+        comp.onSubmitAnswer.call(answerMock);
+        expect(answerMock.answer.answer).toEqual('');
+    });
+
+    it('onLikeClick should be defined', () => {
+        expect(comp.onLikeClick).toBeDefined()
+    });
+
+    it('onLikeClick should be a function', () => {
+        expect(comp.onLikeClick).toEqual(jasmine.any(Function))
+    });
 
 })
-
