@@ -72,8 +72,24 @@ export class SignupPage {
                 user_id: user.uid,
                 photoURL: '../../assets/img/einstein-main.jpeg',
                 bio: 'I like to add with my fingers',
-                learningSubjects: '',
-                teachingSubjects: '',
+                learningSubjects: {
+                  'Algebra': false,
+                  'Calculus': false,
+                  'Geometry': false,
+                  'Trigonometry': false,
+                  'Combinatorics': false,
+                  'Topography': false,
+                  'Statistics': false
+                },
+                teachingSubjects: {
+                  'Algebra': false,
+                  'Calculus': false,
+                  'Geometry': false,
+                  'Trigonometry': false,
+                  'Combinatorics': false,
+                  'Topography': false,
+                  'Statistics': false
+                },
                 language: 'English',
                 country: 'United States'
               });
