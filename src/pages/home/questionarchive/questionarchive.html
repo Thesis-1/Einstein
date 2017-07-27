@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Question Archive | {{ currentCategory }}</ion-title>
+    <ion-title>Question Archive</ion-title>
   </ion-navbar>
 <div padding>
   <ion-segment [(ngModel)]="messageType">
@@ -18,18 +18,19 @@
 </ion-header>
 <ion-content delegate-handle="mainScroll">
   <div [ngSwitch]="messageType">
-    <ion-card *ngFor="let question of questions | async">
-        <ion-item [ngStyle]="{color: getColor(question)}">
+    <ion-card *ngFor="let question of questions | async" (click) = "onQuestionClick(question)">
+        <ion-item>
             <ion-label>
-              <div *ngIf="question.closed;else open"><ion-icon name="beer"></ion-icon>Closed! : {{ question.date_closed | date:'medium' }}</div>
+              <ion-item style='color:red' *ngIf="count[question.$key]>0"><ion-icon name="ios-alert-outline" item-left></ion-icon>{{ count[question.$key] }} New Answers</ion-item>
+              <ion-item [ngStyle]="{color: getColor(question)}" *ngIf="question.closed;else open">Closed! : {{ question.date_closed | date:'medium' }}<ion-icon name="beer" item-right></ion-icon></ion-item>
               <ng-template #open>Open</ng-template>
             </ion-label>
         </ion-item>
         <ion-item>
           <ion-avatar item-start>
-            <img [src]="question.image">
+            <img [src]="photoUrl || 'http://i.onionstatic.com/avclub/5495/73/16x9/960.jpg'">
           </ion-avatar>
-          <h2>{{ user.details.name }}</h2>
+          <h2>{{ displayName }}</h2>
           <h3>Category: {{ question.category }}</h3>       
         </ion-item>
         <ion-item>
@@ -38,18 +39,6 @@
         <ion-card-content>
           {{ question.question }}
         </ion-card-content>
-        <ion-row>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="thumbs-up"></ion-icon>
-              <div> {{ question.likes }} </div>
-            </button>
-            <button ion-button icon-left clear small>
-              <ion-icon name="thumbs-down"></ion-icon>
-              <div> {{ question.dislikes }} </div>
-            </button>
-          </ion-col>
-        </ion-row>
       </ion-card>
   </div>
 </ion-content>
