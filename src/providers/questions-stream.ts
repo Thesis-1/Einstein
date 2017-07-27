@@ -11,12 +11,17 @@ import 'rxjs/add/observable/of';
 @Injectable() 
 export class StreamData {
     data: FirebaseListObservable<any[]>
-    constructor(public afDB: AngularFireDatabase, private afAuth: AngularFireAuth, private http: Http) { }
-    
-    dbRef = this.afDB.list('/userQuestions')
     views: any;
     user: any;
     
+    constructor(
+        public afDB: AngularFireDatabase, 
+        private afAuth: AngularFireAuth, 
+        private http: Http) 
+        { 
+            
+        }
+
     load(): any {
         // if (this.data) {
         //     console.log('i got fired')
