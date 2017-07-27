@@ -31,6 +31,8 @@ import { DraftsPage } from '../pages/home/drafts/drafts';
 import { QuestionArchivePage } from '../pages/home/questionarchive/questionarchive';
 import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { AnswerPage } from '../pages/answer/answer';
+import { LearningSubjectsPage } from '../pages/learning-subjects/learning-subjects';
+import { TeachingSubjectsPage } from '../pages/teaching-subjects/teaching-subjects';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD-p5kimWSiFWZorVKEUNfuscpbC_bW4oc",
@@ -64,8 +66,9 @@ const cloudSettings: CloudSettings = {
     PreviewQuestionPage,
     AskedQuestionPage,
     DraftsPage,
-    QuestionArchivePage
-
+    QuestionArchivePage,
+    LearningSubjectsPage,
+    TeachingSubjectsPage
   ],
   imports: [
     IonTagsInputModule,
@@ -103,7 +106,9 @@ const cloudSettings: CloudSettings = {
     PreviewQuestionPage,
     AskedQuestionPage,
     DraftsPage,
-    QuestionArchivePage
+    QuestionArchivePage,
+    LearningSubjectsPage,
+    TeachingSubjectsPage
   ],
   providers: [
     StreamData,

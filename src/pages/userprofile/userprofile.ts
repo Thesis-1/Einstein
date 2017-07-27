@@ -5,6 +5,8 @@ import { AlertController, NavController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
+import { LearningSubjectsPage } from '../learning-subjects/learning-subjects';
+import { TeachingSubjectsPage } from '../teaching-subjects/teaching-subjects';
 
 @Component({
   selector: 'page-userprofile',
@@ -12,8 +14,10 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 })
 export class UserProfilePage {
 
-  country = 'Country';
-  language = 'Language';
+  gravatar = 'http://www.gravatar.com/avatar?d=mm&s=140';
+  // bio = 'Bio';
+  // country = 'Country';
+  // language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
   constructor(
     public afAuth: AngularFireAuth,
@@ -35,11 +39,16 @@ export class UserProfilePage {
     Use this in HTML to access the propertiels like this:
     let u of loggedInUser {
       u.bio = " "
-      u.country; 
+      u.country;
       etc
     }
     */
-
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeBio = this.onChangeBio.bind(this);
+    this.onChangeCountry = this.onChangeCountry.bind(this);
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
+    this.onChangeLearning = this.onChangeLearning.bind(this);
+    this.onChangeTeaching = this.onChangeTeaching.bind(this);
   }
 
   ionViewDidLoad() {
@@ -63,69 +72,72 @@ export class UserProfilePage {
     console.log('Clicked to update picture');
   }
 
+  onChangeName(u) {
+    console.log('u in onChangeName', u);
+    this.showPromptAlert('Name', (info) => {
+      console.log('u in onChangeName before updating in firebase', u);
 
-  onChangeName () {
-
+      this.loggedInUser.update(u.$key, { displayName: info });
+    });
   }
 
-  // onChangeName() {
-  //   // console.log('in onChangeName');
-  //
-  //   this.showPromptAlert('Name', (info) => {
-  //
-  //   });
-  //
-  // }
-  //
-  //
-  // // Prompt Alert Function:
-  // // will be called by some wrapper method to supply the
-  // // right data for inputs and string interpolation
-  //
-  // showPromptAlert(field, cb) {
-  //
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Update ' + field,
-  //     inputs: [
-  //       {
-  //         name: field,
-  //         placeholder: field
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         handler: data => {
-  //           console.log('Cancel clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'Save',
-  //         handler: data => {
-  //           console.log('Saved clicked');
-  //           console.log('data[field] on line 200', data[field]);
-  //
-  //           console.log('type of data[field]', typeof data[field]);
-  //           console.log('this.user in callback', this.user);
-  //           cb(data[field]);
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
-  //
-  //
+  // Prompt Alert Function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
 
-  onChangeCountry() {
+  showPromptAlert(field, cb) {
 
+    let alert = this.alertCtrl.create({
+      title: 'Update ' + field,
+      inputs: [
+        {
+          name: field,
+          placeholder: field
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            console.log('data[field] on line 200', data[field]);
+            cb(data[field]);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  onChangeBio(u) {
+    this.showPromptAlert('Bio', (info) => {
+      this.loggedInUser.update(u.$key, { bio: info });
+    });
+  }
+
+  onChangeCountry(u) {
+    let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
+
+    this.showRadioAlert('Country', countries, (info) => {
+      this.loggedInUser.update(u.$key, { country: info });
+    });
+    // this.showPromptAlert('Country', (info) => {
+    //   console.log('u in onChangeCountry before updating in firebase', u);
+    //   this.loggedInUser.update(u.$key, { country: info });
+    // });
   }
 
 
   // onChangeCountry() {
   //   // console.log('first line of onChangeCountry');
   //
-  //   var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
+  //   let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
   //
   //   this.showRadioAlert('Country', countries, (info) => {
   //     this.country = info;
@@ -138,12 +150,15 @@ export class UserProfilePage {
   // }
   //
 
-  onChangeLanguage() {
-
+  onChangeLanguage(u) {
+    let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
+    this.showRadioAlert('Language', languages, (info) => {
+      this.loggedInUser.update(u.$key, { language: info });
+    });
   }
 
   // onChangeLanguage() {
-  //   var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
+  //   let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
   //
   //   this.showRadioAlert('Language', languages, (info) => {
   //     this.language = info;
@@ -154,38 +169,57 @@ export class UserProfilePage {
   // }
   //
 
-  onChangeSubjects() {
+  onChangeLearning(u) {
+
+    console.log('u in onChangeLearning', u);
+
+    // rewrite to push a new learning subjects page instead of using
+    // a prompt alert
+    this.navCtrl.push(LearningSubjectsPage, { u });
+
+    // this.showPromptAlert('Learning Subjects', (info) => {
+    //   this.loggedInUser.update(u.$key, { learningSubjects: info });
+    // });
 
   }
 
-  // onChangeSubjects() {
-  //
-  // }
-  //
-  // // radio alert function:
-  //
-  // showRadioAlert(field, choices, cb) {
-  //
-  //     let alert = this.alertCtrl.create();
-  //     alert.setTitle('Country');
-  //
-  //     choices.forEach((choice) => {
-  //       alert.addInput({
-  //         type: 'radio',
-  //         label: choice,
-  //         value: choice
-  //       });
-  //     });
-  //
-  //     alert.addButton('Cancel');
-  //     alert.addButton({
-  //       text: 'OK',
-  //       handler: data => {
-  //         console.log('data', data);
-  //         cb(data);
-  //       }
-  //     });
-  //     alert.present();
-  // }
+  onChangeTeaching(u) {
+
+    this.navCtrl.push(TeachingSubjectsPage, { u });
+
+    // this.showPromptAlert('Teaching Subjects', (info) => {
+    //   this.loggedInUser.update(u.$key, { teachingSubjects: info });
+    // });
+
+    // rewrite to push a new teaching subjects page instead of using
+    // a prompt alert
+    // this.navCtrl.push(TeachingSubjectsPage);
+  }
+
+  // Radio Alert Function:
+
+  showRadioAlert(field, choices, cb) {
+
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Country');
+
+      choices.forEach((choice) => {
+        alert.addInput({
+          type: 'radio',
+          label: choice,
+          value: choice
+        });
+      });
+
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          console.log('data', data);
+          cb(data);
+        }
+      });
+      alert.present();
+  }
 
 }
