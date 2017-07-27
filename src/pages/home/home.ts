@@ -40,7 +40,6 @@ export class HomePage {
     this.streamData.load()
       .subscribe ((data: any) => {
         this.questions = data;
-        // console.log(this.questions)
     });
 
   }
