@@ -6,7 +6,7 @@ import { ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
-import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
 
 
 
@@ -104,7 +104,7 @@ export class SignupPage {
                 toast.present();
 
                 //Redirect to home Page
-                this.nav.setRoot(HomePage);
+                this.nav.setRoot(TabsPage);
               }, (err)=> {
                 let toast = this.toastCtrl.create({
                   message: 'Error sending Account Verification Email.',

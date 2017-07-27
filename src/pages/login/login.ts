@@ -8,7 +8,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { SignupPage } from '../signup/signup';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password';
-import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -44,7 +45,7 @@ export class LoginPage {
       this.afAuth.auth.signInWithEmailAndPassword(this.details.email, this.details.password)
       .then( ()=> {
         //redirect user to correct page
-        this.nav.setRoot(HomePage);
+        this.nav.setRoot(TabsPage);
       })
       .catch( (err)=> {
         //Display error message

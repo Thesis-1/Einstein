@@ -29,7 +29,7 @@ export class HomePage {
     public storage: Storage,
     public modalCtrl: ModalController
   ) {
-
+    this.updateQuestionStream();
   }
   ionViewDidLoad() {
     this.app.setTitle('Questions');
@@ -67,6 +67,7 @@ export class HomePage {
     let storeObj = question;
     storeObj.key = question.$key;
     this.storage.set('answerPageCurrQuestion', storeObj);
+    this.streamData.updateViewedAnswers(question);
     this.navCtrl.push(AnswerPage);
   }
 
