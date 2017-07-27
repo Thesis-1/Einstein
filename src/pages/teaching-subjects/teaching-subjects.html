@@ -1,7 +1,6 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Learning Subjects</ion-title>
+    <ion-title>Teaching Subjects</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -9,7 +8,7 @@
   <ion-list >
     <ion-item *ngFor="let subject of subjects" >
       <ion-label>{{ subject }}</ion-label>
-      <ion-radio value="subject" [checked]="u.learningSubjects[subject]" (click)="toggleSubjects(subject)" ></ion-radio>
+      <ion-radio value="subject" [checked]="u.teachingSubjects[subject]" (click)="toggleSubjects(subject)" ></ion-radio>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -6,6 +6,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import { LearningSubjectsPage } from '../learning-subjects/learning-subjects';
+import { TeachingSubjectsPage } from '../teaching-subjects/teaching-subjects';
 
 @Component({
   selector: 'page-userprofile',
@@ -169,9 +170,6 @@ export class UserProfilePage {
   //
 
   onChangeLearning(u) {
-    // this.showPromptAlert('Learning Subjects', (info) => {
-    //   this.loggedInUser.update(u.$key, { learningSubjects: info });
-    // });
 
     console.log('u in onChangeLearning', u);
 
@@ -179,15 +177,19 @@ export class UserProfilePage {
     // a prompt alert
     this.navCtrl.push(LearningSubjectsPage, { u });
 
-    // LearningSubjectsPage should populate with user's learningSubjects
-    // in firebase, and add or remove from that property as the user
-    // clicks around
+    // this.showPromptAlert('Learning Subjects', (info) => {
+    //   this.loggedInUser.update(u.$key, { learningSubjects: info });
+    // });
+
   }
 
   onChangeTeaching(u) {
-    this.showPromptAlert('Teaching Subjects', (info) => {
-      this.loggedInUser.update(u.$key, { teachingSubjects: info });
-    });
+
+    this.navCtrl.push(TeachingSubjectsPage, { u });
+
+    // this.showPromptAlert('Teaching Subjects', (info) => {
+    //   this.loggedInUser.update(u.$key, { teachingSubjects: info });
+    // });
 
     // rewrite to push a new teaching subjects page instead of using
     // a prompt alert
