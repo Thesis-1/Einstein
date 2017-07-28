@@ -8,6 +8,9 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { LearningSubjectsPage } from '../learning-subjects/learning-subjects';
 import { TeachingSubjectsPage } from '../teaching-subjects/teaching-subjects';
 
+//Utility helpers contains useful helpers for common tasks to keep code DRY
+import { UtilityHelpers } from '../../providers/utility-helpers';
+
 @Component({
   selector: 'page-userprofile',
   templateUrl: 'userprofile.html',
@@ -34,7 +37,8 @@ export class UserProfilePage {
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public utils: UtilityHelpers
   ) {
     /* user object will look like this:
     bio: "I like to add with my fingers"
@@ -101,9 +105,14 @@ export class UserProfilePage {
 
   onChangeName(u) {
     console.log('u in onChangeName', u);
-    this.showPromptAlert('Name', (info) => {
-      console.log('u in onChangeName before updating in firebase', u);
+    // this.showPromptAlert('Name', (info) => {
+    //   console.log('u in onChangeName before updating in firebase', u);
+    //
+    //   this.loggedInUser.update(u.$key, { displayName: info });
+    // });
 
+    this.utils.showPromptAlert('Name', (info) => {
+      console.log('u in onChangeName before updating in firebase', u);
       this.loggedInUser.update(u.$key, { displayName: info });
     });
   }
@@ -112,38 +121,41 @@ export class UserProfilePage {
   // will be called by some wrapper method to supply the
   // right data for inputs and string interpolation
 
-  showPromptAlert(field, cb) {
-
-    let alert = this.alertCtrl.create({
-      title: 'Update ' + field,
-      inputs: [
-        {
-          name: field,
-          placeholder: field
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            console.log('Saved clicked');
-            console.log('data[field] on line 200', data[field]);
-            cb(data[field]);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
+  // showPromptAlert(field, cb) {
+  //
+  //   let alert = this.alertCtrl.create({
+  //     title: 'Update ' + field,
+  //     inputs: [
+  //       {
+  //         name: field,
+  //         placeholder: field
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Cancel',
+  //         handler: data => {
+  //           console.log('Cancel clicked');
+  //         }
+  //       },
+  //       {
+  //         text: 'Save',
+  //         handler: data => {
+  //           console.log('Saved clicked');
+  //           console.log('data[field] on line 200', data[field]);
+  //           cb(data[field]);
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   alert.present();
+  // }
 
   onChangeBio(u) {
-    this.showPromptAlert('Bio', (info) => {
+    // this.showPromptAlert('Bio', (info) => {
+    //   this.loggedInUser.update(u.$key, { bio: info });
+    // });
+    this.utils.showPromptAlert('Bio', (info) => {
       this.loggedInUser.update(u.$key, { bio: info });
     });
   }

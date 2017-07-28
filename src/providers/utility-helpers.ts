@@ -3,14 +3,15 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-import { Platform, ToastController } from 'ionic-angular';
+import { Platform, ToastController, AlertController } from 'ionic-angular';
 
 
 @Injectable()
 export class UtilityHelpers {
     constructor(
       public http: Http,
-      public toastCtrl: ToastController
+      public toastCtrl: ToastController,
+      public alertCtrl: AlertController
     ) {
 
 
@@ -102,7 +103,35 @@ export class UtilityHelpers {
 
       return time;
 
-
     }
 
+    showPromptAlert(field, cb) {
+
+      let alert = this.alertCtrl.create({
+        title: 'Update ' + field,
+        inputs: [
+          {
+            name: field,
+            placeholder: field
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: data => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Save',
+            handler: data => {
+              console.log('Saved clicked');
+              console.log('data[field] on line 200', data[field]);
+              cb(data[field]);
+            }
+          }
+        ]
+      });
+      alert.present();
+    }
 }
