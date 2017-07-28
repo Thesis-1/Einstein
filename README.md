@@ -68,7 +68,7 @@ TODO
 * **Doug Lyford** - *SCRUM Master* -
 * **Himanshu Pant** - *Product Owner* -
 * **Justine Wang** - *Software Engineer* -
-* **Doug Lyford** - *Software Engineer* -
+* **Peter Maxcy** - *Software Engineer* -
 
 ## License
 
