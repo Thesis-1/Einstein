@@ -125,17 +125,5 @@ export class AnswerPage {
 
   }
 
-  getAnswersCount() {
-    let cnt = 0;
-
-    let cntUp = function() {
-      this.cnt++;
-      return true;
-    }.bind(this);
-
-    this.answers.count( cntUp );
-
-    return cnt;
-  }
 
 }
