@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Nav } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { NgForm, EmailValidator } from '@angular/forms';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -29,8 +29,6 @@ export class SignupPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
-    public nav: Nav,
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public utils: UtilityHelpers
@@ -100,7 +98,7 @@ export class SignupPage {
               user.sendEmailVerification().then( ()=> {
                 this.utils.popToast('Account verification email sent.  Check your inbox!');
                 //Redirect to home Page
-                this.nav.setRoot(TabsPage);
+                this.navCtrl.setRoot(TabsPage, {}, {animate: true, direction: 'forward'});
               }, (err)=> {
                 this.utils.popToast('Error sending Account Verification Email.');
               });
