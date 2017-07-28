@@ -37,16 +37,15 @@
 
       <!-- Timestamp section -->
       <ion-row>
-    <ion-col>
-      <!-- can add future content here -->
-    </ion-col>
-    <ion-col>
-      <!-- can add future content here -->
-    </ion-col>
-    <ion-col center text-center>
-      {{utils.humanReadableTime(question.createdOn)}}
-    </ion-col>
-  </ion-row>
+
+        <ion-col>
+          <!-- can add future content here -->
+          <!-- <ion-badge item-end>{{5}} Answers</ion-badge> -->
+        </ion-col>
+        <ion-col text-right>
+          <p>{{utils.humanReadableTime(question.createdOn)}}</p>
+        </ion-col>
+      </ion-row>
 
     </ion-card-content>
 
@@ -70,30 +69,26 @@
     <!-- Bottom row - for like button, post time, etc. -->
     <ion-row>
       <ion-col>
-        <button ion-button icon-left clear small (click)="onLikeClick(a)">
+        <button ion-button icon-left small (click)="onLikeClick(a)">
           <ion-icon name="thumbs-up"></ion-icon>
           <div>{{a.likes}} Likes</div>
         </button>
       </ion-col>
 
-      <!-- Future button can be added here e.g. "Report" for troll answer etc -->
-      <ion-col>
-      </ion-col>
-
       <!-- Human readable time stamp -->
-      <ion-col>
-        {{utils.humanReadableTime(a.created_at)}}
+      <ion-col text-right>
+        <p>{{utils.humanReadableTime(a.created_at)}}</p>
       </ion-col>
     </ion-row>
   </ion-card>
-
 
 </ion-content>
 
 <ion-footer>
   <form (ngSubmit)="onSubmitAnswer()">
     <ion-item>
-      <ion-textarea rows="4" name="answer"[(ngModel)]="answer.answer" type="text" placeholder="Post your answer">
+      <ion-textarea rows="4" name="answer"[(ngModel)]="answer.answer" type="text"
+      (keydown.enter)="onSubmitAnswer()" placeholder="Post your answer">
       </ion-textarea>
     </ion-item>
   </form>

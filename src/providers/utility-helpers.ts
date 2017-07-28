@@ -90,7 +90,6 @@ export class UtilityHelpers {
       }
 
       if (msDifference > MS_IN_MINUTE) {
-        console.log('reached msDifference');
         let minutes = Math.floor(msDifference / MS_IN_MINUTE);
         msDifference = msDifference - (minutes * MS_IN_MINUTE);
 
