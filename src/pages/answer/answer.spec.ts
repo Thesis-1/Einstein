@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { DebugElement } from '@angular/core'
-import { HttpModule } from '@angular/http';
+import { Http } from '@angular/http'
 import { IonicModule, Platform} from 'ionic-angular/index'
 import { Storage } from '@ionic/storage'
 import { PlatformMock, StorageMock, UserMock, AuthMock, HttpMock } from '../../../test-config/mocks-ionic'
@@ -13,8 +13,6 @@ import { App, ToastController } from 'ionic-angular';
 
 import { AnswerPage } from './answer';
 import { UtilityHelpers } from '../../providers/utility-helpers';
-import { AnswerStreamData } from '../../providers/answers-stream';
-import { StreamData } from '../../providers/questions-stream';
 
 
 class UtilityHelpersMock {
@@ -48,7 +46,6 @@ describe('AnswerPage', () => {
         TestBed.configureTestingModule({
             declarations: [AnswerPage],
             imports: [
-                HttpModule,
                 IonicModule.forRoot(AnswerPage)
             ],
             providers: [
@@ -57,10 +54,10 @@ describe('AnswerPage', () => {
                 { provide: AngularFireAuth, useClass: AngularFireAuthMock },
                 { provide: UtilityHelpers, useClass: UtilityHelpersMock },
                 { provide: Storage, useClass: StorageMock },
+                { provide: Http, useClass: HttpMock },
                 { provide: User, useClass: UserMock },
                 { provide: Auth, useClass: AuthMock },
-                { provide: Platform, useClass: PlatformMock},
-                StreamData
+                { provide: Platform, useClass: PlatformMock}
             ]
         })
     }))
