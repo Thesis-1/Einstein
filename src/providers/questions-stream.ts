@@ -21,20 +21,15 @@ export class StreamData {
         }
 
     load(): any {
-        // if (this.data) {
-        //     console.log('i got fired')
-        //     return this.data;
-        // } else {
-            this.data = this.afDB.list('/userQuestions');
-            return this.data
-        // }
+
+        this.data = this.afDB.list('/userQuestions');
+        return this.data;
     }
 
     getUser(): any {
         return this.afAuth.auth.currentUser
     }
-
-
+   
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')
         return this.data.push(question)
@@ -72,27 +67,37 @@ export class StreamData {
         return this.afDB.list('/answerViews');
     }
 
+    //Check if the answers are viewed by the user and if not mark as viewed
     updateViewedAnswers(question) {
         //TODO Refactor
-        //Check if the answers are viewed by the user and if not mark as viewed
         this.views = this.fetchViewed();
         this.user = this.afAuth.auth.currentUser;
 
-        console.log('inside UpdatedViewedAnswers')
+        //If the user is logged in.
         if(this.user !== null) {
+
+            //if this is the users question
             if(question.userId === this.user.uid) {
+
+                //Grab all the answers for that question
                 this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
                 let objAnswers = answers.json();
+
+                //iterate through each question
                 Object.keys(objAnswers).forEach( (answer) => {
+
                     this.http.get('https://einstein-981c4.firebaseio.com/answerViews.json?orderBy="user_answer_id"&equalTo="' + this.user.uid + answer + '"').subscribe( (view) => {
+
+                    //check to see if the answer has been viewed already
                     if(Object.keys(view.json()).length === 0) {
-                        console.log('Message Viewed!')
+                        
+                        //if not, push a entry to the table labeling it as viewed.
                         this.views.push({ user_answer_id: this.user.uid + answer, value: true });
                     }
                     });
                 });
                 }, (err) => {
-                console.log("Error: ", err);
+                    console.log("Error: ", err);
                 });
             }
         }

@@ -48,9 +48,11 @@ export class QuestionArchivePage {
     this.user = this.afAuth.auth.currentUser;
 
     if ( this.user != null ) {
-      //TODO Refactor
+      
       //Get logged in user from af database by matching user id
-      this.http.get('https://einstein-981c4.firebaseio.com/users.json?orderBy="user_id"&equalTo="' + this.user.uid + '"').subscribe( (user_info) => {
+      this.http.get('https://einstein-981c4.firebaseio.com/users.json?orderBy="user_id"&equalTo="' + this.user.uid + '"')
+      .subscribe( (user_info) => {
+
         let userObject = user_info.json();
         for(var key in userObject){
 
@@ -62,15 +64,18 @@ export class QuestionArchivePage {
           this.photoUrl = this.loggedInUser['photoUrl'];
         }
       });
+
       //fetch questions
       this.fetchQuestions('all');
-      //watches updates/viewed and updates count
+
+      //watches updates from the answers table and updates view count
       this.answers.$ref
       .limitToLast(1)
       .on("child_added", (child) => {
         this.getViewCount();
-      });      
+      });    
 
+      //watches updates from the view table and updates view count
       this.views.$ref
       .limitToLast(1)
       .on("child_added", (child) => {
@@ -119,23 +124,27 @@ export class QuestionArchivePage {
 
   getViewCount() {
     //TODO Refactor
+
     if(!this.viewCountRunning) {
       this.viewCountRunning = true;
+
       this.questions.forEach( ( questions ) => {
         questions.forEach( (question) => {
-          this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
+          this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"')
+          .subscribe( (answers) => {
+
             let objAnswers = answers.json();
             this.count[question.$key] = 0;
+
             Object.keys(objAnswers).forEach( (answer) => {
-              this.http.get('https://einstein-981c4.firebaseio.com/answerViews.json?orderBy="user_answer_id"&equalTo="' + this.user.uid + answer + '"').subscribe( (view) => {
+              this.http.get('https://einstein-981c4.firebaseio.com/answerViews.json?orderBy="user_answer_id"&equalTo="' + this.user.uid + answer + '"')
+              .subscribe( (view) => {
                 if(Object.keys(view.json()).length === 0) {
                   this.count[question.$key]++;
                 }
               });
             });
             this.viewCountRunning = false;
-          }, (err) => {
-            console.log("Error: ", err);
           });
         });
       });
