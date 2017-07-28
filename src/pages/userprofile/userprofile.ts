@@ -117,40 +117,6 @@ export class UserProfilePage {
     });
   }
 
-  // Prompt Alert Function:
-  // will be called by some wrapper method to supply the
-  // right data for inputs and string interpolation
-
-  // showPromptAlert(field, cb) {
-  //
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Update ' + field,
-  //     inputs: [
-  //       {
-  //         name: field,
-  //         placeholder: field
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         handler: data => {
-  //           console.log('Cancel clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'Save',
-  //         handler: data => {
-  //           console.log('Saved clicked');
-  //           console.log('data[field] on line 200', data[field]);
-  //           cb(data[field]);
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
-
   onChangeBio(u) {
     // this.showPromptAlert('Bio', (info) => {
     //   this.loggedInUser.update(u.$key, { bio: info });
@@ -190,44 +156,12 @@ export class UserProfilePage {
   }
 
   onChangeLearning(u) {
-
-    console.log('u in onChangeLearning', u);
-
-    // rewrite to push a new learning subjects page instead of using
-    // a prompt alert
     this.navCtrl.push(LearningSubjectsPage, { u });
   }
 
   onChangeTeaching(u) {
-
     this.navCtrl.push(TeachingSubjectsPage, { u });
-
   }
 
-  // Radio Alert Function:
-
-  // showRadioAlert(field, choices, cb) {
-  //
-  //     let alert = this.alertCtrl.create();
-  //     alert.setTitle('Country');
-  //
-  //     choices.forEach((choice) => {
-  //       alert.addInput({
-  //         type: 'radio',
-  //         label: choice,
-  //         value: choice
-  //       });
-  //     });
-  //
-  //     alert.addButton('Cancel');
-  //     alert.addButton({
-  //       text: 'OK',
-  //       handler: data => {
-  //         console.log('data', data);
-  //         cb(data);
-  //       }
-  //     });
-  //     alert.present();
-  // }
 
 }

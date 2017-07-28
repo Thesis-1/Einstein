@@ -105,6 +105,9 @@ export class UtilityHelpers {
 
     }
 
+    // Prompt Alert Function:
+    // will be called by some wrapper method to supply the
+    // right data for inputs and string interpolation
     showPromptAlert(field, cb) {
 
       let alert = this.alertCtrl.create({
@@ -135,6 +138,10 @@ export class UtilityHelpers {
       alert.present();
     }
 
+    // Radio Alert Function:
+    // Will be given the field for a user to change, the array of
+    // choices, and a callback to pass the data to firebase by a
+    // wrapper function.
     showRadioAlert(field, choices, cb) {
 
         let alert = this.alertCtrl.create();
