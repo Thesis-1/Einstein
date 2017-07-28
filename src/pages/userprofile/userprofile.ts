@@ -163,9 +163,13 @@ export class UserProfilePage {
   onChangeCountry(u) {
     let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
-    this.showRadioAlert('Country', countries, (info) => {
+    this.utils.showRadioAlert('Country', countries, (info) => {
       this.loggedInUser.update(u.$key, { country: info });
     });
+
+    // this.showRadioAlert('Country', countries, (info) => {
+    //   this.loggedInUser.update(u.$key, { country: info });
+    // });
     // this.showPromptAlert('Country', (info) => {
     //   console.log('u in onChangeCountry before updating in firebase', u);
     //   this.loggedInUser.update(u.$key, { country: info });
@@ -175,9 +179,14 @@ export class UserProfilePage {
 
   onChangeLanguage(u) {
     let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
-    this.showRadioAlert('Language', languages, (info) => {
+
+    this.utils.showRadioAlert('Language', languages, (info) => {
       this.loggedInUser.update(u.$key, { language: info });
     });
+
+    // this.showRadioAlert('Language', languages, (info) => {
+    //   this.loggedInUser.update(u.$key, { language: info });
+    // });
   }
 
   onChangeLearning(u) {
@@ -197,28 +206,28 @@ export class UserProfilePage {
 
   // Radio Alert Function:
 
-  showRadioAlert(field, choices, cb) {
-
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Country');
-
-      choices.forEach((choice) => {
-        alert.addInput({
-          type: 'radio',
-          label: choice,
-          value: choice
-        });
-      });
-
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'OK',
-        handler: data => {
-          console.log('data', data);
-          cb(data);
-        }
-      });
-      alert.present();
-  }
+  // showRadioAlert(field, choices, cb) {
+  //
+  //     let alert = this.alertCtrl.create();
+  //     alert.setTitle('Country');
+  //
+  //     choices.forEach((choice) => {
+  //       alert.addInput({
+  //         type: 'radio',
+  //         label: choice,
+  //         value: choice
+  //       });
+  //     });
+  //
+  //     alert.addButton('Cancel');
+  //     alert.addButton({
+  //       text: 'OK',
+  //       handler: data => {
+  //         console.log('data', data);
+  //         cb(data);
+  //       }
+  //     });
+  //     alert.present();
+  // }
 
 }
