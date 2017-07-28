@@ -1,10 +1,7 @@
 <ion-header>
     <ion-navbar>
-        <!-- <button (click)="onClickBack()">Back</button> -->
         <ion-title>Ask Question</ion-title>
-        <button ion-button clear (click)="onClickClose()">
-            Close
-        </button>
+        <button ion-button clear (click)="onClickClose()">Close</button>
     </ion-navbar>
 </ion-header>
 <ion-content>
@@ -44,12 +41,7 @@
             <ion-item id="ask-question-input">
                 <ion-textarea rows="4" [(ngModel)]="questionBody" placeholder="Write your question here.." name="questionInput"></ion-textarea>
             </ion-item>
-            <ion-item-divider class="question-dettail-divider"> 
-                <!-- Optional - Add more details Below  -->
-                <!-- <button ion-button outline (click)="onClickAddDetails()">
-                    Add Details
-                </button> -->
-            </ion-item-divider>
+            <ion-item-divider class="question-dettail-divider"></ion-item-divider>
             <ion-item class="add-more-details">
                 <ion-textarea rows="5" [(ngModel)]="questionDetails" placeholder="Optional - Add more details here.." name="questionDetailsInput"></ion-textarea>
             </ion-item>
@@ -60,8 +52,8 @@
 
 <ion-footer>
     <ion-toolbar>
-        <button (click)="onClickPreview()">Preview</button>
-        <button (click)="onClickAsk()">Ask</button>
+        <button (click)="onClickPreview_Ask(true)">Preview</button>
+        <button (click)="onClickPreview_Ask(false)">Ask</button>
     </ion-toolbar>
 
 </ion-footer>
