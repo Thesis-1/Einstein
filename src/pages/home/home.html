@@ -30,7 +30,7 @@
     <ion-item-sliding *ngFor="let question of questions"
     [attr.question]="tester" (click)="onQuestionClick(question)">
       <button ion-item>
-          <h3>{{question.question}}</h3>
+          <h3>{{question.questionBody}}</h3>
       </button>
     </ion-item-sliding>
 

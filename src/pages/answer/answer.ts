@@ -7,7 +7,8 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuth } from 'angularfire2/auth';
 
 //Stream data for answers
-import { AnswerStreamData } from '../../providers/answers-stream';
+import { StreamData } from '../../providers/questions-stream'
+import { UtilityHelpers } from '../../providers/utility-helpers';
 
 @Component({
   selector: 'page-answer',
@@ -48,7 +49,8 @@ export class AnswerPage {
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
-    public answerStreamData: AnswerStreamData
+    public service: StreamData,
+    public utils: UtilityHelpers
   ) {
 
   }
@@ -65,10 +67,6 @@ export class AnswerPage {
       //Get the answers for current question from DB via provider
       this.updateAnswerStream();
     });
-
-
-
-
   }
 
   updateAnswerStream () {
@@ -79,15 +77,6 @@ export class AnswerPage {
         equalTo: this.question.key
       }
     });
-
-
-
-    // this.answerStreamData.load(this.question.key)
-    //   .subscribe ((data: any
-    //   ) => {
-    //     this.answers = data;
-    // });
-
   }
 
   onSubmitAnswer() {
@@ -97,7 +86,7 @@ export class AnswerPage {
         answer: this.answer.answer,
         created_at: Date.now(),
         user: user.displayName,
-        image: 'https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png',
+        image: user.photoURL,
         question_id: this.question.key,
         isBest: false,
         likes: 0,
@@ -105,7 +94,7 @@ export class AnswerPage {
       })
     } else {
       //Show a toast notification if not logged in
-      this.presentToast('Please Log In to Post Answers.')
+      this.utils.popToast('Please Log In to Post Answers.')
     }
     //clear input field
     this.answer.answer = '';
@@ -131,23 +120,10 @@ export class AnswerPage {
       }
     } else {
       //Show a toast notification if not logged in
-      this.presentToast('Please Log In to Like Answers.')
+      this.utils.popToast('Please Log In to Like Answers.')
     }
 
   }
-
-  presentToast(message) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 2500
-    });
-    toast.present()
-  }
-
-
-
-
-
 
 
 }

@@ -1,27 +1,46 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController, ToastController } from 'ionic-angular';
 
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
+// Imports for Google Translate
 import { TranslateService } from '../../providers/translate';
+
+import { LearningSubjectsPage } from '../learning-subjects/learning-subjects';
+import { TeachingSubjectsPage } from '../teaching-subjects/teaching-subjects';
 
 @Component({
   selector: 'page-userprofile',
   templateUrl: 'userprofile.html',
 })
 export class UserProfilePage {
+
+  gravatar = 'http://www.gravatar.com/avatar?d=mm&s=140';
+  // bio = 'Bio';
+  // country = 'Country';
+  // language = 'Language';
+  loggedInUser: FirebaseListObservable<any[]>;
   translationTest = 'Hello world';
   currentTranslation;
   country = 'Country';
   language = 'Language';
-  loggedInUser: FirebaseListObservable<any[]>;
+  //Camera Options
+  // options: CameraOptions = {
+  //   quality: 100,
+  //   destinationType: this.camera.DestinationType.DATA_URL,
+  //   encodingType: this.camera.EncodingType.JPEG,
+  //   mediaType: this.camera.MediaType.PICTURE
+  //
+  // }
+
   constructor(
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
+    public toastCtrl: ToastController,
     public translateSvc: TranslateService
   ) {
     /* user object will look like this:
@@ -42,7 +61,12 @@ export class UserProfilePage {
       etc
     }
     */
-
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeBio = this.onChangeBio.bind(this);
+    this.onChangeCountry = this.onChangeCountry.bind(this);
+    this.onChangeLanguage = this.onChangeLanguage.bind(this);
+    this.onChangeLearning = this.onChangeLearning.bind(this);
+    this.onChangeTeaching = this.onChangeTeaching.bind(this);
   }
 
   ionViewDidLoad() {
@@ -53,7 +77,7 @@ export class UserProfilePage {
       this.loggedInUser = this.af.list('/users',  {
         query: {
           orderByChild: 'user_id',
-          equalTo: user.uid
+          equalTo: user.uid //Currently logged in user
         }
       });
       console.log('user id is: ', user.uid, user.uid == "Uniaj6st9eNPlrt4HuUwDxGETeb2");
@@ -66,133 +90,134 @@ export class UserProfilePage {
     this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
   }
 
-  updatePicture() {
-    console.log('Clicked to update picture');
+  updatePicture(u) {
+    //Trying to mock ionic native camera functionality in browser
+    //this.camera.getPicture(this.options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // For URI:
+     //u.photoURL = imageData; --- this works to update image in ionic web
+
+
+    //  let base64Image = `data:image/jpeg;base64${imageData}`;
+    //  u.photoURL = base64Image;
+    // }, (err) => {
+    //  // Handle error
+    //  let toast = this.toastCtrl.create({
+    //    message: 'Error retrieving photo through native camera.',
+    //    duration: 2500
+    //  });
+    //  toast.present()
+    // });
+  }
+
+  onChangeName(u) {
+    console.log('u in onChangeName', u);
+    this.showPromptAlert('Name', (info) => {
+      console.log('u in onChangeName before updating in firebase', u);
+
+      this.loggedInUser.update(u.$key, { displayName: info });
+    });
+  }
+
+  // Prompt Alert Function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
+
+  showPromptAlert(field, cb) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Update ' + field,
+      inputs: [
+        {
+          name: field,
+          placeholder: field
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            console.log('data[field] on line 200', data[field]);
+            cb(data[field]);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  onChangeBio(u) {
+    this.showPromptAlert('Bio', (info) => {
+      this.loggedInUser.update(u.$key, { bio: info });
+    });
+  }
+
+  onChangeCountry(u) {
+    let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
+
+    this.showRadioAlert('Country', countries, (info) => {
+      this.loggedInUser.update(u.$key, { country: info });
+    });
+    // this.showPromptAlert('Country', (info) => {
+    //   console.log('u in onChangeCountry before updating in firebase', u);
+    //   this.loggedInUser.update(u.$key, { country: info });
+    // });
   }
 
 
-  onChangeName () {
+  onChangeLanguage(u) {
+    let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
+    this.showRadioAlert('Language', languages, (info) => {
+      this.loggedInUser.update(u.$key, { language: info });
+    });
+  }
+
+  onChangeLearning(u) {
+
+    console.log('u in onChangeLearning', u);
+
+    // rewrite to push a new learning subjects page instead of using
+    // a prompt alert
+    this.navCtrl.push(LearningSubjectsPage, { u });
+  }
+
+  onChangeTeaching(u) {
+
+    this.navCtrl.push(TeachingSubjectsPage, { u });
 
   }
 
-  // onChangeName() {
-  //   // console.log('in onChangeName');
-  //
-  //   this.showPromptAlert('Name', (info) => {
-  //
-  //   });
-  //
-  // }
-  //
-  //
-  // // Prompt Alert Function:
-  // // will be called by some wrapper method to supply the
-  // // right data for inputs and string interpolation
-  //
-  // showPromptAlert(field, cb) {
-  //
-  //   let alert = this.alertCtrl.create({
-  //     title: 'Update ' + field,
-  //     inputs: [
-  //       {
-  //         name: field,
-  //         placeholder: field
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         handler: data => {
-  //           console.log('Cancel clicked');
-  //         }
-  //       },
-  //       {
-  //         text: 'Save',
-  //         handler: data => {
-  //           console.log('Saved clicked');
-  //           console.log('data[field] on line 200', data[field]);
-  //
-  //           console.log('type of data[field]', typeof data[field]);
-  //           console.log('this.user in callback', this.user);
-  //           cb(data[field]);
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
-  //
-  //
+  // Radio Alert Function:
 
-  onChangeCountry() {
+  showRadioAlert(field, choices, cb) {
 
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Country');
+
+      choices.forEach((choice) => {
+        alert.addInput({
+          type: 'radio',
+          label: choice,
+          value: choice
+        });
+      });
+
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          console.log('data', data);
+          cb(data);
+        }
+      });
+      alert.present();
   }
-
-
-  // onChangeCountry() {
-  //   // console.log('first line of onChangeCountry');
-  //
-  //   var countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
-  //
-  //   this.showRadioAlert('Country', countries, (info) => {
-  //     this.country = info;
-  //     this.user.set('country', info);
-  //     this.user.save();
-  //   });
-  //   console.log('this.user after setting country', this.user);
-  //   // country attribute is accessible under this.user.data.data.country
-  //   // (NOT in the details object under `this.user.details`)
-  // }
-  //
-
-  onChangeLanguage() {
-
-  }
-
-  // onChangeLanguage() {
-  //   var languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
-  //
-  //   this.showRadioAlert('Language', languages, (info) => {
-  //     this.language = info;
-  //     this.user.set('language', info);
-  //     this.user.save();
-  //   });
-  //   console.log('this.user after setting country', this.user);
-  // }
-  //
-
-  onChangeSubjects() {
-
-  }
-
-  // onChangeSubjects() {
-  //
-  // }
-  //
-  // // radio alert function:
-  //
-  // showRadioAlert(field, choices, cb) {
-  //
-  //     let alert = this.alertCtrl.create();
-  //     alert.setTitle('Country');
-  //
-  //     choices.forEach((choice) => {
-  //       alert.addInput({
-  //         type: 'radio',
-  //         label: choice,
-  //         value: choice
-  //       });
-  //     });
-  //
-  //     alert.addButton('Cancel');
-  //     alert.addButton({
-  //       text: 'OK',
-  //       handler: data => {
-  //         console.log('data', data);
-  //         cb(data);
-  //       }
-  //     });
-  //     alert.present();
-  // }
 
 }
