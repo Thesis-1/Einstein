@@ -9,7 +9,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import {IonTagsInputModule} from "ionic-tags-input";
 
 import { StreamData } from '../providers/questions-stream';
-import { AnswerStreamData } from '../providers/answers-stream';
+import { UtilityHelpers } from '../providers/utility-helpers';
 
 //Imports for firebase DB
 import { AngularFireModule } from 'angularfire2';
@@ -111,7 +111,7 @@ const cloudSettings: CloudSettings = {
   ],
   providers: [
     StreamData,
-    AnswerStreamData,
+    UtilityHelpers,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

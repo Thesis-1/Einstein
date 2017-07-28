@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
 import { NgForm, EmailValidator } from '@angular/forms';
-import { ToastController } from 'ionic-angular';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
 
-
+//Utility helpers contains useful helpers for common tasks to keep code DRY
+import { UtilityHelpers } from '../../providers/utility-helpers';
 import { SignupPage } from '../signup/signup';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password';
 import { TabsPage } from '../tabs/tabs';
@@ -29,7 +29,7 @@ export class LoginPage {
     public nav: Nav,
     public navParams: NavParams,
     public afAuth: AngularFireAuth,
-    public toastCtrl: ToastController
+    public utils: UtilityHelpers
   ) {
 
   }
@@ -49,33 +49,10 @@ export class LoginPage {
       })
       .catch( (err)=> {
         //Display error message
-        let toast = this.toastCtrl.create({
-          message: 'Invalid Login, please try again.',
-          duration: 2500
-        });
-        toast.present();
+        this.utils.popToast('Invalid Login, please try again.');
       });
-
-      //OLD code for Ionic Auth
-      // console.log('details: ', this.details);
-      // this.auth.login('basic', this.details).then ( () => {
-      //   //On Success, send to home page
-      //   this.nav.setRoot('TabsPage');
-      // }, ()=> {
-      //   //On Error, log error
-      //   let toast = this.toastCtrl.create({
-      //     message: 'Invalid Login, please try again.',
-      //     duration: 2500
-      //   });
-      //   toast.present();
-      // });
-
     }
   }
-
-  // openQuestionsPage() {
-  //   this.nav.setRoot('HomePage')
-  // }
 
   onSignup() {
     this.navCtrl.setRoot('SignupPage');

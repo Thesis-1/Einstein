@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Nav } from 'ionic-angular';
 import { NgForm, EmailValidator } from '@angular/forms';
-import { ToastController } from 'ionic-angular';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
+//Utility helpers contains a few helper functions for maintaining DRY code.
+import { UtilityHelpers } from '../../providers/utility-helpers';
 import { TabsPage } from '../tabs/tabs';
 
 
@@ -30,9 +31,9 @@ export class SignupPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public nav: Nav,
-    public toastCtrl: ToastController,
     public afAuth: AngularFireAuth,
-    public af: AngularFireDatabase
+    public af: AngularFireDatabase,
+    public utils: UtilityHelpers
   ) {
 
   }
@@ -97,39 +98,22 @@ export class SignupPage {
 
               //send email for account verification
               user.sendEmailVerification().then( ()=> {
-                let toast = this.toastCtrl.create({
-                  message: 'Account verification email sent.  Check your inbox!',
-                  duration: 2500
-                });
-                toast.present();
-
+                this.utils.popToast('Account verification email sent.  Check your inbox!');
                 //Redirect to home Page
                 this.nav.setRoot(TabsPage);
               }, (err)=> {
-                let toast = this.toastCtrl.create({
-                  message: 'Error sending Account Verification Email.',
-                  duration: 2500
-                });
-                toast.present();
+                this.utils.popToast('Error sending Account Verification Email.');
               });
             }, (err)=> {
               // An error happened.  present toast.
-              let toast = this.toastCtrl.create({
-                message: 'Error Initializing user profile.',
-                duration: 2500
-              });
-              toast.present();
+              this.utils.popToast('Error Initializing user profile.');
               return false;
             });;
           }
 
         }, (err)=> {
           //on error, present toast
-          let toast = this.toastCtrl.create({
-            message: 'Error creating user, please try again.',
-            duration: 2500
-          });
-          toast.present();
+          this.utils.popToast('Error creating user, please try again.');
           return false;
         });
     }
