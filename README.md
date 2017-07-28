@@ -41,20 +41,24 @@ After installing dependencies, run `npm install` from within the project directo
 
 To execute the Karma tests suite, run `npm test` from within the root project directory.
 
-### Lintings
+### Linting
 
 The application will be automatically linted using tslint whenever the user runs an `ionic serve` command from within the project directory.  Linting results will be printed in the terminal.
 
+### Test native functionality
+
+TODO
 
 
 ## Built With
 
 * [Google Firebase](https://firebase.google.com/) - Database and Auth
-* [Angular 4](https://angular.io/)
+* [Angular 4](https://angular.io/) - Cross-platform Framework
 * [Ionic Framework](https://ionicframework.com/) - Developed for iOS
 
 ## Contributing
 
+TODO
 
 ## Versioning
 
