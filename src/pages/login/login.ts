@@ -45,7 +45,7 @@ export class LoginPage {
       this.afAuth.auth.signInWithEmailAndPassword(this.details.email, this.details.password)
       .then( ()=> {
         //redirect user to correct page
-        this.nav.setRoot(TabsPage);
+        this.navCtrl.setRoot(TabsPage, {}, {animate: true, direction: 'forward'});
       })
       .catch( (err)=> {
         //Display error message

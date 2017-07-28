@@ -13,6 +13,7 @@ import { StreamData } from '../../../providers/questions-stream'
 
 export class AskQuestionPage  {
     constructor (private modalCtrl: ModalController, private viewCtrl: ViewController, private navCtrl: NavController, private service: StreamData) { }
+    
     hideTip = false
     selectedTopic = "Algebra"
     topics = [
@@ -24,38 +25,21 @@ export class AskQuestionPage  {
         'Topography',
         'Statistics'
     ]
-    hideAddMoreDetails: boolean = true
     questionBody: string = ''
     questionDetails: string = ''
     tags = []
-    user_name = ''
-    user_id= ''
-    preview: boolean = false
-    
+    currentUser = this.service.getUser()
+
     onClickDismiss () {
         this.hideTip = true
     }
 
-    onClickAddDetails () {
-        this.hideAddMoreDetails = false
-        console.log(this.hideAddMoreDetails)
+    onClickPreview_Ask (isPreview) {
+        let question = this.getQuestion()
+        this.postQuestion (isPreview, question)
     }
 
-    onClickPreview () {
-        this.preview = true
-        console.log(this.preview)
-        this.service.getUser(this.postQuestion.bind(this))
-    }
-
-    onClickAsk () {
-        // post data to firebase
-        // get posted data and pass as params to modal
-        // modal will render that data
-        this.preview = false
-        this.service.getUser(this.postQuestion.bind(this))
-    }
-
-    postQuestion (user) {
+    getQuestion () {
         let question: any = {
             subject: 'Math',
             topic: this.selectedTopic,
@@ -65,12 +49,16 @@ export class AskQuestionPage  {
             isClosed: false,
             closedOn: '',
             createdOn: Date.now(),
-            userName: user.displayName,
-            userPhotoURL: user.photoURL,
-            userId: user.uid,
-            userClosed: user.uid+false
+            userName: this.currentUser.displayName,
+            userPhotoURL: this.currentUser.photoURL,
+            userId: this.currentUser.uid,
+            userClosed: this.currentUser.uid+false
         }
-        if (this.preview === false) { // save in db
+        return question
+    }
+
+    postQuestion (isPreview, question) {
+        if (isPreview === false) { // save in db
             this.service.postQuestion(question)
                 .then((item:any)=> {
                     this.showSubmittedQuestion(question, item.key)
@@ -78,7 +66,6 @@ export class AskQuestionPage  {
         } else { // pass question to preview
             this.showPreview(question)
         }
-
     }
 
     showSubmittedQuestion (question, key) {
@@ -90,7 +77,7 @@ export class AskQuestionPage  {
         let previewModal = this.modalCtrl.create(PreviewQuestionPage, question);
         previewModal.present();
     }
-
+ 
     onClickClose () {
         this.viewCtrl.dismiss()
     }

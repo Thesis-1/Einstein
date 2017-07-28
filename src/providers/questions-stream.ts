@@ -31,14 +31,8 @@ export class StreamData {
         // }
     }
 
-    getUser(callback): any {
-        this.afAuth.auth.onAuthStateChanged( user => {
-            if(user) {
-                callback(user)
-            } else {
-                console.log('user is not logged in')
-            }
-        })
+    getUser(): any {
+        return this.afAuth.auth.currentUser
     }
 
    
