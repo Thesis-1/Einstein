@@ -41,7 +41,7 @@ export class UserProfilePage {
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public toastCtrl: ToastController,
-    public translateSvc: TranslateService
+    private translateSvc: TranslateService
   ) {
     /* user object will look like this:
     bio: "I like to add with my fingers"
@@ -88,6 +88,14 @@ export class UserProfilePage {
 
   handleTranslation() {
     this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
+  }
+
+  defaultMessage() {
+    if (!this.currentTranslation) {
+      return "Enter text and click Translate";
+    } else {
+      return "Running translation in the cloud ...";
+    }
   }
 
   updatePicture(u) {
