@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController, ToastController } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -8,7 +9,6 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { LearningSubjectsPage } from '../learning-subjects/learning-subjects';
 import { TeachingSubjectsPage } from '../teaching-subjects/teaching-subjects';
 
-//Utility helpers contains useful helpers for common tasks to keep code DRY
 import { UtilityHelpers } from '../../providers/utility-helpers';
 
 @Component({
@@ -38,7 +38,8 @@ export class UserProfilePage {
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public toastCtrl: ToastController,
-    public utils: UtilityHelpers
+    public utils: UtilityHelpers,
+    private camera: Camera
   ) {
     /* user object will look like this:
     bio: "I like to add with my fingers"
@@ -66,6 +67,13 @@ export class UserProfilePage {
     this.onChangeTeaching = this.onChangeTeaching.bind(this);
   }
 
+  options: CameraOptions = {
+  quality: 100,
+  destinationType: this.camera.DestinationType.DATA_URL,
+  encodingType: this.camera.EncodingType.JPEG,
+  mediaType: this.camera.MediaType.PICTURE
+}
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserprofilePage');
     let user = this.afAuth.auth.currentUser;
@@ -84,23 +92,11 @@ export class UserProfilePage {
   }
 
   updatePicture(u) {
-    //Trying to mock ionic native camera functionality in browser
-    //this.camera.getPicture(this.options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // For URI:
-     //u.photoURL = imageData; --- this works to update image in ionic web
-
-
-    //  let base64Image = `data:image/jpeg;base64${imageData}`;
-    //  u.photoURL = base64Image;
-    // }, (err) => {
-    //  // Handle error
-    //  let toast = this.toastCtrl.create({
-    //    message: 'Error retrieving photo through native camera.',
-    //    duration: 2500
-    //  });
-    //  toast.present()
-    // });
+    this.camera.getPicture(this.options).then( (imageData) => {
+      u.photoURL = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      this.utils.popToast('Error grapping photo with web mock.')
+    });
   }
 
   onChangeName(u) {

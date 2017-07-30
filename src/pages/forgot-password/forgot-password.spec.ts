@@ -12,9 +12,13 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 
 import { ForgotPasswordPage } from './forgot-password'
+import { UtilityHelpers } from '../../providers/utility-helpers';
 
-
-
+class UtilityHelpersMock {
+  load () {
+    return;
+  }
+}
 
 // Moving FireBase Auth stuff in component to the provider(recomended) should make the tests pass -or- create mocks for firebase services here to make the tests pass
 
@@ -65,7 +69,8 @@ describe('ForgotPasswordPage', () => {
                 { provide: Platform, useClass: PlatformMock},
                 { provide: NavController, useClass: NavControllerMock},
                 { provide: NavParams, useClass: NavParamsMock},
-                { provide: ToastController, useClass: ToastControllerMock}
+                { provide: ToastController, useClass: ToastControllerMock},
+                { provide: UtilityHelpers, useClass: UtilityHelpersMock }
             ]
         })
     }))

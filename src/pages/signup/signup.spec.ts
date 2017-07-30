@@ -1,20 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { DebugElement } from '@angular/core'
-import { Http } from '@angular/http'
 import { IonicModule, Platform} from 'ionic-angular/index'
-import { App, ToastController, Nav, NavController, NavParams, MenuController } from 'ionic-angular'
+import { App, NavController } from 'ionic-angular'
+import { NgForm, EmailValidator } from '@angular/forms'
+import { Http } from '@angular/http'
 
 //Mocks from mock file
 import { PlatformMock, UserMock, AuthMock, HttpMock } from '../../../test-config/mocks-ionic'
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from 'angularfire2/auth'
 
 
 
 import { SignupPage } from './signup'
-
+import { TabsPage } from '../tabs/tabs'
+import { UtilityHelpers } from '../../providers/utility-helpers'
 
 
 
@@ -25,18 +27,17 @@ class AngularFireAuthMock {
       return;
     }
 }
-class AngularFireDatabaseMock {
-  list () {
-    return;
-  }
+class AngularFireDatabaseMock  extends AngularFireDatabase {
+
 
 }
-class FirebaseListObservableMock {
+
+class FirebaseListObservableMock  extends FirebaseListObservable<any[]> {
 
 }
 
 //Do we need mocks for provided pages?
-class HomePageMock {
+class TabsPageMock {
 
 }
 
@@ -44,17 +45,8 @@ class SignupPageMock {
 
 }
 
-class ForgotPasswordPageMock {
-
-}
-
 //Mocks for nav stuff (no need to test using these mocks)
 //mocks must be defined for test to run
-class NavMock {
-  setRoot(s) {
-    return;
-  }
-}
 
 class NavControllerMock {
   push(s) {
@@ -66,20 +58,19 @@ class NavControllerMock {
   }
 }
 
-class NavParamsMock {
-
-}
-
-class MenuControllerMock {
-
-}
-
-class ToastControllerMock {
-  create(obj) {
-    return;
+class UtilityHelpersMock extends UtilityHelpers {
+  popToast(s) {
+    return s;
   }
 }
 
+class NgFormMock extends NgForm {
+
+}
+
+class EmailValidatorMock extends EmailValidator {
+
+}
 
 describe('SignupPage', () => {
     let comp: SignupPage
@@ -97,15 +88,12 @@ describe('SignupPage', () => {
                 { provide: AngularFireDatabase, useClass: AngularFireDatabaseMock },
                 { provide: FirebaseListObservable, useClass: FirebaseListObservableMock },
                 { provide: AngularFireAuth, useClass: AngularFireAuthMock },
-                { provide: Http, useClass: HttpMock },
-                { provide: Platform, useClass: PlatformMock},
                 { provide: NavController, useClass: NavControllerMock},
-                { provide: NavParams, useClass: NavParamsMock},
-                { provide: MenuController, useClass: MenuControllerMock},
-                { provide: ToastController, useClass: ToastControllerMock},
-                { provide: Nav, useClass: NavMock},
                 { provide: SignupPage, useClass: SignupPageMock},
-
+                { provide: Http, useClass: HttpMock },
+                { provide: UtilityHelpers, useClass: UtilityHelpersMock},
+                { provide: NgForm, useClass: NgFormMock},
+                { provide: EmailValidator, useClass: EmailValidatorMock}
             ]
         })
     }))

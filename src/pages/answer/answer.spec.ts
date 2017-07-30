@@ -14,7 +14,7 @@ import { App, ToastController } from 'ionic-angular';
 import { AnswerPage } from './answer';
 import { UtilityHelpers } from '../../providers/utility-helpers';
 
-// Mocking AnswerStreamData, it's unused in comp and should be tested seperately
+
 class UtilityHelpersMock {
   load () {
     return;
