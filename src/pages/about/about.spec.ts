@@ -14,7 +14,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 
 import { AboutPage } from './about'
-
+import { UtilityHelpers } from '../../providers/utility-helpers';
 
 
 
@@ -42,6 +42,10 @@ class NavControllerMock {
 }
 
 class NavParamsMock {
+
+}
+
+class UtilityHelpersMock extends UtilityHelpers {
 
 }
 

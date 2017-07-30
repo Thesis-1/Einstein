@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Http } from '@angular/http'
 import { NgForm, EmailValidator } from '@angular/forms';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
+//Mocks from mock file
+import { PlatformMock, UserMock, AuthMock, HttpMock } from '../../../test-config/mocks-ionic'
 
 //Utility helpers contains a few helper functions for maintaining DRY code.
 import { UtilityHelpers } from '../../providers/utility-helpers';
