@@ -6,8 +6,7 @@ import { Storage } from '@ionic/storage';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-//Stream data for answers
-import { StreamData } from '../../providers/questions-stream'
+//Useful helper functions
 import { UtilityHelpers } from '../../providers/utility-helpers';
 
 @Component({
@@ -49,7 +48,6 @@ export class AnswerPage {
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
-    public service: StreamData,
     public utils: UtilityHelpers
   ) {
 
