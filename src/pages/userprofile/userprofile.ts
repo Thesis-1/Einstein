@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController, ToastController } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+
 
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -45,7 +45,6 @@ export class UserProfilePage {
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public utils: UtilityHelpers,
-    private camera: Camera,
     private translateSvc: TranslateService
   ) {
     /* user object will look like this:
@@ -73,13 +72,6 @@ export class UserProfilePage {
     this.onChangeLearning = this.onChangeLearning.bind(this);
     this.onChangeTeaching = this.onChangeTeaching.bind(this);
   }
-
-  options: CameraOptions = {
-  quality: 100,
-  destinationType: this.camera.DestinationType.DATA_URL,
-  encodingType: this.camera.EncodingType.JPEG,
-  mediaType: this.camera.MediaType.PICTURE
-}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserprofilePage');
@@ -111,32 +103,57 @@ export class UserProfilePage {
   }
 
   updatePicture(u) {
-    this.camera.getPicture(this.options).then( (imageData) => {
-      u.photoURL = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      this.utils.popToast('Error grapping photo with web mock.')
+    this.utils.getPicture( (s) => {
+      u.photoURL = s;
     });
   }
 
+
   onChangeName(u) {
     console.log('u in onChangeName', u);
-    // this.showPromptAlert('Name', (info) => {
-    //   console.log('u in onChangeName before updating in firebase', u);
-    //
-    //   this.loggedInUser.update(u.$key, { displayName: info });
-    // });
-
-    this.utils.showPromptAlert('Name', (info) => {
+    this.showPromptAlert('Name', (info) => {
       console.log('u in onChangeName before updating in firebase', u);
+
       this.loggedInUser.update(u.$key, { displayName: info });
     });
   }
 
+  // Prompt Alert Function:
+  // will be called by some wrapper method to supply the
+  // right data for inputs and string interpolation
+
+  showPromptAlert(field, cb) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Update ' + field,
+      inputs: [
+        {
+          name: field,
+          placeholder: field
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log('Saved clicked');
+            console.log('data[field] on line 200', data[field]);
+            cb(data[field]);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   onChangeBio(u) {
-    // this.showPromptAlert('Bio', (info) => {
-    //   this.loggedInUser.update(u.$key, { bio: info });
-    // });
-    this.utils.showPromptAlert('Bio', (info) => {
+    this.showPromptAlert('Bio', (info) => {
       this.loggedInUser.update(u.$key, { bio: info });
     });
   }
@@ -144,13 +161,9 @@ export class UserProfilePage {
   onChangeCountry(u) {
     let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
-    this.utils.showRadioAlert('Country', countries, (info) => {
+    this.showRadioAlert('Country', countries, (info) => {
       this.loggedInUser.update(u.$key, { country: info });
     });
-
-    // this.showRadioAlert('Country', countries, (info) => {
-    //   this.loggedInUser.update(u.$key, { country: info });
-    // });
     // this.showPromptAlert('Country', (info) => {
     //   console.log('u in onChangeCountry before updating in firebase', u);
     //   this.loggedInUser.update(u.$key, { country: info });
@@ -164,19 +177,47 @@ export class UserProfilePage {
     this.utils.showRadioAlert('Language', languages, (info) => {
       this.loggedInUser.update(u.$key, { language: info });
     });
-
-    // this.showRadioAlert('Language', languages, (info) => {
-    //   this.loggedInUser.update(u.$key, { language: info });
-    // });
   }
 
   onChangeLearning(u) {
+
+    console.log('u in onChangeLearning', u);
+
+    // rewrite to push a new learning subjects page instead of using
+    // a prompt alert
     this.navCtrl.push(LearningSubjectsPage, { u });
   }
 
   onChangeTeaching(u) {
+
     this.navCtrl.push(TeachingSubjectsPage, { u });
+
   }
 
+  // Radio Alert Function:
+
+  showRadioAlert(field, choices, cb) {
+
+      let alert = this.alertCtrl.create();
+      alert.setTitle('Country');
+
+      choices.forEach((choice) => {
+        alert.addInput({
+          type: 'radio',
+          label: choice,
+          value: choice
+        });
+      });
+
+      alert.addButton('Cancel');
+      alert.addButton({
+        text: 'OK',
+        handler: data => {
+          console.log('data', data);
+          cb(data);
+        }
+      });
+      alert.present();
+  }
 
 }
