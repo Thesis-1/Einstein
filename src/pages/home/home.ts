@@ -63,6 +63,7 @@ export class HomePage {
   }
 
   onQuestionClick(question) {
+    console.log(question.key, 'i am', question.$key)
     let storeObj = question;
     storeObj.key = question.$key;
     this.storage.set('answerPageCurrQuestion', storeObj);

@@ -27,7 +27,7 @@ export class StreamData {
         //     return this.data;
         // } else {
             this.data = this.afDB.list('/userQuestions');
-            return this.data;
+            return this.data
         // }
     }
 
