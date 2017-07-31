@@ -37,6 +37,7 @@ export class UserProfilePage {
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
+    public toastCtrl: ToastController,
     public utils: UtilityHelpers,
     private camera: Camera
   ) {
@@ -100,49 +101,23 @@ export class UserProfilePage {
 
   onChangeName(u) {
     console.log('u in onChangeName', u);
-    this.showPromptAlert('Name', (info) => {
-      console.log('u in onChangeName before updating in firebase', u);
+    // this.showPromptAlert('Name', (info) => {
+    //   console.log('u in onChangeName before updating in firebase', u);
+    //
+    //   this.loggedInUser.update(u.$key, { displayName: info });
+    // });
 
+    this.utils.showPromptAlert('Name', (info) => {
+      console.log('u in onChangeName before updating in firebase', u);
       this.loggedInUser.update(u.$key, { displayName: info });
     });
   }
 
-  // Prompt Alert Function:
-  // will be called by some wrapper method to supply the
-  // right data for inputs and string interpolation
-
-  showPromptAlert(field, cb) {
-
-    let alert = this.alertCtrl.create({
-      title: 'Update ' + field,
-      inputs: [
-        {
-          name: field,
-          placeholder: field
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            console.log('Saved clicked');
-            console.log('data[field] on line 200', data[field]);
-            cb(data[field]);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
   onChangeBio(u) {
-    this.showPromptAlert('Bio', (info) => {
+    // this.showPromptAlert('Bio', (info) => {
+    //   this.loggedInUser.update(u.$key, { bio: info });
+    // });
+    this.utils.showPromptAlert('Bio', (info) => {
       this.loggedInUser.update(u.$key, { bio: info });
     });
   }
@@ -150,9 +125,13 @@ export class UserProfilePage {
   onChangeCountry(u) {
     let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
-    this.showRadioAlert('Country', countries, (info) => {
+    this.utils.showRadioAlert('Country', countries, (info) => {
       this.loggedInUser.update(u.$key, { country: info });
     });
+
+    // this.showRadioAlert('Country', countries, (info) => {
+    //   this.loggedInUser.update(u.$key, { country: info });
+    // });
     // this.showPromptAlert('Country', (info) => {
     //   console.log('u in onChangeCountry before updating in firebase', u);
     //   this.loggedInUser.update(u.$key, { country: info });
@@ -162,50 +141,23 @@ export class UserProfilePage {
 
   onChangeLanguage(u) {
     let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
-    this.showRadioAlert('Language', languages, (info) => {
+
+    this.utils.showRadioAlert('Language', languages, (info) => {
       this.loggedInUser.update(u.$key, { language: info });
     });
+
+    // this.showRadioAlert('Language', languages, (info) => {
+    //   this.loggedInUser.update(u.$key, { language: info });
+    // });
   }
 
   onChangeLearning(u) {
-
-    console.log('u in onChangeLearning', u);
-
-    // rewrite to push a new learning subjects page instead of using
-    // a prompt alert
     this.navCtrl.push(LearningSubjectsPage, { u });
   }
 
   onChangeTeaching(u) {
-
     this.navCtrl.push(TeachingSubjectsPage, { u });
-
   }
 
-  // Radio Alert Function:
-
-  showRadioAlert(field, choices, cb) {
-
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Country');
-
-      choices.forEach((choice) => {
-        alert.addInput({
-          type: 'radio',
-          label: choice,
-          value: choice
-        });
-      });
-
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'OK',
-        handler: data => {
-          console.log('data', data);
-          cb(data);
-        }
-      });
-      alert.present();
-  }
 
 }
