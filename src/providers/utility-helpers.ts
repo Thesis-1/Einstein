@@ -1,17 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/of';
-import { Platform, ToastController, AlertController } from 'ionic-angular';
+import { Platform, ToastController } from 'ionic-angular';
 
 
 @Injectable()
 export class UtilityHelpers {
+  _question = {
+    key: 'unknown',
+    image: '',
+    closed: false,
+    category: 'algebra',
+    open_date: Date.now(),
+    question: 'Where does the constant pi come from?',
+    likes: 0,
+    dislikes: 0,
+    user_id: 'unknown',
+    user: 'Unknown'
+  };
     constructor(
       public http: Http,
-      public toastCtrl: ToastController,
-      public alertCtrl: AlertController
+      public toastCtrl: ToastController
     ) {
 
 
@@ -23,6 +31,14 @@ export class UtilityHelpers {
         duration: 2500
       });
       toast.present();
+    }
+
+    setQuestion(q) {
+      this._question = q;
+    }
+
+    getQuestion() {
+      return this._question;
     }
 
     //takes in an int = ms since epoch
@@ -103,66 +119,7 @@ export class UtilityHelpers {
 
       return time;
 
+
     }
 
-    // Prompt Alert Function:
-    // will be called by some wrapper method to supply the
-    // right data for inputs and string interpolation
-    showPromptAlert(field, cb) {
-
-      let alert = this.alertCtrl.create({
-        title: 'Update ' + field,
-        inputs: [
-          {
-            name: field,
-            placeholder: field
-          }
-        ],
-        buttons: [
-          {
-            text: 'Cancel',
-            handler: data => {
-              console.log('Cancel clicked');
-            }
-          },
-          {
-            text: 'Save',
-            handler: data => {
-              console.log('Saved clicked');
-              console.log('data[field] on line 200', data[field]);
-              cb(data[field]);
-            }
-          }
-        ]
-      });
-      alert.present();
-    }
-
-    // Radio Alert Function:
-    // Will be given the field for a user to change, the array of
-    // choices, and a callback to pass the data to firebase by a
-    // wrapper function.
-    showRadioAlert(field, choices, cb) {
-
-        let alert = this.alertCtrl.create();
-        alert.setTitle('Country');
-
-        choices.forEach((choice) => {
-          alert.addInput({
-            type: 'radio',
-            label: choice,
-            value: choice
-          });
-        });
-
-        alert.addButton('Cancel');
-        alert.addButton({
-          text: 'OK',
-          handler: data => {
-            console.log('data', data);
-            cb(data);
-          }
-        });
-        alert.present();
-    }
 }

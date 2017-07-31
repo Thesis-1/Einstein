@@ -8,6 +8,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AskQuestionPage } from './ask-question/ask-question';
 import { AnswerPage } from '../answer/answer';
 import { StreamData } from '../../providers/questions-stream';
+import { UtilityHelpers } from '../../providers/utility-helpers'
 
 @Component({
   selector: 'page-home',
@@ -27,7 +28,8 @@ export class HomePage {
     public streamData: StreamData,
     public toastCtrl: ToastController,
     public storage: Storage,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public utils: UtilityHelpers
   ) {
     this.updateQuestionStream();
   }
@@ -62,12 +64,16 @@ export class HomePage {
 
   }
 
-  onQuestionClick(question) {
-    let storeObj = question;
-    storeObj.key = question.$key;
-    this.storage.set('answerPageCurrQuestion', storeObj);
-    this.streamData.updateViewedAnswers(question);
-    this.navCtrl.push(AnswerPage);
+  onQuestionClick(q) {
+    this.utils.setQuestion(q);
+
+    //Old way with local storage
+
+    // let storeObj = q;
+    // storeObj.key = q.$key;
+    // this.storage.set('answerPageCurrQuestion', storeObj);
+    // this.streamData.updateViewedAnswers(q);
+    // this.navCtrl.push(AnswerPage);
   }
 
   doRefresh(refresher: Refresher) { // to avoid refresh errors for now
