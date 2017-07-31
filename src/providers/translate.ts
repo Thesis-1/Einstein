@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 
 
+// Builds the translation object for a piece of text and adds it to Firebase as
+// an object under the 'translations/' endpoint
 @Injectable()
 export class TranslateService {
   constructor(
