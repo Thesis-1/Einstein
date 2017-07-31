@@ -174,7 +174,7 @@ export class UtilityHelpers {
     showRadioAlert(field, choices, cb) {
 
         let alert = this.alertCtrl.create();
-        alert.setTitle('Country');
+        alert.setTitle(field);
 
         choices.forEach((choice) => {
           alert.addInput({
