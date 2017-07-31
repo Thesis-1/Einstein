@@ -198,30 +198,4 @@ export class UserProfilePage {
 
   }
 
-  // Radio Alert Function:
-
-  // showRadioAlert(field, choices, cb) {
-  //
-  //     let alert = this.alertCtrl.create();
-  //     alert.setTitle('Country');
-  //
-  //     choices.forEach((choice) => {
-  //       alert.addInput({
-  //         type: 'radio',
-  //         label: choice,
-  //         value: choice
-  //       });
-  //     });
-  //
-  //     alert.addButton('Cancel');
-  //     alert.addButton({
-  //       text: 'OK',
-  //       handler: data => {
-  //         console.log('data', data);
-  //         cb(data);
-  //       }
-  //     });
-  //     alert.present();
-  // }
-
 }
