@@ -89,7 +89,7 @@ export class AnswerPage {
         created_at: Date.now(),
         user: user.displayName,
         image: user.photoURL,
-        question_id: this.question.key,
+        question_id: this.questionKey,
         isBest: false,
         likes: 0,
         likedFromUsers: {isJoin: 'yes'}
