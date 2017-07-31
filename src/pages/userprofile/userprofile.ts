@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController, NavController, ToastController } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+
 
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -37,8 +37,7 @@ export class UserProfilePage {
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
-    public utils: UtilityHelpers,
-    private camera: Camera
+    public utils: UtilityHelpers
   ) {
     /* user object will look like this:
     bio: "I like to add with my fingers"
@@ -66,13 +65,6 @@ export class UserProfilePage {
     this.onChangeTeaching = this.onChangeTeaching.bind(this);
   }
 
-  options: CameraOptions = {
-  quality: 100,
-  destinationType: this.camera.DestinationType.DATA_URL,
-  encodingType: this.camera.EncodingType.JPEG,
-  mediaType: this.camera.MediaType.PICTURE
-}
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserprofilePage');
     let user = this.afAuth.auth.currentUser;
@@ -91,12 +83,11 @@ export class UserProfilePage {
   }
 
   updatePicture(u) {
-    this.camera.getPicture(this.options).then( (imageData) => {
-      u.photoURL = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      this.utils.popToast('Error grapping photo with web mock.')
+    this.utils.getPicture( (s) => {
+      u.photoURL = s;
     });
-  } 
+  }
+
 
   onChangeName(u) {
     console.log('u in onChangeName', u);
