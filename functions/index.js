@@ -31,7 +31,7 @@ admin.initializeApp(functions.config().firebase);
 // });
 
 
-const LANGUAGES = ['es', 'fr', 'zh-CN'];
+const LANGUAGES = ['es', 'fr', 'de', 'zh-CN', 'ru'];
 
 exports.translate = functions.database.ref('/translations/{translationId}').onWrite(event => {
   const snapshot = event.data;
