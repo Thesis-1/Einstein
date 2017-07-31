@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { Storage } from '@ionic/storage';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -28,6 +27,7 @@ export class AnswerPage {
     user: 'Unknown'
   };
 
+  questionKey = "unknown";
 
   answer = {
     answer: '',
@@ -42,9 +42,9 @@ export class AnswerPage {
 
   //firebase
   answers: FirebaseListObservable<any[]>;
+  questions: FirebaseListObservable<any[]>;
 
   constructor(
-    public storage: Storage,
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
@@ -55,16 +55,11 @@ export class AnswerPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AnswerPage');
-    //Get the question from local storage
-    this.storage.get('answerPageCurrQuestion').then( (q)=> {
-      // for (let key in q) {
-      //   this.question[key] = q[key];
-      // }
-      this.question = q;
-        console.log('current q from local storage', this.question)
-      //Get the answers for current question from DB via provider
-      this.updateAnswerStream();
-    });
+    //Get the question key from our utility library
+    this.questionKey = this.utils.getQuestionKey();
+
+    this.updateQuestion();
+    this.updateAnswerStream();
   }
 
   updateAnswerStream () {
@@ -72,7 +67,16 @@ export class AnswerPage {
       query: {
         limitToLast: 50,
         orderByChild: 'question_id',
-        equalTo: this.question.key
+        equalTo: this.questionKey
+      }
+    });
+  }
+
+  updateQuestion () {
+    this.questions= this.af.list('/userQuestions', {
+      query: {
+        orderByKey: true,
+        equalTo: this.questionKey
       }
     });
   }
@@ -85,7 +89,7 @@ export class AnswerPage {
         created_at: Date.now(),
         user: user.displayName,
         image: user.photoURL,
-        question_id: this.question.key,
+        question_id: this.questionKey,
         isBest: false,
         likes: 0,
         likedFromUsers: {isJoin: 'yes'}

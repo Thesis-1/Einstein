@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
 import { App, Refresher, ToastController, ModalController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { AskQuestionPage } from './ask-question/ask-question';
 import { AnswerPage } from '../answer/answer';
 import { StreamData } from '../../providers/questions-stream';
+import { UtilityHelpers } from '../../providers/utility-helpers'
 
 @Component({
   selector: 'page-home',
@@ -26,8 +26,8 @@ export class HomePage {
     public app: App,
     public streamData: StreamData,
     public toastCtrl: ToastController,
-    public storage: Storage,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public utils: UtilityHelpers
   ) {
     this.updateQuestionStream();
   }
@@ -62,12 +62,10 @@ export class HomePage {
 
   }
 
-  onQuestionClick(question) {
-    console.log(question.key, 'i am', question.$key)
-    let storeObj = question;
-    storeObj.key = question.$key;
-    this.storage.set('answerPageCurrQuestion', storeObj);
-    this.streamData.updateViewedAnswers(question);
+  onQuestionClick(q) {
+    console.log('question clicked');
+    this.utils.setQuestionKey(q.$key);
+    this.streamData.updateViewedAnswers(q);
     this.navCtrl.push(AnswerPage);
   }
 

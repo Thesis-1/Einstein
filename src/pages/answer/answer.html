@@ -11,14 +11,14 @@
 <ion-content padding class="answer-page" delegate-handle="mainScroll">
   <h3 ion-text text-center>Question:</h3>
   <!-- Question Card -->
-  <ion-card color="secondary">
+  <ion-card color="secondary" *ngFor="let q of questions | async">
 
     <ion-item color="secondary">
       <ion-avatar item-start>
-        <img src="{{question.userPhotoURL}}">
+        <img src="{{q.userPhotoURL}}">
       </ion-avatar>
-      <h2>{{question.userName || 'Anonymous'}}</h2>
-      <p>{{question.topic}}</p>
+      <h2>{{q.userName || 'Anonymous'}}</h2>
+      <p>{{q.topic}}</p>
       <!-- <p>{{question.createdOn | date:'medium'}}</p> -->
     </ion-item>
 
@@ -26,14 +26,14 @@
       <!-- Add card content here! -->
       <ion-row>
         <ion-col>
-          <b>{{question.questionBody}}</b>
+          <b>{{q.questionBody}}</b>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          {{question.questionDetails}}
+          {{q.questionDetails}}
         </ion-col>
-      </ion-row>jdpisbsiHH5$
+      </ion-row>
 
       <!-- Timestamp section -->
       <ion-row>
@@ -43,7 +43,7 @@
           <!-- <ion-badge item-end>{{5}} Answers</ion-badge> -->
         </ion-col>
         <ion-col text-right>
-          <p>{{utils.humanReadableTime(question.createdOn)}}</p>
+          <p>{{utils.humanReadableTime(q.createdOn)}}</p>
         </ion-col>
       </ion-row>
 

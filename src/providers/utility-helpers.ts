@@ -4,17 +4,46 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import { Platform, ToastController, AlertController } from 'ionic-angular';
-
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @Injectable()
 export class UtilityHelpers {
+  _questionKey = 'unknwown';
+
+  camOptions: CameraOptions = {
+  quality: 100,
+  destinationType: this.camera.DestinationType.DATA_URL,
+  encodingType: this.camera.EncodingType.JPEG,
+  mediaType: this.camera.MediaType.PICTURE
+
+  }
+
     constructor(
       public http: Http,
       public toastCtrl: ToastController,
-      public alertCtrl: AlertController
+      public alertCtrl: AlertController,
+      private camera: Camera
     ) {
 
 
+    }
+
+    getPicture(cb) {
+      this.camera.getPicture(this.camOptions).then( (imageData) => {
+        cb('data:image/jpeg;base64,' + imageData);
+      }, (err) => {
+        this.popToast('Error grapping photo with web mock.')
+        return null;
+      });
+    }
+
+    setQuestionKey(k) {
+      console.log('setQuestionKey called');
+      this._questionKey = k;
+    }
+
+    getQuestionKey() {
+      return this._questionKey;
     }
 
     popToast(s) {
