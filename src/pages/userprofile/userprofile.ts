@@ -111,49 +111,15 @@ export class UserProfilePage {
 
   onChangeName(u) {
     console.log('u in onChangeName', u);
-    this.showPromptAlert('Name', (info) => {
+    this.utils.showPromptAlert('Name', (info) => {
       console.log('u in onChangeName before updating in firebase', u);
 
       this.loggedInUser.update(u.$key, { displayName: info });
     });
   }
 
-  // Prompt Alert Function:
-  // will be called by some wrapper method to supply the
-  // right data for inputs and string interpolation
-
-  showPromptAlert(field, cb) {
-
-    let alert = this.alertCtrl.create({
-      title: 'Update ' + field,
-      inputs: [
-        {
-          name: field,
-          placeholder: field
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            console.log('Saved clicked');
-            console.log('data[field] on line 200', data[field]);
-            cb(data[field]);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
   onChangeBio(u) {
-    this.showPromptAlert('Bio', (info) => {
+    this.utils.showPromptAlert('Bio', (info) => {
       this.loggedInUser.update(u.$key, { bio: info });
     });
   }
