@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
 import { App, Refresher, ToastController, ModalController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -27,7 +26,6 @@ export class HomePage {
     public app: App,
     public streamData: StreamData,
     public toastCtrl: ToastController,
-    public storage: Storage,
     public modalCtrl: ModalController,
     public utils: UtilityHelpers
   ) {
@@ -65,15 +63,10 @@ export class HomePage {
   }
 
   onQuestionClick(q) {
-    this.utils.setQuestion(q);
-
-    //Old way with local storage
-
-    // let storeObj = q;
-    // storeObj.key = q.$key;
-    // this.storage.set('answerPageCurrQuestion', storeObj);
-    // this.streamData.updateViewedAnswers(q);
-    // this.navCtrl.push(AnswerPage);
+    console.log('question clicked');
+    this.utils.setQuestionKey(q.$key);
+    this.streamData.updateViewedAnswers(q);
+    this.navCtrl.push(AnswerPage);
   }
 
   doRefresh(refresher: Refresher) { // to avoid refresh errors for now
