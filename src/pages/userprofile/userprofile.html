@@ -10,7 +10,8 @@
 
 <ion-content padding class="userprofile-page">
   <div padding-top text-center *ngFor="let u of loggedInUser | async">
-    <img src="{{u.photoURL}}" alt="avatar">
+    <!-- Base64 image data is considered unsafe by angular -->
+    <img src="{{sanitizer.bypassSecurityTrustResourceUrl(u.photoURL)}}" alt="avatar">
     <h2>{{u.displayName}}</h2>
 
     <div padding-left padding-right>
@@ -18,7 +19,7 @@
     </div>
 
     <ion-list inset>
-      <button ion-item (click)="updatePicture(u)">Update Picture</button>
+      <button ion-item (click)="updatePicture(u.$key)">Update Picture</button>
       <button ion-item (click)="onChangeName(u)">{{u.displayName}}</button>
       <!-- <button ion-item (click)="onChangeBio(u)">Update Bio</button> -->
       <!-- ^ Similar interface to Question button -->

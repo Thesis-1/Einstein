@@ -28,14 +28,14 @@ export class UtilityHelpers {
 
     }
 
-    getPicture(cb) {
+    getPicture() {
       this.camera.getPicture({
         quality: 100,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,
         mediaType: this.camera.MediaType.PICTURE
       }).then( (imageData) => {
-        cb('data:image/jpeg;base64,' + imageData);
+        return 'data:image/jpeg;base64,' + imageData;
       }, (err) => {
         this.popToast('Error grapping photo with web mock.')
         return null;
