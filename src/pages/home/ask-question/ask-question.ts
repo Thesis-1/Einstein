@@ -5,15 +5,24 @@ import { PreviewQuestionPage } from './preview-question/preview-question'
 import { AskedQuestionPage } from './asked-question/asked-question'
 import { StreamData } from '../../../providers/questions-stream'
 
+// Imports for Google Translate
+import { TranslateService } from '../../../providers/translate';
+import { UtilityHelpers } from '../../../providers/utility-helpers';
 
 @Component({
     selector: "page-ask-question",
     templateUrl: "ask-question.html"
 })
 
-export class AskQuestionPage  {
-    constructor (private modalCtrl: ModalController, private viewCtrl: ViewController, private navCtrl: NavController, private service: StreamData) { }
-    
+export class AskQuestionPage {
+    constructor (
+      private modalCtrl: ModalController,
+      private viewCtrl: ViewController,
+      private navCtrl: NavController,
+      private service: StreamData
+    ) {
+    }
+
     hideTip = false
     selectedTopic = "Algebra"
     topics = [
@@ -77,7 +86,7 @@ export class AskQuestionPage  {
         let previewModal = this.modalCtrl.create(PreviewQuestionPage, question);
         previewModal.present();
     }
- 
+
     onClickClose () {
         this.viewCtrl.dismiss()
     }

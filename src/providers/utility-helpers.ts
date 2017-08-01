@@ -5,10 +5,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import { Platform, ToastController, AlertController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { TranslateService } from './translate';
 
 @Injectable()
 export class UtilityHelpers {
-  _questionKey = 'unknwown';
+  _questionKey = 'unknown';
+  currentTranslation;
+  translationTest = 'Hello world';
 
   camOptions: CameraOptions = {
   quality: 100,
@@ -22,7 +25,8 @@ export class UtilityHelpers {
       public http: Http,
       public toastCtrl: ToastController,
       public alertCtrl: AlertController,
-      private camera: Camera
+      private camera: Camera,
+      private translateSvc: TranslateService
     ) {
 
 
@@ -193,5 +197,23 @@ export class UtilityHelpers {
           }
         });
         alert.present();
+    }
+
+    handleTranslation() {
+      // The createTranslation microservice takes a string as an argument and saves
+      // each translation in the array of supported languages under a key in Firebase at
+      // the '/translations' endpoint.
+
+      // `this.translationTest` should be the question/answer string passed to
+      // createTranslation.
+      this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
+    }
+
+    defaultMessage() {
+      if (!this.currentTranslation) {
+        return "Enter text and click Translate";
+      } else {
+        return "Running translation in the cloud ...";
+      }
     }
 }

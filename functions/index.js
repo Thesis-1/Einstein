@@ -14,7 +14,7 @@ admin.initializeApp(functions.config().firebase);
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 
 
-// All our cloud functions need to created and exported inside this `index.js`
+// All our cloud functions need to be created and exported inside this `index.js`
 // file.
 
 // Since we've offloaded this task to run entirely on Firebase, we won't
