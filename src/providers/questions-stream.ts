@@ -45,13 +45,7 @@ export class StreamData {
           equalTo: loggedInUser.user_id,
           limitToLast: 1
         }
-      });
-      // language.$ref
-      //   .limitToLast(1)
-      //   .on("child_added", (child) => {
-      //     // this.getViewCount
-      //     console.log('child', child);
-      //   });
+      })
     }
 
     postQuestion(question) {
