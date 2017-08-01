@@ -39,21 +39,25 @@ export class AskQuestionPage {
     questionDetails: string = ''
     tags = []
     currentUser = this.service.getUser()
-    currentLanguage
+    currentLanguage = this.getUserLanguage()
 
     ionViewDidLoad() {
+      console.log('this.currentUser', this.currentUser);
+      console.log('this.currentLanguage', this.currentLanguage);
+    }
+
+    getUserLanguage() {
       console.log('ionViewDidLoad AskQuestionPage');
       if ( this.currentUser != null ) {
         //Get logged in user from af database by matching user id
-        this.currentLanguage = this.service.getLanguage().subscribe((data:any) => {
-          data.map((datum) => {
-            console.log('datum.language', datum.language);
+        this.service.getLanguage().subscribe((data:any) => {
+          let languageQuery = data.map((datum) => {
+            this.currentLanguage = datum.language;
+            console.log('user language is: ', this.currentLanguage);
           });
         });
-        // this.currentLanguage = this.service.getLanguage();
-        console.log('user language is: ', this.currentLanguage);
       }
-
+      console.log('user language is: ', this.currentLanguage);
     }
 
     onClickDismiss () {

@@ -42,7 +42,8 @@ export class StreamData {
       return this.afDB.list('/users', {
         query: {
           orderByChild: 'language',
-          equalTo: loggedInUser.user_id
+          equalTo: loggedInUser.user_id,
+          limitToLast: 1
         }
       });
       // language.$ref
