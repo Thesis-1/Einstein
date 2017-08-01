@@ -5,8 +5,6 @@ import { PreviewQuestionPage } from './preview-question/preview-question'
 import { AskedQuestionPage } from './asked-question/asked-question'
 import { StreamData } from '../../../providers/questions-stream'
 
-// Imports for Google Translate
-import { TranslateService } from '../../../providers/translate';
 import { UtilityHelpers } from '../../../providers/utility-helpers';
 
 @Component({
