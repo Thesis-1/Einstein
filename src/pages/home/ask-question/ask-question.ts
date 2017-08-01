@@ -6,6 +6,7 @@ import { AskedQuestionPage } from './asked-question/asked-question'
 import { StreamData } from '../../../providers/questions-stream'
 
 import { UtilityHelpers } from '../../../providers/utility-helpers';
+import 'rxjs';
 
 @Component({
     selector: "page-ask-question",
@@ -13,6 +14,7 @@ import { UtilityHelpers } from '../../../providers/utility-helpers';
 })
 
 export class AskQuestionPage {
+
     constructor (
       private modalCtrl: ModalController,
       private viewCtrl: ViewController,
@@ -37,6 +39,19 @@ export class AskQuestionPage {
     questionDetails: string = ''
     tags = []
     currentUser = this.service.getUser()
+    currentLanguage
+
+    ionViewDidLoad() {
+      console.log('ionViewDidLoad AskQuestionPage');
+      if ( this.currentUser != null ) {
+        //Get logged in user from af database by matching user id
+        this.currentLanguage = this.service.getLanguage().subscribe((data:any) => {
+          return data;
+        });
+        console.log('user language is: ', this.currentLanguage);
+      }
+
+    }
 
     onClickDismiss () {
         this.hideTip = true

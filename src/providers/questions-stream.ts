@@ -11,6 +11,7 @@ export class StreamData {
     data: FirebaseListObservable<any[]>
     views: any;
     user: any;
+    loggedInUser: FirebaseListObservable<any[]>;
 
     constructor(
         public afDB: AngularFireDatabase,
@@ -34,6 +35,17 @@ export class StreamData {
         return this.afAuth.auth.currentUser
     }
 
+    getLanguage() {
+
+      let loggedInUser = this.getUser();
+      // query for language value of currentUser
+      return this.afDB.list('/users', {
+        query: {
+          orderByChild: 'language',
+          equalTo: loggedInUser.user_id
+        }
+      });
+    }
 
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')

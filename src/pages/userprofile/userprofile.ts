@@ -142,7 +142,7 @@ export class UserProfilePage {
 
 
   onChangeLanguage(u) {
-    let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Russian'];
+    let languages = ['English', 'Spanish', 'French', 'German', 'Hindi', 'Mandarin', 'Russian'];
 
     this.utils.showRadioAlert('Language', languages, (info) => {
       this.loggedInUser.update(u.$key, { language: info });
