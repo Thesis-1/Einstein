@@ -10,8 +10,8 @@ import { TranslateService } from './translate';
 @Injectable()
 export class UtilityHelpers {
   _questionKey = 'unknown';
-  currentTranslation;
-  translationTest = 'Hello world';
+  // currentTranslation;
+  // translationTest = 'Hello world';
 
   // camOptions: CameraOptions = {
   // quality: 100,
@@ -204,21 +204,21 @@ export class UtilityHelpers {
         alert.present();
     }
 
-    handleTranslation() {
+    handleTranslation(userText) {
       // The createTranslation microservice takes a string as an argument and saves
       // each translation in the array of supported languages under a key in Firebase at
       // the '/translations' endpoint.
 
       // `this.translationTest` should be the question/answer string passed to
       // createTranslation.
-      this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
+      this.translateSvc.createTranslation(userText);
     }
 
-    defaultMessage() {
-      if (!this.currentTranslation) {
-        return "Enter text and click Translate";
-      } else {
-        return "Running translation in the cloud ...";
-      }
-    }
+    // defaultMessage() {
+    //   if (!this.currentTranslation) {
+    //     return "Enter text and click Translate";
+    //   } else {
+    //     return "Running translation in the cloud ...";
+    //   }
+    // }
 }
