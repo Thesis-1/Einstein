@@ -11,7 +11,7 @@
 <ion-content padding class="userprofile-page">
   <div padding-top text-center *ngFor="let u of loggedInUser | async">
     <!-- Base64 image data is considered unsafe by angular -->
-    <img src="{{sanitizer.bypassSecurityTrustResourceUrl(u.photoURL)}}" alt="avatar">
+    <img src="{{u.photoURL}}" alt="avatar">
     <h2>{{u.displayName}}</h2>
 
     <div padding-left padding-right>

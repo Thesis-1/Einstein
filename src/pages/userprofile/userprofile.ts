@@ -96,15 +96,15 @@ export class UserProfilePage {
   updatePicture(key) {
     console.log(key);
     this.camera.getPicture({
-      quality: 50,
-      destinationType: this.camera.DestinationType.DATA_URL,
+      quality: 75,
+      destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
-      targetHeight: 200,
-      targetWidth: 200,
+      targetHeight: 240,
+      targetWidth: 240,
       cameraDirection: this.camera.Direction.FRONT
     }).then( (imageData) => {
-      let dataURL = `data:image/jpeg;base64,${imageData}`;
-      this.loggedInUser.update(key, {photoURL: dataURL});
+      let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
+      this.loggedInUser.update(key, {photoURL: imageData});
       this.utils.popToast('Profile picture updated!');
     }, (err) => {
       //Attempt to simulate a camera on web
