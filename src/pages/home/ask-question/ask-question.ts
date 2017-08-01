@@ -46,8 +46,11 @@ export class AskQuestionPage {
       if ( this.currentUser != null ) {
         //Get logged in user from af database by matching user id
         this.currentLanguage = this.service.getLanguage().subscribe((data:any) => {
-          return data;
+          data.map((datum) => {
+            console.log('datum.language', datum.language);
+          });
         });
+        // this.currentLanguage = this.service.getLanguage();
         console.log('user language is: ', this.currentLanguage);
       }
 
