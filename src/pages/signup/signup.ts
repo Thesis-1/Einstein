@@ -59,12 +59,7 @@ export class SignupPage {
           if (user != null) {
             user.updateProfile({
               displayName: this.details.name,
-              photoURL: '../../assets/img/einstein-main.jpeg'
-              // bio: 'I like to count with my fingers.',
-              // learningSubjects: '',
-              // teachingSubjects: '',
-              // language: 'English',
-              // country: 'United States'
+              photoURL: 'assets/img/einstein-main.jpeg'
             }).then( ()=> {
               // Update successful.
               //Note: User is auto logged in on account creation in Firebase
@@ -74,7 +69,7 @@ export class SignupPage {
                 displayName: this.details.name,
                 user_id: user.uid,
                 hasSeenAskInstructions: false,
-                photoURL: '../../assets/img/einstein-main.jpeg',
+                photoURL: 'assets/img/einstein-main.jpeg',
                 bio: 'I am a master of the abacus.',
                 learningSubjects: {
                   'Algebra': false,

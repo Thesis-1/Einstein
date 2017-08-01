@@ -103,8 +103,8 @@ export class UserProfilePage {
   }
 
   updatePicture(u) {
-    this.utils.getPicture( (s) => {
-      u.photoURL = s;
+    this.utils.getPicture( (base64URL) => {
+      u.photoURL = base64URL;
     });
   }
 

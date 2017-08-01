@@ -47,16 +47,6 @@ export const firebaseConfig = {
   messagingSenderId: "780646176835"
 };
 
-class CameraMock extends Camera {
-  getPicture(options) {
-    //Append 'data:image/gif;base64,' to the front of the resolve value to display in HTML
-    return new Promise((resolve, reject) => {
-      resolve("R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7");
-    })
-  }
-};
-
-
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -128,8 +118,9 @@ const cloudSettings: CloudSettings = {
     StatusBar,
     SplashScreen,
     TranslateService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    { provide: Camera, useClass: CameraMock }
+    Camera,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    //{ provide: Camera, useClass: CameraMock }
   ]
 })
 export class AppModule {}
