@@ -75,6 +75,9 @@ export class AskQuestionPage  {
                 .then((item:any)=> {
                     this.showSubmittedQuestion(question, item.key)
                 })
+            // call handleTranslation utility helper to save translation
+            // of user text to firebase under `translations` endpoint
+            this.utils.handleTranslation(question.questionBody);
         } else { // pass question to preview
             this.showPreview(question)
         }

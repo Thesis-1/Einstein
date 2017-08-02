@@ -12,6 +12,9 @@ import { Camera } from '@ionic-native/camera';
 import { StreamData } from '../providers/questions-stream';
 import { UtilityHelpers } from '../providers/utility-helpers';
 
+// Imports for Google Translate API
+import { TranslateService } from '../providers/translate';
+
 //Imports for firebase DB
 import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
@@ -114,6 +117,7 @@ const cloudSettings: CloudSettings = {
     UtilityHelpers,
     StatusBar,
     SplashScreen,
+    TranslateService,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
     //{ provide: Camera, useClass: CameraMock }

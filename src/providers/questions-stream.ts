@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { Http } from '@angular/http';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Http } from '@angular/http';
@@ -7,17 +6,17 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 
-@Injectable() 
+@Injectable()
 export class StreamData {
     data: FirebaseListObservable<any[]>
     views: any;
     user: any;
-    
+
     constructor(
-        public afDB: AngularFireDatabase, 
-        private afAuth: AngularFireAuth, 
-        private http: Http) 
-        { 
+        public afDB: AngularFireDatabase,
+        private afAuth: AngularFireAuth,
+        private http: Http)
+        {
             //
         }
 
@@ -35,7 +34,7 @@ export class StreamData {
         return this.afAuth.auth.currentUser
     }
 
-   
+
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')
         return this.data.push(question)
@@ -45,25 +44,25 @@ export class StreamData {
         return this.data.map((items)=>{
             return items.filter((item) => {
                 return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
-            });     
+            });
         });
     }
 
     closeOrOpenQuestion(question){
         this.user = this.afAuth.auth.currentUser;
-        
+
         this.data.update(question.$key, {isClosed: !question.isClosed});
         this.data.update(question.$key, {userClosed: this.user.uid + !question.isClosed});
-        this.data.update(question.$key, {closedOn: Date.now()});    
+        this.data.update(question.$key, {closedOn: Date.now()});
     }
 
     filterAnswerUnanswer(text){
         return this.data.map((items)=>{
             return items.filter((item) => {
                 return item.isClosed.toString() === text;
-            });     
+            });
         });
-    } 
+    }
 
     fetchAnswers(){
         return this.afDB.list('/userAnswers');
@@ -99,5 +98,5 @@ export class StreamData {
         }
 
     }
-    
+
 }
