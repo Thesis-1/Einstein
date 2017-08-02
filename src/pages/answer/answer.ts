@@ -73,7 +73,8 @@ export class AnswerPage {
         orderByChild: 'question_id',
         equalTo: this.questionKey
       }
-    });
+    })  //This should sort answers by # of likes
+    .map(answers => answers.sort( (a,b) => b.likes - a.likes)) as FirebaseListObservable<any[]>;
   }
 
   isQuestionOwner(q) {
