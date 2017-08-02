@@ -19,6 +19,8 @@ export class HomePage {
   queryText = '';
   tester = 'unanswered';
   filter = 'all';
+  currentUser = this.streamData.getUser()
+  currentLanguage;
 
   constructor(
     public navCtrl: NavController,
@@ -34,6 +36,14 @@ export class HomePage {
   ionViewDidLoad() {
     this.app.setTitle('Questions');
     this.updateQuestionStream();
+    if ( this.currentUser != null ) {
+
+      this.streamData.getLanguage().subscribe((data:any) => {
+        console.log('data[0].language', data[0].language);
+        this.currentLanguage = data[0].language;
+        console.log('user language is: ', this.currentLanguage);
+      });
+    }
   }
 
   updateQuestionStream () {
