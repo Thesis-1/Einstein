@@ -6,6 +6,9 @@ import { AlertController, NavController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
+// Imports for Google Translate
+import { TranslateService } from '../../providers/translate';
+
 import { LearningSubjectsPage } from '../learning-subjects/learning-subjects';
 import { TeachingSubjectsPage } from '../teaching-subjects/teaching-subjects';
 
@@ -22,7 +25,10 @@ export class UserProfilePage {
   // country = 'Country';
   // language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
-
+  translationTest = 'Hello world';
+  currentTranslation;
+  country = 'Country';
+  language = 'Language';
   //Camera Options
   // options: CameraOptions = {
   //   quality: 100,
@@ -37,7 +43,9 @@ export class UserProfilePage {
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
-    public utils: UtilityHelpers
+    public toastCtrl: ToastController,
+    public utils: UtilityHelpers,
+    private translateSvc: TranslateService
   ) {
     /* user object will look like this:
     bio: "I like to add with my fingers"
@@ -82,6 +90,18 @@ export class UserProfilePage {
 
   }
 
+  handleTranslation() {
+    this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
+  }
+
+  defaultMessage() {
+    if (!this.currentTranslation) {
+      return "Enter text and click Translate";
+    } else {
+      return "Running translation in the cloud ...";
+    }
+  }
+
   updatePicture(u) {
     this.utils.getPicture( (base64URL) => {
       u.photoURL = base64URL;
@@ -91,49 +111,15 @@ export class UserProfilePage {
 
   onChangeName(u) {
     console.log('u in onChangeName', u);
-    this.showPromptAlert('Name', (info) => {
+    this.utils.showPromptAlert('Name', (info) => {
       console.log('u in onChangeName before updating in firebase', u);
 
       this.loggedInUser.update(u.$key, { displayName: info });
     });
   }
 
-  // Prompt Alert Function:
-  // will be called by some wrapper method to supply the
-  // right data for inputs and string interpolation
-
-  showPromptAlert(field, cb) {
-
-    let alert = this.alertCtrl.create({
-      title: 'Update ' + field,
-      inputs: [
-        {
-          name: field,
-          placeholder: field
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            console.log('Saved clicked');
-            console.log('data[field] on line 200', data[field]);
-            cb(data[field]);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
   onChangeBio(u) {
-    this.showPromptAlert('Bio', (info) => {
+    this.utils.showPromptAlert('Bio', (info) => {
       this.loggedInUser.update(u.$key, { bio: info });
     });
   }
@@ -141,9 +127,13 @@ export class UserProfilePage {
   onChangeCountry(u) {
     let countries = ['USA', 'Canada', 'India', 'Bangladesh', 'UK', 'France'];
 
-    this.showRadioAlert('Country', countries, (info) => {
-      this.loggedInUser.update(u.$key, { country: info });
+    this.utils.showRadioAlert('Country', countries, (info) => {
+      this.loggedInUser.update(u.$key, { language: info });
     });
+
+    // this.showRadioAlert('Country', countries, (info) => {
+    //   this.loggedInUser.update(u.$key, { country: info });
+    // });
     // this.showPromptAlert('Country', (info) => {
     //   console.log('u in onChangeCountry before updating in firebase', u);
     //   this.loggedInUser.update(u.$key, { country: info });
@@ -152,8 +142,9 @@ export class UserProfilePage {
 
 
   onChangeLanguage(u) {
-    let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Korean', 'Russian'];
-    this.showRadioAlert('Language', languages, (info) => {
+    let languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Russian'];
+
+    this.utils.showRadioAlert('Language', languages, (info) => {
       this.loggedInUser.update(u.$key, { language: info });
     });
   }
@@ -171,32 +162,6 @@ export class UserProfilePage {
 
     this.navCtrl.push(TeachingSubjectsPage, { u });
 
-  }
-
-  // Radio Alert Function:
-
-  showRadioAlert(field, choices, cb) {
-
-      let alert = this.alertCtrl.create();
-      alert.setTitle('Country');
-
-      choices.forEach((choice) => {
-        alert.addInput({
-          type: 'radio',
-          label: choice,
-          value: choice
-        });
-      });
-
-      alert.addButton('Cancel');
-      alert.addButton({
-        text: 'OK',
-        handler: data => {
-          console.log('data', data);
-          cb(data);
-        }
-      });
-      alert.present();
   }
 
 }

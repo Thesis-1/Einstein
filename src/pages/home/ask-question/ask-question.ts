@@ -5,15 +5,23 @@ import { PreviewQuestionPage } from './preview-question/preview-question'
 import { AskedQuestionPage } from './asked-question/asked-question'
 import { StreamData } from '../../../providers/questions-stream'
 
+import { UtilityHelpers } from '../../../providers/utility-helpers';
 
 @Component({
     selector: "page-ask-question",
     templateUrl: "ask-question.html"
 })
 
-export class AskQuestionPage  {
-    constructor (private modalCtrl: ModalController, private viewCtrl: ViewController, private navCtrl: NavController, private service: StreamData) { }
-    
+export class AskQuestionPage {
+    constructor (
+      private modalCtrl: ModalController,
+      private viewCtrl: ViewController,
+      private navCtrl: NavController,
+      private service: StreamData,
+      private utils: UtilityHelpers
+    ) {
+    }
+
     hideTip = false
     selectedTopic = "Algebra"
     topics = [
@@ -63,6 +71,9 @@ export class AskQuestionPage  {
                 .then((item:any)=> {
                     this.showSubmittedQuestion(question, item.key)
                 })
+            // call handleTranslation utility helper to save translation
+            // of user text to firebase under `translations` endpoint
+            this.utils.handleTranslation(question.questionBody);
         } else { // pass question to preview
             this.showPreview(question)
         }
@@ -77,7 +88,7 @@ export class AskQuestionPage  {
         let previewModal = this.modalCtrl.create(PreviewQuestionPage, question);
         previewModal.present();
     }
- 
+
     onClickClose () {
         this.viewCtrl.dismiss()
     }

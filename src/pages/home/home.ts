@@ -7,7 +7,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AskQuestionPage } from './ask-question/ask-question';
 import { AnswerPage } from '../answer/answer';
 import { StreamData } from '../../providers/questions-stream';
-import { UtilityHelpers } from '../../providers/utility-helpers'
+import { UtilityHelpers } from '../../providers/utility-helpers';
 
 @Component({
   selector: 'page-home',
@@ -92,7 +92,7 @@ export class HomePage {
     });
   }
 
-   filterQuestions() {
+  filterQuestions() {
     if(this.filter === 'all'){
       this.updateQuestionStream();
     } else {

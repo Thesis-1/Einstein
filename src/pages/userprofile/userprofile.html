@@ -13,6 +13,11 @@
     <img src="{{u.photoURL}}" alt="avatar">
     <h2>{{u.displayName}}</h2>
 
+    <!-- <textarea rows="2" cols="40" class="input" [(ngModel)]="translationTest"></textarea>
+    <button (click)="handleTranslation()" class="button is-primary">Translate</button>
+    <h4>Spanish</h4>
+    <p>{{ (currentTranslation | async)?.es || defaultMessage() }}</p> -->
+
     <div padding-left padding-right>
       <p ion-content (click)="onChangeBio(u)">{{u.bio}}</p>
     </div>
