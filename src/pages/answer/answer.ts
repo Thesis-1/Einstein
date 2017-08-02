@@ -76,6 +76,27 @@ export class AnswerPage {
     });
   }
 
+  isQuestionOwner(q) {
+    let user = this.afAuth.auth.currentUser;
+    if (user != null) {
+      if (q.userId == user.uid) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  onCloseClick(q) {
+    this.questions.update(q.$key, {
+      isClosed: true,
+      closedOn: Date.now()
+    });
+  }
+
+
   updateQuestion () {
     this.questions= this.af.list('/userQuestions', {
       query: {
@@ -83,6 +104,10 @@ export class AnswerPage {
         equalTo: this.questionKey
       }
     });
+  }
+
+  closeButtonLabel (q) {
+    return q.isClosed ? 'Closed' : 'Close Question';
   }
 
   onSubmitAnswer() {
