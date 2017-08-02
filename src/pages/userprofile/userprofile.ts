@@ -90,17 +90,17 @@ export class UserProfilePage {
 
   }
 
-  handleTranslation() {
-    this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
-  }
-
-  defaultMessage() {
-    if (!this.currentTranslation) {
-      return "Enter text and click Translate";
-    } else {
-      return "Running translation in the cloud ...";
-    }
-  }
+  // handleTranslation() {
+  //   this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
+  // }
+  //
+  // defaultMessage() {
+  //   if (!this.currentTranslation) {
+  //     return "Enter text and click Translate";
+  //   } else {
+  //     return "Running translation in the cloud ...";
+  //   }
+  // }
 
   updatePicture(u) {
     this.utils.getPicture( (base64URL) => {

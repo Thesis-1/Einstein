@@ -204,15 +204,15 @@ export class UtilityHelpers {
         alert.present();
     }
 
-    handleTranslation(userText) {
-      // The createTranslation microservice takes a string as an argument and saves
-      // each translation in the array of supported languages under a key in Firebase at
-      // the '/translations' endpoint.
-
-      // `this.translationTest` should be the question/answer string passed to
-      // createTranslation.
-      this.translateSvc.createTranslation(userText);
-    }
+    // handleTranslation(userText) {
+    //   // The createTranslation microservice takes a string as an argument and saves
+    //   // each translation in the array of supported languages under a key in Firebase at
+    //   // the '/translations' endpoint.
+    //
+    //   // `this.translationTest` should be the question/answer string passed to
+    //   // createTranslation.
+    //   this.translateSvc.createTranslation(userText);
+    // }
 
     // defaultMessage() {
     //   if (!this.currentTranslation) {

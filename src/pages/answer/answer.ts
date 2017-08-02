@@ -96,7 +96,7 @@ export class AnswerPage {
       })
       // call handleTranslation utility helper to save translation
       // of user text to firebase under `translations` endpoint
-      this.utils.handleTranslation(this.answer.answer);
+      // this.utils.handleTranslation(this.answer.answer);
     } else {
       //Show a toast notification if not logged in
       this.utils.popToast('Please Log In to Post Answers.')
