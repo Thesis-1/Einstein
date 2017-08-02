@@ -12,6 +12,7 @@ export class StreamData {
     views: any;
     user: any;
     loggedInUser: FirebaseListObservable<any[]>;
+    currentLanguage;
 
     constructor(
         public afDB: AngularFireDatabase,
@@ -45,6 +46,10 @@ export class StreamData {
           equalTo: loggedInUser.user_id,
           limitToLast: 1
         }
+      }).subscribe((data:any) => {
+        console.log('data[0].language', data[0].language);
+        this.currentLanguage = data[0].language;
+        console.log('user language is: ', this.currentLanguage);
       })
     }
 

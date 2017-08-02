@@ -38,11 +38,7 @@ export class HomePage {
     this.updateQuestionStream();
     if ( this.currentUser != null ) {
 
-      this.streamData.getLanguage().subscribe((data:any) => {
-        console.log('data[0].language', data[0].language);
-        this.currentLanguage = data[0].language;
-        console.log('user language is: ', this.currentLanguage);
-      });
+      this.streamData.getLanguage();
     }
   }
 

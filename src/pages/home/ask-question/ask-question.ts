@@ -45,11 +45,7 @@ export class AskQuestionPage {
       console.log('ionViewDidLoad AskQuestionPage');
       if ( this.currentUser != null ) {
 
-        this.service.getLanguage().subscribe((data:any) => {
-          console.log('data[0].language', data[0].language);
-          this.currentLanguage = data[0].language;
-          console.log('user language is: ', this.currentLanguage);
-        });
+        this.service.getLanguage();
       }
     }
 
