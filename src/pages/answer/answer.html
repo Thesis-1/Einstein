@@ -21,7 +21,7 @@
       <p>{{q.topic}}</p>
       <!-- <p>{{question.createdOn | date:'medium'}}</p> -->
     </ion-item>
-
+    <img [hidden]="!q.imageURL" src="{{q.imageURL}}">
     <ion-card-content>
       <!-- Add card content here! -->
       <ion-row>
@@ -56,12 +56,13 @@
   <ion-card *ngFor="let a of answers | async">
     <ion-item>
       <ion-avatar item-start>
-        <img src="{{a.image}}">
+        <img src="{{a.userImageURL}}">
       </ion-avatar>
+
       <h2>{{a.user}}</h2>
       <p>{{a.created_at | date:'medium'}}</p>
     </ion-item>
-
+    <img [hidden]="!a.imageURL" src="{{a.imageURL}}">
     <ion-card-content>
       <p>{{a.answer}}</p>
     </ion-card-content>
@@ -82,6 +83,13 @@
     </ion-row>
   </ion-card>
 
+  <!-- FAB for adding photos to answer -->
+  <ion-fab right bottom edge>
+    <button ion-fab color="primary" (click)="onImageClick()">
+      <ion-icon name="ios-camera"></ion-icon>
+    </button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-footer>
@@ -91,5 +99,11 @@
       (keydown.enter)="onSubmitAnswer()" placeholder="Post your answer">
       </ion-textarea>
     </ion-item>
+    <!-- <ion-item>
+      <button ion-button icon-right>
+        Right Icon
+        <ion-icon name="home"></ion-icon>
+      </button>
+    </ion-item> -->
   </form>
 </ion-footer>

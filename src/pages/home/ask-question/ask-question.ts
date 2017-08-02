@@ -1,28 +1,31 @@
 import { Component } from '@angular/core'
 import { ModalController, ViewController, NavController } from 'ionic-angular'
+import { Camera } from '@ionic-native/camera';
 
 import { PreviewQuestionPage } from './preview-question/preview-question'
 import { AskedQuestionPage } from './asked-question/asked-question'
 import { StreamData } from '../../../providers/questions-stream'
+import { UtilityHelpers } from '../../../providers/utility-helpers'
 
-import { UtilityHelpers } from '../../../providers/utility-helpers';
 
 @Component({
     selector: "page-ask-question",
     templateUrl: "ask-question.html"
 })
 
-export class AskQuestionPage {
+export class AskQuestionPage  {
     constructor (
+      public utils: UtilityHelpers,
       private modalCtrl: ModalController,
       private viewCtrl: ViewController,
       private navCtrl: NavController,
       private service: StreamData,
-      private utils: UtilityHelpers
-    ) {
-    }
+      private camera: Camera
+    )
+    { }
 
     hideTip = false
+    questionImageURL = '';
     selectedTopic = "Algebra"
     topics = [
         'Algebra',
@@ -59,6 +62,7 @@ export class AskQuestionPage {
             createdOn: Date.now(),
             userName: this.currentUser.displayName,
             userPhotoURL: this.currentUser.photoURL,
+            imageURL: this.questionImageURL,
             userId: this.currentUser.uid,
             userClosed: this.currentUser.uid+false
         }
@@ -91,5 +95,21 @@ export class AskQuestionPage {
 
     onClickClose () {
         this.viewCtrl.dismiss()
+    }
+
+    onImageClick() {
+      this.camera.getPicture({
+        quality: 75,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        targetHeight: 240,
+        targetWidth: 240
+      }).then( (imageData) => {
+      //  let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
+        this.questionImageURL = imageData;
+        this.utils.popToast('Image Uploaded.  You may ask or preview your question.');
+      }, (err) => {
+        this.utils.popToast('Camera is a native feature.  Cannot use in web.')
+      });
     }
 }

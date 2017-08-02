@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, ToastController } from 'ionic-angular';
-
+import { AlertController, NavController, ActionSheetController } from 'ionic-angular';
+import { Camera } from '@ionic-native/camera';
+import { DomSanitizer } from '@angular/platform-browser';
 
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -21,6 +22,7 @@ import { UtilityHelpers } from '../../providers/utility-helpers';
 export class UserProfilePage {
 
   gravatar = 'http://www.gravatar.com/avatar?d=mm&s=140';
+  trustedPhotoURL = '';
   // bio = 'Bio';
   // country = 'Country';
   // language = 'Language';
@@ -43,8 +45,10 @@ export class UserProfilePage {
     public af: AngularFireDatabase,
     public alertCtrl: AlertController,
     public navCtrl: NavController,
-    public toastCtrl: ToastController,
     public utils: UtilityHelpers,
+    public actionSheetCtrl: ActionSheetController,
+    private camera: Camera,
+    private sanitizer: DomSanitizer,
     private translateSvc: TranslateService
   ) {
     /* user object will look like this:
@@ -90,6 +94,52 @@ export class UserProfilePage {
 
   }
 
+
+  updatePicture(key) {
+    console.log(key);
+    this.camera.getPicture({
+      quality: 75,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      targetHeight: 240,
+      targetWidth: 240,
+      cameraDirection: this.camera.Direction.FRONT
+    }).then( (imageData) => {
+      let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
+      this.loggedInUser.update(key, {photoURL: imageData});
+      this.utils.popToast('Profile picture updated!');
+    }, (err) => {
+      //Attempt to simulate a camera on web
+      let actionSheet = this.actionSheetCtrl.create({
+        title: 'Select a Photo',
+        buttons: [
+          {
+            text: 'Einstein',
+            handler: () => {
+              this.loggedInUser.update(key, {photoURL: 'assets/img/einstein-main.jpeg'})
+            }
+          },{
+            text: 'Basic user Image Base64',
+            handler: () => {
+              this.loggedInUser.update(key, {photoURL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMAECAwT19gj5C/wM/Q3+9FZnYJAAAAjklEQVR4Ae3SSw7DIAwEUOOkxS6fuf9tu2hVKZ8As0Nq3tqTMAaZ101jAlJUGWT4ijIk4ycR3/8w6VJsKPcDwMYaMC2wwwfII2W+NL9W/uKIFpl8fCaD1DKQTeVvhDW6F6C4xzVIzzNhIz3a4wUH5TqijlOucmqpuFCX/nw/ESoa6nFdLzS57KFjxsBUbm81lh3paNio7AAAAABJRU5ErkJggg=='});
+            }
+          },{
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ]
+      });
+      actionSheet.present();
+
+      // this.utils.popToast('Error grapping photo with web mock.')
+      // return null;
+
+    });
+  }
+
   handleTranslation() {
     this.currentTranslation = this.translateSvc.createTranslation(this.translationTest);
   }
@@ -100,12 +150,6 @@ export class UserProfilePage {
     } else {
       return "Running translation in the cloud ...";
     }
-  }
-
-  updatePicture(u) {
-    this.utils.getPicture( (base64URL) => {
-      u.photoURL = base64URL;
-    });
   }
 
 

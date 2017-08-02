@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
+import { Camera } from '@ionic-native/camera';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -33,11 +34,13 @@ export class AnswerPage {
     answer: '',
     created_at: 0,
     user: 'Unknown',
-    image:'',
+    imageURL:'',
+    userImageURL: '',
     question_id:'',
     isBest: false,
     likes: 0,
-    likedFromUsers: ['users:']
+    likedFromUsers: ['users:'],
+
   };
 
   //firebase
@@ -48,7 +51,8 @@ export class AnswerPage {
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
-    public utils: UtilityHelpers
+    public utils: UtilityHelpers,
+    private camera: Camera
   ) {
 
   }
@@ -88,7 +92,8 @@ export class AnswerPage {
         answer: this.answer.answer,
         created_at: Date.now(),
         user: user.displayName,
-        image: user.photoURL,
+        userImageURL: user.photoURL,
+        imageURL: this.answer.imageURL,
         question_id: this.questionKey,
         isBest: false,
         likes: 0,
@@ -128,6 +133,22 @@ export class AnswerPage {
       this.utils.popToast('Please Log In to Like Answers.')
     }
 
+  }
+
+  onImageClick() {
+    this.camera.getPicture({
+      quality: 75,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      targetHeight: 240,
+      targetWidth: 240
+    }).then( (imageData) => {
+    //  let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
+      this.answer.imageURL = imageData;
+      this.utils.popToast('Image Uploaded.  Submit your Answer to view it!');
+    }, (err) => {
+      this.utils.popToast('Camera is a native feature.  Cannot use in web.')
+    });
   }
 
 
