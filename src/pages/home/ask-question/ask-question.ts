@@ -80,15 +80,15 @@ export class AskQuestionPage {
 
     postQuestion (isPreview, question) {
         if (isPreview === false) { // save in db
-          // call handleTranslation utility helper to save translation
-          // of user text to firebase under `translations` endpoint
+          // call postTranslation to save translation of user text to
+          // firebase under `translations` endpoint
           this.translateSvc.postTranslation(question.questionBody)
             .then((item:any) => {
               question.translation_id = item.key
               this.service.postQuestion(question)
-                  .then((item:any)=> {
-                      this.showSubmittedQuestion(question, item.key)
-                  })
+                .then((item:any)=> {
+                  this.showSubmittedQuestion(question, item.key)
+                })
             })
 
 

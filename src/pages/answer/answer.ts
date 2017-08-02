@@ -5,6 +5,8 @@ import { NgForm } from '@angular/forms';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+// TranslateService
+import { TranslateService } from '../../providers/translate'
 //Useful helper functions
 import { UtilityHelpers } from '../../providers/utility-helpers';
 
@@ -48,6 +50,7 @@ export class AnswerPage {
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
+    public translateSvc: TranslateService,
     public utils: UtilityHelpers
   ) {
 
@@ -84,19 +87,24 @@ export class AnswerPage {
   onSubmitAnswer() {
     let user = this.afAuth.auth.currentUser;
     if (user != null) {
-      this.answers.push({
-        answer: this.answer.answer,
-        created_at: Date.now(),
-        user: user.displayName,
-        image: user.photoURL,
-        question_id: this.questionKey,
-        isBest: false,
-        likes: 0,
-        likedFromUsers: {isJoin: 'yes'}
-      })
-      // call handleTranslation utility helper to save translation
-      // of user text to firebase under `translations` endpoint
-      // this.utils.handleTranslation(this.answer.answer);
+      // call postTranslation to save translation of user text to
+      // firebase under `translations` endpoint
+      let userAnswer = this.answer.answer
+      this.translateSvc.postTranslation(userAnswer)
+        .then((item:any) => {
+          this.answers.push({
+            answer: userAnswer,
+            created_at: Date.now(),
+            user: user.displayName,
+            image: user.photoURL,
+            question_id: this.questionKey,
+            isBest: false,
+            likes: 0,
+            likedFromUsers: {isJoin: 'yes'},
+            translation_id: item.key
+          })
+        })
+
     } else {
       //Show a toast notification if not logged in
       this.utils.popToast('Please Log In to Post Answers.')
