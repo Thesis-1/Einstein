@@ -40,6 +40,8 @@ export class StreamData {
 
       let loggedInUser = this.getUser();
       // query for language value of currentUser
+      // and subscribe to the Firebase observable returned by the
+      // query
       return this.afDB.list('/users', {
         query: {
           orderByChild: 'language',

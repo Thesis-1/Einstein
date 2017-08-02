@@ -5,6 +5,7 @@ import { PreviewQuestionPage } from './preview-question/preview-question'
 import { AskedQuestionPage } from './asked-question/asked-question'
 import { StreamData } from '../../../providers/questions-stream'
 
+import { TranslateService } from '../../../providers/translate'
 import { UtilityHelpers } from '../../../providers/utility-helpers';
 import 'rxjs';
 
@@ -20,7 +21,8 @@ export class AskQuestionPage {
       private viewCtrl: ViewController,
       private navCtrl: NavController,
       private service: StreamData,
-      private utils: UtilityHelpers
+      private utils: UtilityHelpers,
+      private translateSvc: TranslateService
     ) {
     }
 
@@ -78,13 +80,18 @@ export class AskQuestionPage {
 
     postQuestion (isPreview, question) {
         if (isPreview === false) { // save in db
-            this.service.postQuestion(question)
-                .then((item:any)=> {
-                    this.showSubmittedQuestion(question, item.key)
-                })
-            // call handleTranslation utility helper to save translation
-            // of user text to firebase under `translations` endpoint
-            this.utils.handleTranslation(question.questionBody);
+          // call handleTranslation utility helper to save translation
+          // of user text to firebase under `translations` endpoint
+          this.translateSvc.postTranslation(question.questionBody)
+            .then((item:any) => {
+              question.translation_id = item.key
+              this.service.postQuestion(question)
+                  .then((item:any)=> {
+                      this.showSubmittedQuestion(question, item.key)
+                  })
+            })
+
+
         } else { // pass question to preview
             this.showPreview(question)
         }
