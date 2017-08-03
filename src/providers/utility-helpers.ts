@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-import { Platform, ToastController, AlertController } from 'ionic-angular';
+import { Platform, ToastController, AlertController, ActionSheetController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { TranslateService } from './translate';
 
@@ -25,6 +25,7 @@ export class UtilityHelpers {
       public http: Http,
       public toastCtrl: ToastController,
       public alertCtrl: AlertController,
+      public actionSheetCtrl: ActionSheetController,
       private camera: Camera,
       private translateSvc: TranslateService
     ) {
@@ -32,14 +33,63 @@ export class UtilityHelpers {
 
     }
 
-    getPicture(options) {
-      this.camera.getPicture(options)
-      .then( (imageData) => {
-        return imageData;
-      }, (err) => {
-        this.popToast('Error grapping photo with web mock.')
-        return null;
+    getPicture(options, cb) {
+      //edge case
+      if (options== undefined || options == null) {
+        options = {};
+      }
+
+      //Universal options which will not change:
+      options.quality = 75;
+      options.destinationType = this.camera.DestinationType.FILE_URI;
+      options.encodingType = this.camera.EncodingType.JPEG,
+      options.targetHeight = 240;
+      options.targetWidth = 240;
+
+      //Options which do change and should be passed in:
+      /* {
+        cameraDirection: this.camera.Direction.BACK || FRONT
+        sourceType: this.camera.PictureSourceType.CAMERA || PHOTOLIBRARY
+      } */
+
+      //getNativePic will be defined here for DRY code
+      let getNativePic = () => {
+        console.log('options for camera: ', options);
+        this.camera.getPicture(options)
+        .then( (imageData) => {
+          console.log('imageData ', imageData);
+          cb(imageData);
+        }, (err) => {
+          //this.popToast('Camera is a native feature.  Cannot use in web.')
+          cb(null);
+        });
+      }
+
+      let actionSheet = this.actionSheetCtrl.create({
+        title: 'Upload a Photo',
+        buttons: [
+          {
+            text: 'Use Camera',
+            handler: () => {
+              getNativePic();
+            }
+          },{
+            text: 'Use Photo Gallery',
+            handler: () => {
+              options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+              getNativePic();
+
+            }
+          },{
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ]
       });
+      actionSheet.present();
     }
 
     setQuestionKey(k) {
