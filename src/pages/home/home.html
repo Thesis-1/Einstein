@@ -8,7 +8,7 @@
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
-                   (ionInput)="search()"
+                   (ionInput)="filter()"
                    placeholder="Search">
     </ion-searchbar>
   </ion-toolbar>
@@ -16,13 +16,13 @@
     <ion-buttons start>
     </ion-buttons>
     <ion-segment [(ngModel)]="opFilter">
-        <ion-segment-button value="all" (click)="filterQuestions()">
+        <ion-segment-button value="all" (click)="filter()">
           All
         </ion-segment-button>
-        <ion-segment-button value="false" (click)="filterQuestions()">
+        <ion-segment-button value="false" (click)="filter()">
           Open
         </ion-segment-button>
-        <ion-segment-button value="true" (click)="filterQuestions()">
+        <ion-segment-button value="true" (click)="filter()">
           Closed
         </ion-segment-button>
     </ion-segment>

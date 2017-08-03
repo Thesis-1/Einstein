@@ -87,7 +87,7 @@ export class HomePage {
 
   }
 
-  search() {
+  filter() {
     this.streamData.filterItems(this.queryText, {
         opFilter: this.opFilter,
         topicFilter: this.topicFilter
@@ -95,20 +95,6 @@ export class HomePage {
       .subscribe ((data: any) => {
         this.questions = data;
     });
-  }
-
-  filterQuestions() {
-    if(this.opFilter === 'all' && this.topicFilter === '#All'){
-      this.updateQuestionStream();
-    } else {
-      this.streamData.filter({
-        opFilter: this.opFilter,
-        topicFilter: this.topicFilter
-      })
-      .subscribe((data: any) => {
-        this.questions = data;
-      });
-    }
   }
 
   presentPopover(ev) {
@@ -124,7 +110,7 @@ export class HomePage {
     popover.onDidDismiss((filter)=> {
       if(filter) {
         this.topicFilter = filter;
-        this.filterQuestions();
+        this.filter();
       }
     });
   }
