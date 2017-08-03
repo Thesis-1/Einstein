@@ -13,6 +13,7 @@ export class StreamData {
     user: any;
     loggedInUser: FirebaseListObservable<any[]>;
     currentLanguage;
+    translatedQuestions: any = [];
 
     constructor(
         public afDB: AngularFireDatabase,
@@ -28,12 +29,12 @@ export class StreamData {
         //     return this.data;
         // } else {
             this.data = this.afDB.list('/userQuestions');
-            return this.data
+            return this.data;
         // }
     }
 
     getUser(): any {
-        return this.afAuth.auth.currentUser
+        return this.afAuth.auth.currentUser;
     }
 
     getLanguage() {
@@ -49,11 +50,31 @@ export class StreamData {
           limitToLast: 1
         }
       }).subscribe((data:any) => {
-        console.log('data[0].language', data[0].language);
         this.currentLanguage = data[0].language;
-        console.log('user language is: ', this.currentLanguage);
-      })
+      });
     }
+
+    // getTranslatedQuestions() {
+    //   this.data.subscribe((data:any) => {
+    //     data.map((question) => {
+    //       console.log('question.translation_id', question.translation_id);
+    //       this.translatedQuestions.push(question.translation_id);
+    //       // return this.translatedQuestions;
+    //     })
+    //     .forEach((question) => {
+    //       // query to '/translations' for each translation_id and language
+    //       // analogous to currentLanguage
+    //       this.afDB.list('/translations', {
+    //         query: {
+    //           orderByChild: this.languages[this.currentLanguage]
+    //         }
+    //       }).subscribe((data:any) => {
+    //         this.translatedQuestions.push(data);
+    //         console.log('this.translatedQuestions', this.translatedQuestions);
+    //       })
+    //     })
+    //   });
+    // }
 
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')

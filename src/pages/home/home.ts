@@ -3,6 +3,7 @@ import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-a
 import { App, Refresher, ToastController, ModalController } from 'ionic-angular';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import { AskQuestionPage } from './ask-question/ask-question';
 import { AnswerPage } from '../answer/answer';
@@ -21,8 +22,19 @@ export class HomePage {
   filter = 'all';
   currentUser = this.streamData.getUser()
   currentLanguage;
+  translatedQuestions: any = []
+  languages = {
+    'English': 'english',
+    'Spanish': 'es',
+    'French': 'fr',
+    'German': 'de',
+    'Hindi': 'hi',
+    'Russian': 'ru',
+    'Mandarin': 'zh-TW'
+  }
 
   constructor(
+    public afDB: AngularFireDatabase,
     public navCtrl: NavController,
     public afAuth: AngularFireAuth,
     public app: App,
@@ -47,7 +59,48 @@ export class HomePage {
       .subscribe ((data: any) => {
         this.questions = data;
     });
+  }
 
+  getTranslatedQuestions(question) {
+    // query '/translations' endpoint by question.$key
+    // get currently logged in user's id
+    // get translated string out of the data returned by
+    // the query to '/translations' (based on currentLanguage)
+      // return string
+    console.log('this.currentUser', this.currentUser);
+    console.log('question.translation_id', question.translation_id);
+    // If the question clicked doesn't have a translation_id because
+    // it was saved to the database before the `translation_id` property
+    // was added to questions and answers, the query to the '/translations'
+    // endpoint will return all objects in '/translations'
+    this.afDB.list('/translations', {
+      query: {
+        orderByKey: true,
+        equalTo: question.translation_id
+      }
+    }).subscribe((data) => {
+
+      console.log('data translations', data);
+      let user = this.afAuth.auth.currentUser;
+
+      if (user !== null) {
+        this.afDB.list('/users', {
+          query: {
+            orderByChild: 'user_id',
+            equalTo: user.uid
+          }
+        }).subscribe((user) => {
+          console.log('user users', user);
+          // The console.log is returning the right user object
+        })
+      }
+    });
+
+
+
+
+    // html
+    // bind getTranslatedQuestions in <h3></h3>
   }
 
   onAskQuestion() {
