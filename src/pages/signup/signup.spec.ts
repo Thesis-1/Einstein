@@ -6,8 +6,8 @@ import { App, NavController } from 'ionic-angular'
 import { NgForm, EmailValidator } from '@angular/forms'
 import { Http } from '@angular/http'
 
-//Mocks from mock file
-import { PlatformMock, UserMock, AuthMock, HttpMock } from '../../../test-config/mocks-ionic'
+// //Mocks from mock file
+import { PlatformMock, UserMock, AuthMock, HttpMock } from '../../../test-config/mocks-ionic';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth'
@@ -20,7 +20,7 @@ import { UtilityHelpers } from '../../providers/utility-helpers'
 
 
 
-// Moving FireBase Auth stuff in component to the provider(recomended) should make the tests pass -or- create mocks for firebase services here to make the tests pass
+// // Moving FireBase Auth stuff in component to the provider(recomended) should make the tests pass -or- create mocks for firebase services here to make the tests pass
 
 class AngularFireAuthMock {
     signInWithEmailAndPassword (email, password) {

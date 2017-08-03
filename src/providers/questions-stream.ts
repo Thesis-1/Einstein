@@ -8,7 +8,7 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class StreamData {
-    data: FirebaseListObservable<any[]>
+    data: FirebaseListObservable<any[]>;
     views: any;
     user: any;
 
@@ -21,13 +21,9 @@ export class StreamData {
         }
 
     load(): any {
-        // if (this.data) {
-        //     console.log('i got fired')
-        //     return this.data;
-        // } else {
-            this.data = this.afDB.list('/userQuestions');
-            return this.data
-        // }
+
+        this.data = this.afDB.list('/userQuestions');
+        return this.data;
     }
 
     getUser(): any {
@@ -37,11 +33,11 @@ export class StreamData {
 
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')
-        return this.data.push(question)
+        return this.data.push(question);
     }
 
-    filterItems(queryText){
-        return this.data.map((items)=>{
+    filterItems(queryText, currentFilter){
+        return this.filter(currentFilter).map((items) => {
             return items.filter((item) => {
                 return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
             });
@@ -56,12 +52,37 @@ export class StreamData {
         this.data.update(question.$key, {closedOn: Date.now()});
     }
 
-    filterAnswerUnanswer(text){
-        return this.data.map((items)=>{
-            return items.filter((item) => {
-                return item.isClosed.toString() === text;
-            });
-        });
+    filter(filter) {
+        if(filter.opFilter === 'all') {
+            return this.afDB.list('/userQuestions',{})
+            .map((items) => {
+                if(filter.topicFilter !== '#All') {
+                    return items.filter((item) => {
+                        return item.topic === filter.topicFilter;
+                    });
+
+                } else {
+                    return items
+                }
+            }) as FirebaseListObservable<any []>;
+        } else {
+            var isTrue = (filter.opFilter === 'true');
+            return this.afDB.list('/userQuestions', {
+                query: {
+                    orderByChild: 'isClosed',
+                    equalTo: isTrue
+                }
+            })
+            .map((items) => {
+                if(filter.topicFilter !== '#All') {
+                    return items.filter((item) => {
+                        return item.topic === filter.topicFilter;
+                    });
+                } else {
+                    return items
+                }
+            }) as FirebaseListObservable<any []>;
+        }
     }
 
     fetchAnswers(){
@@ -78,7 +99,6 @@ export class StreamData {
         this.views = this.fetchViewed();
         this.user = this.afAuth.auth.currentUser;
 
-        console.log('inside UpdatedViewedAnswers')
         if(this.user !== null) {
             if(question.userId === this.user.uid) {
                 this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
@@ -92,7 +112,7 @@ export class StreamData {
                     });
                 });
                 }, (err) => {
-                console.log("Error: ", err);
+                    console.log("Error: ", err);
                 });
             }
         }

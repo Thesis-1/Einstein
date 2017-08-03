@@ -8,9 +8,29 @@
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
-                   (ionInput)="search()"
+                   (ionInput)="filter()"
                    placeholder="Search">
     </ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons start>
+    </ion-buttons>
+    <ion-segment [(ngModel)]="opFilter">
+        <ion-segment-button value="all" (click)="filter()">
+          All
+        </ion-segment-button>
+        <ion-segment-button value="false" (click)="filter()">
+          Open
+        </ion-segment-button>
+        <ion-segment-button value="true" (click)="filter()">
+          Closed
+        </ion-segment-button>
+    </ion-segment>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -18,22 +38,13 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-item>
-    <ion-label>Filter</ion-label>
-    <ion-select [(ngModel)]="filter" (ngModelChange)="filterQuestions()">
-      <ion-option value="all">All</ion-option>
-      <ion-option value="true">Answered</ion-option>
-      <ion-option value="false">Unanswered</ion-option>
-    </ion-select>
-  </ion-item>
   <ion-list>
-    <ion-item-sliding *ngFor="let question of questions"
+    <button ion-item *ngFor="let question of questions | reverse"
     [attr.question]="tester" (click)="onQuestionClick(question)">
-      <button ion-item>
-          <h3>{{question.questionBody}}</h3>
-      </button>
-    </ion-item-sliding>
-
+      <ion-icon name="ios-calculator-outline" item-start *ngIf="question.subject === 'Math'"></ion-icon>
+      <h2>{{question.questionBody}}</h2>
+      <p>{{question.topic}} | {{utils.humanReadableTime(question.createdOn)}}</p>
+    </button>
   </ion-list>
   <!-- <ion-card>
     <ion-card-header>
