@@ -12,6 +12,9 @@ import { Camera } from '@ionic-native/camera';
 import { StreamData } from '../providers/questions-stream';
 import { UtilityHelpers } from '../providers/utility-helpers';
 
+// Imports for Google Translate API
+import { TranslateService } from '../providers/translate';
+
 //Imports for firebase DB
 import { AngularFireModule } from 'angularfire2';
 // New imports to update based on AngularFire2 version 4
@@ -34,6 +37,10 @@ import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { AnswerPage } from '../pages/answer/answer';
 import { LearningSubjectsPage } from '../pages/learning-subjects/learning-subjects';
 import { TeachingSubjectsPage } from '../pages/teaching-subjects/teaching-subjects';
+import { FilterpopoverPage } from '../pages/home/filterpopover/filterpopover';
+
+//custom pipes
+import { ReversePipe } from '../pipes/reversepipe';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD-p5kimWSiFWZorVKEUNfuscpbC_bW4oc",
@@ -43,16 +50,6 @@ export const firebaseConfig = {
   storageBucket: "einstein-981c4.appspot.com",
   messagingSenderId: "780646176835"
 };
-
-class CameraMock extends Camera {
-  getPicture(options) {
-    //Append 'data:image/gif;base64,' to the front of the resolve value to display in HTML
-    return new Promise((resolve, reject) => {
-      resolve("R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7");
-    })
-  }
-};
-
 
 
 const cloudSettings: CloudSettings = {
@@ -78,7 +75,9 @@ const cloudSettings: CloudSettings = {
     DraftsPage,
     QuestionArchivePage,
     LearningSubjectsPage,
-    TeachingSubjectsPage
+    TeachingSubjectsPage,
+    FilterpopoverPage,
+    ReversePipe
   ],
   imports: [
     IonTagsInputModule,
@@ -117,15 +116,19 @@ const cloudSettings: CloudSettings = {
     DraftsPage,
     QuestionArchivePage,
     LearningSubjectsPage,
-    TeachingSubjectsPage
+    TeachingSubjectsPage,
+    FilterpopoverPage
   ],
   providers: [
     StreamData,
     UtilityHelpers,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    { provide: Camera, useClass: CameraMock }
+    TranslateService,
+    FilterpopoverPage,
+    Camera,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    //{ provide: Camera, useClass: CameraMock }
   ]
 })
 export class AppModule {}

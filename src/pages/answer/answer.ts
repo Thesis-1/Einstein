@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
-import { Storage } from '@ionic/storage';
+import { Camera } from '@ionic-native/camera';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -28,43 +28,42 @@ export class AnswerPage {
     user: 'Unknown'
   };
 
+  questionKey = "unknown";
 
   answer = {
     answer: '',
     created_at: 0,
     user: 'Unknown',
-    image:'',
+    imageURL:'',
+    userImageURL: '',
     question_id:'',
     isBest: false,
     likes: 0,
-    likedFromUsers: ['users:']
+    likedFromUsers: ['users:'],
+
   };
 
   //firebase
   answers: FirebaseListObservable<any[]>;
+  questions: FirebaseListObservable<any[]>;
 
   constructor(
-    public storage: Storage,
     public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     public toastCtrl: ToastController,
-    public utils: UtilityHelpers
+    public utils: UtilityHelpers,
+    private camera: Camera
   ) {
 
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AnswerPage');
-    //Get the question from local storage
-    this.storage.get('answerPageCurrQuestion').then( (q)=> {
-      // for (let key in q) {
-      //   this.question[key] = q[key];
-      // }
-      this.question = q;
-        console.log('current q from local storage', this.question)
-      //Get the answers for current question from DB via provider
-      this.updateAnswerStream();
-    });
+    //Get the question key from our utility library
+    this.questionKey = this.utils.getQuestionKey();
+
+    this.updateQuestion();
+    this.updateAnswerStream();
   }
 
   updateAnswerStream () {
@@ -72,9 +71,44 @@ export class AnswerPage {
       query: {
         limitToLast: 50,
         orderByChild: 'question_id',
-        equalTo: this.question.key
+        equalTo: this.questionKey
+      }
+    })  //This will sort answers by # of likes descending - have to explicitly cast as FirebaseListObservable
+    .map(answers => answers.sort( (a,b) => b.likes - a.likes)) as FirebaseListObservable<any[]>;
+  }
+
+  isQuestionOwner(q) {
+    let user = this.afAuth.auth.currentUser;
+    if (user != null) {
+      if (q.userId == user.uid) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  onCloseClick(q) {
+    this.questions.update(q.$key, {
+      isClosed: true,
+      closedOn: Date.now()
+    });
+  }
+
+
+  updateQuestion () {
+    this.questions= this.af.list('/userQuestions', {
+      query: {
+        orderByKey: true,
+        equalTo: this.questionKey
       }
     });
+  }
+
+  closeButtonLabel (q) {
+    return q.isClosed ? 'Closed' : 'Close Question';
   }
 
   onSubmitAnswer() {
@@ -84,12 +118,16 @@ export class AnswerPage {
         answer: this.answer.answer,
         created_at: Date.now(),
         user: user.displayName,
-        image: user.photoURL,
-        question_id: this.question.key,
+        userImageURL: user.photoURL,
+        imageURL: this.answer.imageURL,
+        question_id: this.questionKey,
         isBest: false,
         likes: 0,
         likedFromUsers: {isJoin: 'yes'}
       })
+      // call handleTranslation utility helper to save translation
+      // of user text to firebase under `translations` endpoint
+      this.utils.handleTranslation(this.answer.answer);
     } else {
       //Show a toast notification if not logged in
       this.utils.popToast('Please Log In to Post Answers.')
@@ -121,6 +159,18 @@ export class AnswerPage {
       this.utils.popToast('Please Log In to Like Answers.')
     }
 
+  }
+
+  onImageClick() {
+    //Refactor to use action sheet for selecting gallery or camera
+    this.utils.getPicture({}, (imageData) => {
+      if (imageData != null) {
+        this.answer.imageURL = imageData;
+        this.utils.popToast('Image Uploaded.  Submit your answer to view it!');
+      } else {
+        this.utils.popToast('Null Image Data Error');
+      }
+    });
   }
 
 

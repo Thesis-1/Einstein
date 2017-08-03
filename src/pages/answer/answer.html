@@ -11,39 +11,46 @@
 <ion-content padding class="answer-page" delegate-handle="mainScroll">
   <h3 ion-text text-center>Question:</h3>
   <!-- Question Card -->
-  <ion-card color="secondary">
+  <ion-card color="secondary" *ngFor="let q of questions | async">
 
     <ion-item color="secondary">
       <ion-avatar item-start>
-        <img src="{{question.userPhotoURL}}">
+        <img src="{{q.userPhotoURL}}">
       </ion-avatar>
-      <h2>{{question.userName || 'Anonymous'}}</h2>
-      <p>{{question.topic}}</p>
+      <h2>{{q.userName || 'Anonymous'}}</h2>
+      <p>{{q.topic}}</p>
       <!-- <p>{{question.createdOn | date:'medium'}}</p> -->
     </ion-item>
-
+    <img [hidden]="!q.imageURL" src="{{q.imageURL}}">
     <ion-card-content>
       <!-- Add card content here! -->
       <ion-row>
         <ion-col>
-          <b>{{question.questionBody}}</b>
+          <b>{{q.questionBody}}</b>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          {{question.questionDetails}}
+          {{q.questionDetails}}
         </ion-col>
       </ion-row>
 
       <!-- Timestamp section -->
       <ion-row>
-
         <ion-col>
           <!-- can add future content here -->
           <!-- <ion-badge item-end>{{5}} Answers</ion-badge> -->
         </ion-col>
         <ion-col text-right>
-          <p>{{utils.humanReadableTime(question.createdOn)}}</p>
+          <p>{{utils.humanReadableTime(q.createdOn)}}</p>
+        </ion-col>
+      </ion-row>
+
+      <!-- Close Question Button -->
+      <ion-row [hidden]="!isQuestionOwner(q)">
+        <ion-col>
+          <button [disabled]="q.isClosed" (click)="onCloseClick(q)"
+          ion-button color="dark" full>{{closeButtonLabel(q)}}</button>
         </ion-col>
       </ion-row>
 
@@ -56,12 +63,13 @@
   <ion-card *ngFor="let a of answers | async">
     <ion-item>
       <ion-avatar item-start>
-        <img src="{{a.image}}">
+        <img src="{{a.userImageURL}}">
       </ion-avatar>
+
       <h2>{{a.user}}</h2>
       <p>{{a.created_at | date:'medium'}}</p>
     </ion-item>
-
+    <img [hidden]="!a.imageURL" src="{{a.imageURL}}">
     <ion-card-content>
       <p>{{a.answer}}</p>
     </ion-card-content>
@@ -82,6 +90,13 @@
     </ion-row>
   </ion-card>
 
+  <!-- FAB for adding photos to answer -->
+  <ion-fab right bottom edge>
+    <button ion-fab color="primary" (click)="onImageClick()">
+      <ion-icon name="ios-camera"></ion-icon>
+    </button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-footer>
@@ -91,5 +106,11 @@
       (keydown.enter)="onSubmitAnswer()" placeholder="Post your answer">
       </ion-textarea>
     </ion-item>
+    <!-- <ion-item>
+      <button ion-button icon-right>
+        Right Icon
+        <ion-icon name="home"></ion-icon>
+      </button>
+    </ion-item> -->
   </form>
 </ion-footer>

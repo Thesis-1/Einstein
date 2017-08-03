@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { Http } from '@angular/http';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Http } from '@angular/http';
@@ -7,28 +6,24 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 
-@Injectable() 
+@Injectable()
 export class StreamData {
-    data: FirebaseListObservable<any[]>
+    data: FirebaseListObservable<any[]>;
     views: any;
     user: any;
-    
+
     constructor(
-        public afDB: AngularFireDatabase, 
-        private afAuth: AngularFireAuth, 
-        private http: Http) 
-        { 
+        public afDB: AngularFireDatabase,
+        private afAuth: AngularFireAuth,
+        private http: Http)
+        {
             //
         }
 
     load(): any {
-        // if (this.data) {
-        //     console.log('i got fired')
-        //     return this.data;
-        // } else {
-            this.data = this.afDB.list('/userQuestions');
-            return this.data
-        // }
+
+        this.data = this.afDB.list('/userQuestions');
+        return this.data;
     }
 
     getUser(): any {
@@ -50,7 +45,7 @@ export class StreamData {
 
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')
-        return this.data.push(question)
+        return this.data.push(question);
     }
 
     updateQuestion(question, key) {
@@ -61,29 +56,55 @@ export class StreamData {
         // return ref.update(question)
     }
 
-    filterItems(queryText){
-        return this.data.map((items)=>{
+
+    filterItems(queryText, currentFilter){
+        return this.filter(currentFilter).map((items) => {
             return items.filter((item) => {
                 return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
-            });     
+            });
         });
     }
 
     closeOrOpenQuestion(question){
         this.user = this.afAuth.auth.currentUser;
-        
+
         this.data.update(question.$key, {isClosed: !question.isClosed});
         this.data.update(question.$key, {userClosed: this.user.uid + !question.isClosed});
-        this.data.update(question.$key, {closedOn: Date.now()});    
+        this.data.update(question.$key, {closedOn: Date.now()});
     }
 
-    filterAnswerUnanswer(text){
-        return this.data.map((items)=>{
-            return items.filter((item) => {
-                return item.isClosed.toString() === text;
-            });     
-        });
-    } 
+    filter(filter) {
+        if(filter.opFilter === 'all') {
+            return this.afDB.list('/userQuestions',{})
+            .map((items) => {
+                if(filter.topicFilter !== '#All') {
+                    return items.filter((item) => {
+                        return item.topic === filter.topicFilter;
+                    });
+
+                } else {
+                    return items
+                }
+            }) as FirebaseListObservable<any []>;
+        } else {
+            var isTrue = (filter.opFilter === 'true');
+            return this.afDB.list('/userQuestions', {
+                query: {
+                    orderByChild: 'isClosed',
+                    equalTo: isTrue
+                }
+            })
+            .map((items) => {
+                if(filter.topicFilter !== '#All') {
+                    return items.filter((item) => {
+                        return item.topic === filter.topicFilter;
+                    });
+                } else {
+                    return items
+                }
+            }) as FirebaseListObservable<any []>;
+        }
+    }
 
     fetchAnswers(){
         return this.afDB.list('/userAnswers');
@@ -99,7 +120,6 @@ export class StreamData {
         this.views = this.fetchViewed();
         this.user = this.afAuth.auth.currentUser;
 
-        console.log('inside UpdatedViewedAnswers')
         if(this.user !== null) {
             if(question.userId === this.user.uid) {
                 this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {
@@ -113,11 +133,11 @@ export class StreamData {
                     });
                 });
                 }, (err) => {
-                console.log("Error: ", err);
+                    console.log("Error: ", err);
                 });
             }
         }
 
     }
-    
+
 }

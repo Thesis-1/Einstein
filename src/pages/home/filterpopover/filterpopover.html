@@ -1,0 +1,6 @@
+<ion-list radio-group [(ngModel)]="topicFilter" (ionChange)="changeFilterTopic()">
+  <ion-item *ngFor="let topic of topics;">
+    <ion-label>{{topic}}</ion-label>
+    <ion-radio value="{{topic}}"></ion-radio>
+  </ion-item>
+</ion-list>

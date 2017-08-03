@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { ModalController, ViewController, NavController, NavParams } from 'ionic-angular'
-
+import { Camera } from '@ionic-native/camera';
 import { PreviewQuestionPage } from './preview-question/preview-question'
 import { AskedQuestionPage } from './asked-question/asked-question'
 import { QuestionArchivePage } from '../questionarchive/questionarchive'
@@ -15,9 +15,20 @@ import { UtilityHelpers } from '../../../providers/utility-helpers'
 })
 
 export class AskQuestionPage  {
-    constructor (private modalCtrl: ModalController, private viewCtrl: ViewController, private navCtrl: NavController, private service: StreamData, private params: NavParams, private utils: UtilityHelpers) { }
-    
+
+    constructor (
+      public utils: UtilityHelpers,
+      private modalCtrl: ModalController,
+      private viewCtrl: ViewController,
+      private navCtrl: NavController,
+      private service: StreamData,
+      private camera: Camera,
+      private params: NavParams,
+
+    )
+    { }
     hideTip = false
+    questionImageURL = '';
     selectedTopic = "Algebra"
     topics = [
         'Algebra',
@@ -129,7 +140,7 @@ export class AskQuestionPage  {
         let previewModal = this.modalCtrl.create(PreviewQuestionPage, question);
         previewModal.present();
     }
- 
+
     onClickClose () {
         let question:any = this.getQuestion().question
         let key:any = this.getQuestion().key
@@ -142,5 +153,16 @@ export class AskQuestionPage  {
             this.viewCtrl.dismiss()
         }
         
+    }
+
+    onImageClick() {
+      this.utils.getPicture({}, (imageData) => {
+        if (imageData != null) {
+          this.questionImageURL = imageData;
+          this.utils.popToast('Image Uploaded.  You may ask or preview your question.');
+        } else {
+          this.utils.popToast('Null Image Data Error');
+        }
+      });
     }
 }
