@@ -32,7 +32,7 @@ export class HomePage {
     public utils: UtilityHelpers,
     public popoverCtrl: PopoverController
   ) {
-    this.updateQuestionStream();
+    // this.updateQuestionStream();
   }
   ionViewDidLoad() {
     this.app.setTitle('Questions');

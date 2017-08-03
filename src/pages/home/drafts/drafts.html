@@ -4,12 +4,12 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <ion-card>
-        <ion-card-header>
-            What is the value of Pi?
-        </ion-card-header>
-        <ion-card-content>
-            The number π is a mathematical constant, the ratio of a circle's circumference to its diameter, commonly approximated as 3.14159.
-        </ion-card-content>
-    </ion-card>
+    <ion-list>
+        <ion-item-sliding *ngFor="let question of questions"
+        [attr.question]="tester" (click)="onClickQuestion(question)">
+        <button ion-item>
+            <h3>{{question.questionBody}}</h3>
+        </button>
+        </ion-item-sliding>
+  </ion-list>
 </ion-content>
