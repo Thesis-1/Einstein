@@ -42,6 +42,18 @@ export class AnswerPage {
     likedFromUsers: ['users:']
   };
 
+  languages = {
+    'English': 'english',
+    'Spanish': 'es',
+    'French': 'fr',
+    'German': 'de',
+    'Hindi': 'hi',
+    'Russian': 'ru',
+    'Mandarin': 'zh-TW'
+  };
+  translatedQuestion = '';
+  translationObject = {};
+
   //firebase
   answers: FirebaseListObservable<any[]>;
   questions: FirebaseListObservable<any[]>;
@@ -65,21 +77,105 @@ export class AnswerPage {
     this.updateAnswerStream();
   }
 
-  updateAnswerStream () {
-    this.answers = this.af.list('/userAnswers', {
+  updateAnswerStream() {
+    // this.answers = this.af.list('/userAnswers', {
+    //   query: {
+    //     limitToLast: 50,
+    //     orderByChild: 'question_id',
+    //     equalTo: this.questionKey
+    //   }
+    // });
+    this.af.list('/userAnswers', {
       query: {
         limitToLast: 50,
         orderByChild: 'question_id',
         equalTo: this.questionKey
       }
-    });
+    }).subscribe((data) => {
+      data.forEach((item) => {
+        this.getTranslatedAnswers(item)
+      })
+    })
   }
 
-  updateQuestion () {
-    this.questions= this.af.list('/userQuestions', {
+  updateQuestion() {
+    // this.questions = this.af.list('/userQuestions', {
+    //   query: {
+    //     orderByKey: true,
+    //     equalTo: this.questionKey
+    //   }
+    // });
+    this.af.list('/userQuestions', {
       query: {
         orderByKey: true,
         equalTo: this.questionKey
+      }
+    }).subscribe((data) => {
+      data.forEach((item) => {
+        this.getTranslatedQuestions(item);
+      })
+    })
+  }
+
+  getTranslatedQuestions(question) {
+    console.log('question.translation_id', question.translation_id);
+    this.af.list('/translations', {
+      query: {
+        orderByKey: true,
+        equalTo: question.translation_id
+      }
+    }).subscribe((data) => {
+
+      console.log('data translations', data);
+      let user = this.afAuth.auth.currentUser;
+
+      if (user !== null) {
+        this.af.list('/users', {
+          query: {
+            orderByChild: 'user_id',
+            equalTo: user.uid
+          }
+        }).subscribe((user) => {
+          console.log('user users', user);
+          // The console.log is returning the right user object
+          console.log('question', question);
+          console.log('question.questionBody (first)', question.questionBody);
+          console.log('data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
+
+          this.translatedQuestion = data[0][this.languages[user[0].language]];
+          console.log('this.translatedQuestion', this.translatedQuestion);
+        })
+      }
+    });
+  }
+
+  getTranslatedAnswers(answer) {
+    console.log('answer.translation_id', answer.translation_id);
+    this.af.list('/translations', {
+      query: {
+        orderByKey: true,
+        equalTo: answer.translation_id
+      }
+    }).subscribe((data) => {
+
+      console.log('data translations', data);
+      let user = this.afAuth.auth.currentUser;
+
+      if (user !== null) {
+        this.af.list('/users', {
+          query: {
+            orderByChild: 'user_id',
+            equalTo: user.uid
+          }
+        }).subscribe((user) => {
+          console.log('user users', user);
+          // The console.log is returning the right user object
+          console.log('answer', answer);
+          console.log('answer.answer (first)', answer.answer);
+          console.log('data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
+
+          this.translationObject[answer.translation_id] = data[0][this.languages[user[0].language]];
+        })
       }
     });
   }

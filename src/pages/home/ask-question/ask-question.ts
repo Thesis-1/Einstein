@@ -90,8 +90,6 @@ export class AskQuestionPage {
                   this.showSubmittedQuestion(question, item.key)
                 })
             })
-
-
         } else { // pass question to preview
             this.showPreview(question)
         }

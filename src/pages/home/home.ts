@@ -74,10 +74,7 @@ export class HomePage {
       // return string
     console.log('this.currentUser', this.currentUser);
     console.log('question.translation_id', question.translation_id);
-    // If the question clicked doesn't have a translation_id because
-    // it was saved to the database before the `translation_id` property
-    // was added to questions and answers, the query to the '/translations'
-    // endpoint will return all objects in '/translations'
+
     this.afDB.list('/translations', {
       query: {
         orderByKey: true,

@@ -13,7 +13,7 @@ export class StreamData {
     user: any;
     loggedInUser: FirebaseListObservable<any[]>;
     currentLanguage;
-    translatedQuestions: any = [];
+    // translationObject = {};
 
     constructor(
         public afDB: AngularFireDatabase,
@@ -54,25 +54,35 @@ export class StreamData {
       });
     }
 
-    // getTranslatedQuestions() {
-    //   this.data.subscribe((data:any) => {
-    //     data.map((question) => {
-    //       console.log('question.translation_id', question.translation_id);
-    //       this.translatedQuestions.push(question.translation_id);
-    //       // return this.translatedQuestions;
-    //     })
-    //     .forEach((question) => {
-    //       // query to '/translations' for each translation_id and language
-    //       // analogous to currentLanguage
-    //       this.afDB.list('/translations', {
+    // getTranslatedQuestions(userText, cb) {
+    //   // console.log('this.currentUser', this.currentUser);
+    //
+    //   this.afDB.list('/translations', {
+    //     query: {
+    //       orderByKey: true,
+    //       equalTo: userText.translation_id
+    //     }
+    //   }).subscribe((data) => {
+    //
+    //     console.log('data translations', data);
+    //     let user = this.afAuth.auth.currentUser;
+    //
+    //     if (user !== null) {
+    //       this.afDB.list('/users', {
     //         query: {
-    //           orderByChild: this.languages[this.currentLanguage]
+    //           orderByChild: 'user_id',
+    //           equalTo: user.uid
     //         }
-    //       }).subscribe((data:any) => {
-    //         this.translatedQuestions.push(data);
-    //         console.log('this.translatedQuestions', this.translatedQuestions);
+    //       }).subscribe((user) => {
+    //         // console.log('user users', user);
+    //         // // The console.log is returning the right user object
+    //         // console.log('question', question);
+    //         // console.log('question.questionBody (first)', question.questionBody);
+    //         // console.log('data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
+    //         cb(data)
+    //         // this.translationObject[question.translation_id] = data[0][this.languages[user[0].language]];
     //       })
-    //     })
+    //     }
     //   });
     // }
 
