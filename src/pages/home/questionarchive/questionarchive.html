@@ -13,12 +13,12 @@
       <ion-segment-button value="closed" (click)="fetchQuestions('closed')">
         Closed
       </ion-segment-button>
-    </ion-segment>
-  </div>
+  </ion-segment>
+</div>
 </ion-header>
 <ion-content delegate-handle="mainScroll">
   <div [ngSwitch]="messageType">
-    <ion-card *ngFor="let question of questions | async" (click) = "onQuestionClick(question)">
+    <ion-card *ngFor="let question of questions | async | reverse" (click) = "onQuestionClick(question)">
         <ion-item>
             <ion-label>
               <ion-item style='color:red' *ngIf="count[question.$key]>0"><ion-icon name="ios-alert-outline" item-left></ion-icon>{{ count[question.$key] }} New Answers</ion-item>
@@ -28,7 +28,7 @@
         </ion-item>
         <ion-item>
           <ion-avatar item-start>
-            <img [src]="photoUrl || 'http://i.onionstatic.com/avclub/5495/73/16x9/960.jpg'">
+            <img [src]="question.userPhotoURL || 'http://i.onionstatic.com/avclub/5495/73/16x9/960.jpg'">
           </ion-avatar>
           <h2>{{ displayName }}</h2>
           <h3>Topic: {{question.subject}}: {{ question.topic }}</h3>       
@@ -40,8 +40,7 @@
           {{ question.questionBody }}
         </ion-card-content>
         <ion-item>
-          <button ion-button color="danger" (click)="streamData.closeOrOpenQuestion(question)" item-right round>Close Question</button>
-          <button ion-button color="danger" (click)="sendQuestionDelete(question.$key)" item-right round>Delete</button>
+          <button *ngIf="question.isClosed" ion-button color="danger" (click)="sendQuestionDelete(question.$key)" item-right round>Delete</button>
         </ion-item>
       </ion-card>
   </div>

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { Http } from '@angular/http';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Http } from '@angular/http';
@@ -9,7 +8,7 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class StreamData {
-    data: FirebaseListObservable<any[]>
+    data: FirebaseListObservable<any[]>;
     views: any;
     user: any;
 
@@ -31,10 +30,10 @@ export class StreamData {
         return this.afAuth.auth.currentUser
     }
 
-   
+
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')
-        return this.data.push(question)
+        return this.data.push(question);
     }
 
     filterItems(queryText){
@@ -53,12 +52,37 @@ export class StreamData {
         this.data.update(question.$key, {closedOn: Date.now()});
     }
 
-    filterAnswerUnanswer(text){
-        return this.data.map((items)=>{
-            return items.filter((item) => {
-                return item.isClosed.toString() === text;
-            });
-        });
+    filter(filter) {
+        if(filter.opFilter === 'all') {
+            return this.afDB.list('/userQuestions',{})
+            .map((items) => {
+                if(filter.topicFilter !== '#All') {
+                    return items.filter((item) => {
+                        return item.topic === filter.topicFilter;
+                    });
+
+                } else {
+                    return items
+                }
+            }) as FirebaseListObservable<any []>;
+        } else {
+            var isTrue = (filter.opFilter === 'true');
+            return this.afDB.list('/userQuestions', {
+                query: {
+                    orderByChild: 'isClosed',
+                    equalTo: isTrue
+                }
+            })
+            .map((items) => {
+                if(filter.topicFilter !== '#All') {
+                    return items.filter((item) => {
+                        return item.topic === filter.topicFilter;
+                    });
+                } else {
+                    return items
+                }
+            }) as FirebaseListObservable<any []>;
+        }
     }
 
     fetchAnswers(){
@@ -89,7 +113,7 @@ export class StreamData {
                     });
                 });
                 }, (err) => {
-                console.log("Error: ", err);
+                    console.log("Error: ", err);
                 });
             }
         }

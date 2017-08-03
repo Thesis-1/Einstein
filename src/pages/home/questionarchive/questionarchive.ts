@@ -7,6 +7,7 @@ import { Http } from '@angular/http';
 
 import { StreamData } from '../../../providers/questions-stream';
 import { AnswerPage } from '../../answer/answer';
+import { UtilityHelpers } from '../../../providers/utility-helpers';
 
 @Component({
   selector: 'page-questionarchive',
@@ -35,7 +36,8 @@ export class QuestionArchivePage {
     public af: AngularFireDatabase,
     public streamData: StreamData,
     public storage: Storage,
-    private http: Http
+    private http: Http,
+    public utils: UtilityHelpers
   ){
     this.views = this.streamData.fetchViewed();
     this.answers = this.streamData.fetchAnswers();
@@ -156,13 +158,9 @@ export class QuestionArchivePage {
   }
 
   onQuestionClick(question) {
-    let storeObj = question;
-    storeObj.key = question.$key;
-    this.storage.set('answerPageCurrQuestion', storeObj);
-
+    this.utils.setQuestionKey(question.$key);
     this.streamData.updateViewedAnswers(question);
     this.getViewCount();
-
     this.navCtrl.push(AnswerPage);
   }
 }

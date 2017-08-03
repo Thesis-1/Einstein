@@ -37,6 +37,10 @@ import { ForgotPasswordPage } from '../pages/forgot-password/forgot-password';
 import { AnswerPage } from '../pages/answer/answer';
 import { LearningSubjectsPage } from '../pages/learning-subjects/learning-subjects';
 import { TeachingSubjectsPage } from '../pages/teaching-subjects/teaching-subjects';
+import { FilterpopoverPage } from '../pages/home/filterpopover/filterpopover';
+
+//custom pipes
+import { ReversePipe } from '../pipes/reversepipe';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD-p5kimWSiFWZorVKEUNfuscpbC_bW4oc",
@@ -71,7 +75,9 @@ const cloudSettings: CloudSettings = {
     DraftsPage,
     QuestionArchivePage,
     LearningSubjectsPage,
-    TeachingSubjectsPage
+    TeachingSubjectsPage,
+    FilterpopoverPage,
+    ReversePipe
   ],
   imports: [
     IonTagsInputModule,
@@ -110,7 +116,8 @@ const cloudSettings: CloudSettings = {
     DraftsPage,
     QuestionArchivePage,
     LearningSubjectsPage,
-    TeachingSubjectsPage
+    TeachingSubjectsPage,
+    FilterpopoverPage
   ],
   providers: [
     StreamData,
@@ -118,6 +125,7 @@ const cloudSettings: CloudSettings = {
     StatusBar,
     SplashScreen,
     TranslateService,
+    FilterpopoverPage,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
     //{ provide: Camera, useClass: CameraMock }

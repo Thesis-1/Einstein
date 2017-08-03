@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Nav, NavController, NavParams, MenuController, Platform } from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Nav, NavController, NavParams, MenuController, Platform, PopoverController } from 'ionic-angular';
 import { App, Refresher, ToastController, ModalController } from 'ionic-angular';
 //Refactoring Auth to Firebase
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -8,6 +8,7 @@ import { AskQuestionPage } from './ask-question/ask-question';
 import { AnswerPage } from '../answer/answer';
 import { StreamData } from '../../providers/questions-stream';
 import { UtilityHelpers } from '../../providers/utility-helpers';
+import { FilterpopoverPage } from './filterpopover/filterpopover';
 
 @Component({
   selector: 'page-home',
@@ -18,7 +19,8 @@ export class HomePage {
   questions: any = [];
   queryText = '';
   tester = 'unanswered';
-  filter = 'all';
+  opFilter = 'all';
+  topicFilter = '#All';
 
   constructor(
     public navCtrl: NavController,
@@ -27,7 +29,8 @@ export class HomePage {
     public streamData: StreamData,
     public toastCtrl: ToastController,
     public modalCtrl: ModalController,
-    public utils: UtilityHelpers
+    public utils: UtilityHelpers,
+    public popoverCtrl: PopoverController
   ) {
     this.updateQuestionStream();
   }
@@ -38,8 +41,8 @@ export class HomePage {
 
   updateQuestionStream () {
     this.streamData.load()
-      .subscribe ((data: any) => {
-        this.questions = data;
+    .subscribe ((data: any) => {
+      this.questions = data;
     });
 
   }
@@ -88,19 +91,39 @@ export class HomePage {
     this.streamData.filterItems(this.queryText)
       .subscribe ((data: any) => {
         this.questions = data;
-        console.log(this.questions)
     });
   }
 
   filterQuestions() {
-    if(this.filter === 'all'){
+    if(this.opFilter === 'all' && this.topicFilter === '#All'){
       this.updateQuestionStream();
     } else {
-      this.streamData.filterAnswerUnanswer(this.filter)
-        .subscribe ((data: any) => {
-          this.questions = data;
-          console.log(this.questions)
+      this.streamData.filter({
+        opFilter: this.opFilter,
+        topicFilter: this.topicFilter
+      })
+      .subscribe((data: any) => {
+        this.questions = data;
       });
     }
   }
+
+  presentPopover(ev) {
+
+    let popover = this.popoverCtrl.create(FilterpopoverPage, {
+      topic: this.topicFilter
+    });
+
+    popover.present({
+      ev: ev
+    });
+
+    popover.onDidDismiss((filter)=> {
+      if(filter) {
+        this.topicFilter = filter;
+        this.filterQuestions();
+      }
+    });
+  }
+
 }
