@@ -29,7 +29,7 @@ export class HomePage {
     public storage: Storage,
     public modalCtrl: ModalController
   ) {
-    this.updateQuestionStream();
+    // this.updateQuestionStream();
   }
   ionViewDidLoad() {
     this.app.setTitle('Questions');
@@ -38,8 +38,8 @@ export class HomePage {
 
   updateQuestionStream () {
     this.streamData.load()
-      .subscribe ((data: any) => {
-        this.questions = data;
+      .subscribe ((questions: any) => {
+        this.questions = questions.slice(0).reverse();
     });
 
   }

@@ -35,10 +35,30 @@ export class StreamData {
         return this.afAuth.auth.currentUser
     }
 
-   
+   getDrafts (user): any {
+       // get questions for the current user
+       // filter questions where a question is draft
+    //    this.data.subscribe((data:any)=>{
+    //        console.log(data)
+    //    })
+    return this.data.map((questions) => {
+        return questions.filter((question) => {
+            return question.userId === user.uid && question.isDraft === true
+        })
+    })
+   }
+
     postQuestion(question) {
         this.data = this.afDB.list('/userQuestions')
         return this.data.push(question)
+    }
+
+    updateQuestion(question, key) {
+        let ref = this.afDB.object('/userQuestions'+ key)
+        // console.log('question is', question, 'and key is', question.$key)
+        // this.data = this.afDB.list('/userQuestions')
+        return this.data.update(key, question)
+        // return ref.update(question)
     }
 
     filterItems(queryText){

@@ -15,9 +15,9 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+  </ion-refresher> -->
   <ion-item>
     <ion-label>Filter</ion-label>
     <ion-select [(ngModel)]="filter" (ngModelChange)="filterQuestions()">
