@@ -73,8 +73,30 @@ export class AnswerPage {
         orderByChild: 'question_id',
         equalTo: this.questionKey
       }
+    })  //This will sort answers by # of likes descending - have to explicitly cast as FirebaseListObservable
+    .map(answers => answers.sort( (a,b) => b.likes - a.likes)) as FirebaseListObservable<any[]>;
+  }
+
+  isQuestionOwner(q) {
+    let user = this.afAuth.auth.currentUser;
+    if (user != null) {
+      if (q.userId == user.uid) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  onCloseClick(q) {
+    this.questions.update(q.$key, {
+      isClosed: true,
+      closedOn: Date.now()
     });
   }
+
 
   updateQuestion () {
     this.questions= this.af.list('/userQuestions', {
@@ -83,6 +105,10 @@ export class AnswerPage {
         equalTo: this.questionKey
       }
     });
+  }
+
+  closeButtonLabel (q) {
+    return q.isClosed ? 'Closed' : 'Close Question';
   }
 
   onSubmitAnswer() {
@@ -136,18 +162,14 @@ export class AnswerPage {
   }
 
   onImageClick() {
-    this.camera.getPicture({
-      quality: 75,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      targetHeight: 240,
-      targetWidth: 240
-    }).then( (imageData) => {
-    //  let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
-      this.answer.imageURL = imageData;
-      this.utils.popToast('Image Uploaded.  Submit your Answer to view it!');
-    }, (err) => {
-      this.utils.popToast('Camera is a native feature.  Cannot use in web.')
+    //Refactor to use action sheet for selecting gallery or camera
+    this.utils.getPicture({}, (imageData) => {
+      if (imageData != null) {
+        this.answer.imageURL = imageData;
+        this.utils.popToast('Image Uploaded.  Submit your answer to view it!');
+      } else {
+        this.utils.popToast('Null Image Data Error');
+      }
     });
   }
 

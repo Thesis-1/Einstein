@@ -37,13 +37,20 @@
 
       <!-- Timestamp section -->
       <ion-row>
-
         <ion-col>
           <!-- can add future content here -->
           <!-- <ion-badge item-end>{{5}} Answers</ion-badge> -->
         </ion-col>
         <ion-col text-right>
           <p>{{utils.humanReadableTime(q.createdOn)}}</p>
+        </ion-col>
+      </ion-row>
+
+      <!-- Close Question Button -->
+      <ion-row [hidden]="!isQuestionOwner(q)">
+        <ion-col>
+          <button [disabled]="q.isClosed" (click)="onCloseClick(q)"
+          ion-button color="dark" full>{{closeButtonLabel(q)}}</button>
         </ion-col>
       </ion-row>
 

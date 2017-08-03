@@ -23,22 +23,11 @@ export class UserProfilePage {
 
   gravatar = 'http://www.gravatar.com/avatar?d=mm&s=140';
   trustedPhotoURL = '';
-  // bio = 'Bio';
-  // country = 'Country';
-  // language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
   translationTest = 'Hello world';
   currentTranslation;
   country = 'Country';
   language = 'Language';
-  //Camera Options
-  // options: CameraOptions = {
-  //   quality: 100,
-  //   destinationType: this.camera.DestinationType.DATA_URL,
-  //   encodingType: this.camera.EncodingType.JPEG,
-  //   mediaType: this.camera.MediaType.PICTURE
-  //
-  // }
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -96,47 +85,18 @@ export class UserProfilePage {
 
 
   updatePicture(key) {
-    console.log(key);
-    this.camera.getPicture({
-      quality: 75,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      targetHeight: 240,
-      targetWidth: 240,
-      cameraDirection: this.camera.Direction.FRONT
-    }).then( (imageData) => {
-      let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
-      this.loggedInUser.update(key, {photoURL: imageData});
-      this.utils.popToast('Profile picture updated!');
-    }, (err) => {
-      //Attempt to simulate a camera on web
-      let actionSheet = this.actionSheetCtrl.create({
-        title: 'Select a Photo',
-        buttons: [
-          {
-            text: 'Einstein',
-            handler: () => {
-              this.loggedInUser.update(key, {photoURL: 'assets/img/einstein-main.jpeg'})
-            }
-          },{
-            text: 'Basic user Image Base64',
-            handler: () => {
-              this.loggedInUser.update(key, {photoURL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMAECAwT19gj5C/wM/Q3+9FZnYJAAAAjklEQVR4Ae3SSw7DIAwEUOOkxS6fuf9tu2hVKZ8As0Nq3tqTMAaZ101jAlJUGWT4ijIk4ycR3/8w6VJsKPcDwMYaMC2wwwfII2W+NL9W/uKIFpl8fCaD1DKQTeVvhDW6F6C4xzVIzzNhIz3a4wUH5TqijlOucmqpuFCX/nw/ESoa6nFdLzS57KFjxsBUbm81lh3paNio7AAAAABJRU5ErkJggg=='});
-            }
-          },{
-            text: 'Cancel',
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            }
-          }
-        ]
-      });
-      actionSheet.present();
+    //Set cameraDirection to 1 (FRONT) since this is a profile picture
+    let options = {
+      cameraDirection: 1
+    }
 
-      // this.utils.popToast('Error grapping photo with web mock.')
-      // return null;
-
+    this.utils.getPicture(options, (imageData) => {
+      if (imageData != null) {
+        this.loggedInUser.update(key, {photoURL: imageData});
+        this.utils.popToast('Profile picture updated!');
+      } else {
+        this.utils.popToast('Null Image Data Error');
+      }
     });
   }
 
