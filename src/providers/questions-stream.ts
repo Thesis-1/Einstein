@@ -50,7 +50,9 @@ export class StreamData {
           limitToLast: 1
         }
       }).subscribe((data:any) => {
+        // console.log('data in getLanguage', data);
         this.currentLanguage = data[0].language;
+        // console.log('this.currentLanguage', this.currentLanguage);
       });
     }
 

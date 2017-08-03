@@ -126,7 +126,7 @@ export class AnswerPage {
       }
     }).subscribe((data) => {
 
-      console.log('data translations', data);
+      // console.log('data translations', data);
       let user = this.afAuth.auth.currentUser;
 
       if (user !== null) {
@@ -136,12 +136,12 @@ export class AnswerPage {
             equalTo: user.uid
           }
         }).subscribe((user) => {
-          console.log('user users', user);
-          // The console.log is returning the right user object
-          console.log('question', question);
-          console.log('question.questionBody (first)', question.questionBody);
-          console.log('data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
-
+          // console.log('user users', user);
+          // // The console.log is returning the right user object
+          // console.log('question', question);
+          // console.log('question.questionBody (first)', question.questionBody);
+          // console.log('question data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
+          console.log('question.translatedQuestion', question.translatedQuestion);
           this.translatedQuestion = data[0][this.languages[user[0].language]];
           console.log('this.translatedQuestion', this.translatedQuestion);
         })
@@ -158,7 +158,7 @@ export class AnswerPage {
       }
     }).subscribe((data) => {
 
-      console.log('data translations', data);
+      // console.log('data translations', data);
       let user = this.afAuth.auth.currentUser;
 
       if (user !== null) {
@@ -168,13 +168,14 @@ export class AnswerPage {
             equalTo: user.uid
           }
         }).subscribe((user) => {
-          console.log('user users', user);
-          // The console.log is returning the right user object
-          console.log('answer', answer);
-          console.log('answer.answer (first)', answer.answer);
-          console.log('data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
+          // console.log('user users', user);
+          // // The console.log is returning the right user object
+          // console.log('answer', answer);
+          // console.log('answer.answer (first)', answer.answer);
+          // console.log('data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
 
           this.translationObject[answer.translation_id] = data[0][this.languages[user[0].language]];
+          console.log('this.translationObject', this.translationObject);
         })
       }
     });
