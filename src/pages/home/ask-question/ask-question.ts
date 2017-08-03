@@ -98,18 +98,13 @@ export class AskQuestionPage  {
     }
 
     onImageClick() {
-      this.camera.getPicture({
-        quality: 75,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        targetHeight: 240,
-        targetWidth: 240
-      }).then( (imageData) => {
-      //  let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
-        this.questionImageURL = imageData;
-        this.utils.popToast('Image Uploaded.  You may ask or preview your question.');
-      }, (err) => {
-        this.utils.popToast('Camera is a native feature.  Cannot use in web.')
+      this.utils.getPicture({}, (imageData) => {
+        if (imageData != null) {
+          this.questionImageURL = imageData;
+          this.utils.popToast('Image Uploaded.  You may ask or preview your question.');
+        } else {
+          this.utils.popToast('Null Image Data Error');
+        }
       });
     }
 }

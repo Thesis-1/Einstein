@@ -163,18 +163,13 @@ export class AnswerPage {
 
   onImageClick() {
     //Refactor to use action sheet for selecting gallery or camera
-    this.camera.getPicture({
-      quality: 75,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      targetHeight: 240,
-      targetWidth: 240
-    }).then( (imageData) => {
-    //  let dataURL = `data:image/jpeg;base64,${imageData}`; //use for DATA_URL type
-      this.answer.imageURL = imageData;
-      this.utils.popToast('Image Uploaded.  Submit your Answer to view it!');
-    }, (err) => {
-      this.utils.popToast('Camera is a native feature.  Cannot use in web.')
+    this.utils.getPicture({}, (imageData) => {
+      if (imageData != null) {
+        this.answer.imageURL = imageData;
+        this.utils.popToast('Image Uploaded.  Submit your answer to view it!');
+      } else {
+        this.utils.popToast('Null Image Data Error');
+      }
     });
   }
 
