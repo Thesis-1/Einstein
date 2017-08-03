@@ -86,7 +86,8 @@ export class AskQuestionPage  {
                 userName: this.params.data.userName,
                 userPhotoURL: this.params.data.userPhotoURL,
                 userId: this.params.data.userId,
-                userClosed: this.params.data.userClosed
+                userClosed: this.params.data.userClosed,
+                questionImageURL: this.params.data.questionImageURL
             }
         } else {
             question = { 
@@ -98,7 +99,8 @@ export class AskQuestionPage  {
                 userName: this.currentUser.displayName,
                 userPhotoURL: this.currentUser.photoURL,
                 userId: this.currentUser.uid,
-                userClosed: this.currentUser.uid+false
+                userClosed: this.currentUser.uid+false,
+                questionImageURL: this.questionImageURL
             }
         }
         question.tags = this.tags
