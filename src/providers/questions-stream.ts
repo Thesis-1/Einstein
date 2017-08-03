@@ -36,8 +36,8 @@ export class StreamData {
         return this.data.push(question);
     }
 
-    filterItems(queryText){
-        return this.data.map((items)=>{
+    filterItems(queryText, currentFilter){
+        return this.filter(currentFilter).map((items) => {
             return items.filter((item) => {
                 return item.questionBody.toLowerCase().indexOf(queryText.toLowerCase()) > -1;
             });
@@ -99,7 +99,6 @@ export class StreamData {
         this.views = this.fetchViewed();
         this.user = this.afAuth.auth.currentUser;
 
-        console.log('inside UpdatedViewedAnswers')
         if(this.user !== null) {
             if(question.userId === this.user.uid) {
                 this.http.get('https://einstein-981c4.firebaseio.com/userAnswers.json?orderBy="question_id"&equalTo="' + question.$key + '"').subscribe( (answers) => {

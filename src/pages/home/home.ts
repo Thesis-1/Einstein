@@ -88,7 +88,10 @@ export class HomePage {
   }
 
   search() {
-    this.streamData.filterItems(this.queryText)
+    this.streamData.filterItems(this.queryText, {
+        opFilter: this.opFilter,
+        topicFilter: this.topicFilter
+      })
       .subscribe ((data: any) => {
         this.questions = data;
     });
