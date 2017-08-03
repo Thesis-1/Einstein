@@ -73,7 +73,7 @@ export class AnswerPage {
         orderByChild: 'question_id',
         equalTo: this.questionKey
       }
-    })  //This should sort answers by # of likes
+    })  //This will sort answers by # of likes descending - have to explicitly cast as FirebaseListObservable
     .map(answers => answers.sort( (a,b) => b.likes - a.likes)) as FirebaseListObservable<any[]>;
   }
 
@@ -162,6 +162,7 @@ export class AnswerPage {
   }
 
   onImageClick() {
+    //Refactor to use action sheet for selecting gallery or camera
     this.camera.getPicture({
       quality: 75,
       destinationType: this.camera.DestinationType.FILE_URI,
