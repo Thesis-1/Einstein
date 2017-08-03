@@ -20,9 +20,9 @@ export class HomePage {
   queryText = '';
   tester = 'unanswered';
   filter = 'all';
-  currentUser = this.streamData.getUser()
+  currentUser = this.streamData.getUser();
   currentLanguage;
-  translatedQuestions: any = []
+  translatedQuestions: any = [];
   languages = {
     'English': 'english',
     'Spanish': 'es',
@@ -31,7 +31,8 @@ export class HomePage {
     'Hindi': 'hi',
     'Russian': 'ru',
     'Mandarin': 'zh-TW'
-  }
+  };
+  translationObject = {};
 
   constructor(
     public afDB: AngularFireDatabase,
@@ -57,6 +58,10 @@ export class HomePage {
   updateQuestionStream () {
     this.streamData.load()
       .subscribe ((data: any) => {
+        data.forEach((item) => {
+          this.getTranslatedQuestions(item);
+        });
+        console.log('translationObject in updateQuestionStream', this.translationObject)
         this.questions = data;
     });
   }
@@ -92,16 +97,17 @@ export class HomePage {
         }).subscribe((user) => {
           console.log('user users', user);
           // The console.log is returning the right user object
+          console.log('question', question);
+          console.log('question.questionBody (first)', question.questionBody);
+          console.log('data[0][this.languages[user[0].language]]', data[0][this.languages[user[0].language]]);
+
+          this.translationObject[question.translation_id] = data[0][this.languages[user[0].language]];
         })
       }
     });
-
-
-
-
-    // html
-    // bind getTranslatedQuestions in <h3></h3>
   }
+
+
 
   onAskQuestion() {
     let user = this.afAuth.auth.currentUser;
