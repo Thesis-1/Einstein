@@ -23,22 +23,11 @@ export class UserProfilePage {
 
   gravatar = 'http://www.gravatar.com/avatar?d=mm&s=140';
   trustedPhotoURL = '';
-  // bio = 'Bio';
-  // country = 'Country';
-  // language = 'Language';
   loggedInUser: FirebaseListObservable<any[]>;
   translationTest = 'Hello world';
   currentTranslation;
   country = 'Country';
   language = 'Language';
-  //Camera Options
-  // options: CameraOptions = {
-  //   quality: 100,
-  //   destinationType: this.camera.DestinationType.DATA_URL,
-  //   encodingType: this.camera.EncodingType.JPEG,
-  //   mediaType: this.camera.MediaType.PICTURE
-  //
-  // }
 
   constructor(
     public afAuth: AngularFireAuth,
