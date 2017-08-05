@@ -67,18 +67,15 @@ export class UserProfilePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UserprofilePage');
     let user = this.afAuth.auth.currentUser;
     if ( user != null ) {
       //Get logged in user from af database by matching user id
       this.loggedInUser = this.af.list('/users',  {
         query: {
           orderByChild: 'user_id',
-          equalTo: user.uid //Currently logged in user
+          equalTo: user.uid
         }
       });
-      console.log('user id is: ', user.uid, user.uid == "Uniaj6st9eNPlrt4HuUwDxGETeb2");
-      console.log('loggedInUser set to: ', this.loggedInUser);
     }
 
   }
@@ -114,10 +111,7 @@ export class UserProfilePage {
 
 
   onChangeName(u) {
-    console.log('u in onChangeName', u);
     this.utils.showPromptAlert('Name', (info) => {
-      console.log('u in onChangeName before updating in firebase', u);
-
       this.loggedInUser.update(u.$key, { displayName: info });
     });
   }
@@ -134,14 +128,6 @@ export class UserProfilePage {
     this.utils.showRadioAlert('Country', countries, (info) => {
       this.loggedInUser.update(u.$key, { language: info });
     });
-
-    // this.showRadioAlert('Country', countries, (info) => {
-    //   this.loggedInUser.update(u.$key, { country: info });
-    // });
-    // this.showPromptAlert('Country', (info) => {
-    //   console.log('u in onChangeCountry before updating in firebase', u);
-    //   this.loggedInUser.update(u.$key, { country: info });
-    // });
   }
 
 
@@ -154,18 +140,11 @@ export class UserProfilePage {
   }
 
   onChangeLearning(u) {
-
-    console.log('u in onChangeLearning', u);
-
-    // rewrite to push a new learning subjects page instead of using
-    // a prompt alert
     this.navCtrl.push(LearningSubjectsPage, { u });
   }
 
   onChangeTeaching(u) {
-
     this.navCtrl.push(TeachingSubjectsPage, { u });
-
   }
 
 }
