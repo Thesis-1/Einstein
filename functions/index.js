@@ -10,7 +10,7 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 
-// // Create and Deploy Your First Cloud Functions
+// // Create and Deploy Your First Cloud Functions Documentation
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 
 
@@ -22,13 +22,6 @@ admin.initializeApp(functions.config().firebase);
 // number of HTTP requests. It makes sense to automate more operation-
 // intensive batch processes (like data cleanup) with cloud functions so
 // that our client-side application can be as performant as possible.
-
-
-// Sample cloud function. Any time our Firebase instance receives an HTTP
-// request, Firebase will send "Hello from Firebase!" in the response.
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 
 
 const LANGUAGES = ['es', 'fr', 'de', 'zh-TW', 'ru'];
@@ -68,46 +61,3 @@ function createTranslationPromise(lang, snapshot) {
     }
   );
 }
-
-
-
-
-// // Google Example of Using the Google Translate API with Firebase
-//
-// // List of output languages.
-// const LANGUAGES = ['en', 'es', 'de', 'fr', 'sv', 'ga', 'it', 'jp'];
-//
-// // Translate an incoming message.
-// exports.translate = functions.database.ref('/messages/{languageID}/{messageID}').onWrite(event => {
-//   const snapshot = event.data;
-//   if (snapshot.val().translated) {
-//     return;
-//   }
-//   const promises = [];
-//   for (let i = 0; i < LANGUAGES.length; i++) {
-//     var language = LANGUAGES[i];
-//     if (language !== event.params.languageID) {
-//       promises.push(createTranslationPromise(event.params.languageID, language, snapshot));
-//     }
-//   }
-//   return Promise.all(promises);
-// });
-//
-// // URL to the Google Translate API.
-// function createTranslateUrl(source, target, payload) {
-//   return `https://www.googleapis.com/language/translate/v2?key=${functions.config().firebase.apiKey}&source=${source}&target=${target}&q=${payload}`;
-// }
-//
-// function createTranslationPromise(source, target, snapshot) {
-//   const key = snapshot.key;
-//   const message = snapshot.val().message;
-//   return request(createTranslateUrl(source, target, message), {resolveWithFullResponse: true}).then(
-//       response => {
-//         if (response.statusCode === 200) {
-//           const data = JSON.parse(response.body).data;
-//           return admin.database().ref(`/messages/${target}/${key}`)
-//               .set({message: data.translations[0].translatedText, translated: true});
-//         }
-//         throw response.body;
-//       });
-// }
