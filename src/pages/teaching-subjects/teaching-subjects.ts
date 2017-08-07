@@ -32,7 +32,6 @@ export class TeachingSubjectsPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TeachingSubjectsPage');
     let user = this.afAuth.auth.currentUser;
     if ( user != null ) {
       //Get logged in user from af database by matching user id
@@ -42,20 +41,12 @@ export class TeachingSubjectsPage {
           equalTo: user.uid
         }
       });
-      console.log('user id is: ', user.uid, user.uid == "Uniaj6st9eNPlrt4HuUwDxGETeb2");
-      console.log('loggedInUser set to: ', this.loggedInUser);
     }
   }
 
   toggleSubjects(subject) {
-    console.log('ion item clicked!')
-    // console.log('u in toggleSubjects', u);
-    // console.log('u.learningSubjects in toggleSubjects', u.learningSubjects);
-
     this.u.teachingSubjects[subject] = !this.u.teachingSubjects[subject];
-    // update teachingSubjects[subject] in firebase
     this.loggedInUser.update(this.u.$key, { teachingSubjects: this.u.teachingSubjects });
-
   }
 
 }
