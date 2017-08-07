@@ -2,6 +2,12 @@
 
 Einstein is a mobile application for ages 13+ to learn and teach mathematics.  Built using Ionic Framework 3 and developed for iOS.
 
+# Demo
+
+You can use the app on an iPhone by downloadin Ionic View app 
+from the appstore - https://itunes.apple.com/us/app/ionic-view/id849930087?mt=8. Then use this appID - a3b9d8c7 to get Einstein app
+loaded in Ionic View
+
 ## Getting Started
 
 Just fork the repo and clone it, and after installing all prerequisites (see prerequisites below) run `ionic serve` from within the project directory.
